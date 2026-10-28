@@ -63,6 +63,7 @@ public class Booth {
 	public void setBoothId(String boothId) { this.boothId = boothId; }
 	public void setBoothName(String boothName) { this.boothName = boothName; }
 	public void setBoothLocation(String boothLocation) { this.boothLocation = boothLocation; }
+	public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
 	public void setBoothType(BoothType boothType) { this.boothType = boothType; }
 	public void setBoothStatus(BoothStatus boothStatus) { this.boothStatus = boothStatus; }
 	
