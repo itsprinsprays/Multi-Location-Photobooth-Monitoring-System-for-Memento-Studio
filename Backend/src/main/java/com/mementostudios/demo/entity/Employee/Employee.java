@@ -25,6 +25,9 @@ public class Employee {
 	@Column(name = "employee_id")
 	private Integer employeeId;
 	
+	@Column(name = "employee_name", nullable = false)
+	private String employeeName;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "employee_status",nullable = false)
 	private EmployeeStatus employeeStatus;
@@ -39,9 +42,11 @@ public class Employee {
 	public Employee() { }
 	
 	public Integer getEmployeeId() { return employeeId; }
+	public String getEmployeeName() { return employeeName; }
 	public EmployeeStatus getEmployeeStatus() { return employeeStatus; }
 	public EmployeeRole getEmployeeRole() { return employeeRole; }
 	
+	public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
 	public void setEmployeeStatus(EmployeeStatus employeeStatus) { this.employeeStatus = employeeStatus; }
 	public void setEmployeeRole(EmployeeRole employeeRole) { this.employeeRole = employeeRole; }
 

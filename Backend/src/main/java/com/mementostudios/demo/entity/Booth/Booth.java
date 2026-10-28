@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.mementostudios.demo.entity.BoothAssignment;
@@ -41,7 +42,8 @@ public class Booth {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "booth_status", nullable = false)
-	private BoothStatus boothStatus;
+	@ColumnDefault("'OFFLINE'")
+	private BoothStatus boothStatus = BoothStatus.OFFLINE;
 	
 	@OneToMany(mappedBy = "booth", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<BoothAssignment> assignments = new ArrayList<>();
