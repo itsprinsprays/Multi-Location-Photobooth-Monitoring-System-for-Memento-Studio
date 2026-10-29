@@ -2,8 +2,11 @@ package com.mementostudios.demo.service;
 
 import java.time.LocalDate;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.mementostudios.demo.dto.PageResponseDTO;
 import com.mementostudios.demo.dto.booth.BoothResponseDTO;
 import com.mementostudios.demo.dto.booth.CreateBoothRequestDTO;
 import com.mementostudios.demo.entity.Booth.Booth;
@@ -42,11 +45,18 @@ public class BoothService {
 			booth.setBoothType(dto.getBoothType());
 			booth.setBoothStatus(BoothStatus.OFFLINE);
 			booth.setCreationDate(LocalDate.now());
+			
 		boothRepository.save(booth);
 		
-		return boothMapper.toResponse(booth);
-				
-		
+		return boothMapper.toResponse(booth);	
 	}
+	
+	public PageResponseDTO<BoothResponseDTO> getAllBooth(Pageable pageable) {
+		Page<Booth> page = boothRepository.findAll(pageable);
+		return boothMapper.toPageResponse(page);
+	}
+	
+	
+	
 
 }
