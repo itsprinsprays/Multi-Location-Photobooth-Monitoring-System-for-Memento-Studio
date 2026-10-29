@@ -65,4 +65,5 @@ public class BoothMapper {
 		Page<BoothResponseDTO> dtoPage = boothPage.map(this::toResponse);
 		return PageResponseDTO.from(dtoPage);
 	}
+	
 }
