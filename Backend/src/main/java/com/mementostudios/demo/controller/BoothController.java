@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.mementostudios.demo.dto.PageResponseDTO;
 import com.mementostudios.demo.dto.booth.BoothResponseDTO;
 import com.mementostudios.demo.dto.booth.CreateBoothRequestDTO;
+import com.mementostudios.demo.dto.booth.UpdateBoothInfoRequestDTO;
 import com.mementostudios.demo.service.BoothService;
 import org.springframework.data.domain.Pageable;
 
@@ -49,8 +50,12 @@ public class BoothController {
 	
 
 	@PatchMapping("/status/{boothId}")
-	public ResponseEntity<BoothResponseDTO> changeStatus(@RequestBody ChangeBoothStatusRequestDTO dto, @PathVariable String boothId) {
+	public ResponseEntity<BoothResponseDTO> changeStatus(@Valid @RequestBody ChangeBoothStatusRequestDTO dto, @PathVariable String boothId) {
 		return ResponseEntity.ok(boothService.changeStatus(dto, boothId));
 	}
-
+	
+	@PatchMapping("/updateInfo/{boothId}")
+	public ResponseEntity<BoothResponseDTO> boothInfoUpdate(@Valid @RequestBody UpdateBoothInfoRequestDTO dto, @PathVariable String boothId) {
+		return ResponseEntity.ok(boothService.boothInfoUpdate(dto, boothId));
+	}
 }
