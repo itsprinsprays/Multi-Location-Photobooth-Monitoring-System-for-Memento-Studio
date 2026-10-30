@@ -74,4 +74,11 @@ public class BoothController {
 	public ResponseEntity<BoothResponseDTO> restoreBooth(@PathVariable String boothId) {
 		return ResponseEntity.ok().body(boothService.restoreBooth(boothId));
 	}
+	
+	@GetMapping("/allDeletedBooth")
+	public ResponseEntity<PageResponseDTO<BoothResponseDTO>> getAllDeletedBooth(@RequestParam(defaultValue = "0") int page,
+																@RequestParam(defaultValue = "5") int size) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by("boothId").ascending());
+		return ResponseEntity.ok().body(boothService.allDeletedBooth(pageable));
+	}
 }

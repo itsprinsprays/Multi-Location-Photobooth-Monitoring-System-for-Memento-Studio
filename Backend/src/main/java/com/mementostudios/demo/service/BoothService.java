@@ -114,6 +114,8 @@ public class BoothService {
 		
 	}
 	
+	
+	//SoftDelete Booth
 	@Transactional
 	public void deleteBooth(String boothId) {
 	    Booth booth = boothRepository.findById(boothId)
@@ -126,6 +128,7 @@ public class BoothService {
 	    boothRepository.save(booth);
 	}
 	
+	//Restore Booth
 	@Transactional
 	public BoothResponseDTO restoreBooth(String boothId) {
 		
@@ -143,6 +146,12 @@ public class BoothService {
 		
 		return boothMapper.toResponse(booth);
 		
+	}
+	
+	@Transactional
+	public PageResponseDTO<BoothResponseDTO> allDeletedBooth(Pageable pageable) {
+		Page<Booth> page = boothRepository.findByIsActiveFalse(pageable);
+		return boothMapper.toPageResponse(page);
 	}
 	
 	

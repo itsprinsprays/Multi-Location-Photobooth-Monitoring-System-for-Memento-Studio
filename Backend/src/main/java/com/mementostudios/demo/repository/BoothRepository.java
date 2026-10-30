@@ -16,5 +16,5 @@ public interface BoothRepository extends JpaRepository<Booth, String> {
 	boolean existsByBoothLocation(String boothLocation);
 	Page<Booth> findByIsActiveTrue(Pageable pageable);
 	Optional<Booth> findByBoothIdAndIsActiveTrue(String boothId);
-
+	Page<Booth> findByIsActiveFalse(Pageable pageable);
 }
