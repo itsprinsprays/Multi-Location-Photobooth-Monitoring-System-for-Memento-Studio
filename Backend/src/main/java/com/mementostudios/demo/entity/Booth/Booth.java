@@ -45,6 +45,9 @@ public class Booth {
 	@ColumnDefault("'OFFLINE'")
 	private BoothStatus boothStatus = BoothStatus.OFFLINE;
 	
+	@Column(name = "is_active", nullable = false)
+	private boolean isActive = true;
+	
 	@OneToMany(mappedBy = "booth", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<BoothAssignment> assignments = new ArrayList<>();
 	
@@ -59,6 +62,7 @@ public class Booth {
 	public LocalDate getCreationDate() { return creationDate; }
 	public BoothType getBoothType() { return boothType; }
 	public BoothStatus getBoothStatus() { return boothStatus; }
+	public boolean isActive() { return isActive; }
 	
 	public void setBoothId(String boothId) { this.boothId = boothId; }
 	public void setBoothName(String boothName) { this.boothName = boothName; }
@@ -66,6 +70,7 @@ public class Booth {
 	public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
 	public void setBoothType(BoothType boothType) { this.boothType = boothType; }
 	public void setBoothStatus(BoothStatus boothStatus) { this.boothStatus = boothStatus; }
+	public void setActive(boolean active) { this.isActive = active; }
 	
 	
 	

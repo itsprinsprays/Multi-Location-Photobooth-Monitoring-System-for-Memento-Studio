@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,7 +44,7 @@ public class BoothController {
 	
 	@GetMapping("/allBooth")
 	public ResponseEntity<PageResponseDTO<BoothResponseDTO>> getAllBooth(@RequestParam(defaultValue = "0") int page, 
-																		@RequestParam(defaultValue = "5") int size) {
+																		@RequestParam(defaultValue = "10") int size) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by("boothId").ascending());
 		return ResponseEntity.ok().body(boothService.getAllBooth(pageable));
 	}
@@ -61,5 +62,11 @@ public class BoothController {
 	@PatchMapping("/updateInfo/{boothId}")
 	public ResponseEntity<BoothResponseDTO> boothInfoUpdate(@Valid @RequestBody UpdateBoothInfoRequestDTO dto, @PathVariable String boothId) {
 		return ResponseEntity.ok(boothService.boothInfoUpdate(dto, boothId));
+	}
+	
+	@DeleteMapping("/{boothId}")
+	public ResponseEntity<Void> deleteBooth(@PathVariable String boothId) {
+	    boothService.deleteBooth(boothId);
+	    return ResponseEntity.noContent().build();
 	}
 }

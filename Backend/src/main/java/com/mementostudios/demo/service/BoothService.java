@@ -13,6 +13,7 @@ import com.mementostudios.demo.dto.booth.ChangeBoothStatusRequestDTO;
 import com.mementostudios.demo.dto.booth.CreateBoothRequestDTO;
 import com.mementostudios.demo.dto.booth.UpdateBoothInfoRequestDTO;
 import com.mementostudios.demo.entity.Booth.Booth;
+import com.mementostudios.demo.entity.Booth.BoothStatus;
 import com.mementostudios.demo.exception.DuplicateResponseException;
 import com.mementostudios.demo.exception.ResourceNotFoundException;
 import com.mementostudios.demo.mapper.BoothMapper;
@@ -55,7 +56,7 @@ public class BoothService {
 	//GetAllBooth
 	@Transactional
 	public PageResponseDTO<BoothResponseDTO> getAllBooth(Pageable pageable) {
-		Page<Booth> page = boothRepository.findAll(pageable);
+		Page<Booth> page = boothRepository.findByIsActiveTrue(pageable);
 		return boothMapper.toPageResponse(page);
 	}
 	
@@ -63,7 +64,7 @@ public class BoothService {
 	@Transactional
 	public BoothResponseDTO getBoothById(String boothId) {
 		
-		Booth booth = boothRepository.findById(boothId)
+		Booth booth = boothRepository.findByBoothIdAndIsActiveTrue(boothId)
 				.orElseThrow(() -> new ResourceNotFoundException("Booth With ID " + boothId + " is not existing"));
 		
 		return boothMapper.toResponse(booth);
@@ -73,7 +74,7 @@ public class BoothService {
 	@Transactional
 	public BoothResponseDTO changeStatus(ChangeBoothStatusRequestDTO dto, String boothId) {
 		
-		Booth booth = boothRepository.findById(boothId)
+		Booth booth = boothRepository.findByBoothIdAndIsActiveTrue(boothId)
 				.orElseThrow(() -> new ResourceNotFoundException("Booth With ID " + boothId + " is not existing"));
 		
 		booth.setBoothStatus(dto.boothStatus());
@@ -82,19 +83,25 @@ public class BoothService {
 		return boothMapper.toResponse(booth);
 	}
 	
-	//Update Booth Information
+	//Update Booth Informatio
 	@Transactional
 	public BoothResponseDTO boothInfoUpdate(UpdateBoothInfoRequestDTO dto, String boothId) {
 		
-		Booth booth = boothRepository.findById(boothId)
+		Booth booth = boothRepository.findByBoothIdAndIsActiveTrue(boothId)
 				.orElseThrow(() -> new ResourceNotFoundException("Booth With ID " + boothId + " is not existing"));
 		
-		if(dto.getBoothName() != null) {
-			booth.setBoothName(dto.getBoothName());
+		if (dto.getBoothName() != null && !dto.getBoothName().equals(booth.getBoothName())) {
+		    if (boothRepository.existsByBoothName(dto.getBoothName())) {
+		        throw new DuplicateResponseException(dto.getBoothName() + " is already in use by another booth");
+		    }
+		    booth.setBoothName(dto.getBoothName());
 		}
-		
-		if(dto.getBoothLocation() != null) {
-			booth.setBoothLocation(dto.getBoothLocation());
+
+		if (dto.getBoothLocation() != null && !dto.getBoothLocation().equals(booth.getBoothLocation())) {
+		    if (boothRepository.existsByBoothLocation(dto.getBoothLocation())) {
+		        throw new DuplicateResponseException(dto.getBoothLocation() + " is already in use by another booth");
+		    }
+		    booth.setBoothLocation(dto.getBoothLocation());
 		}
 		
 		if(dto.getBoothType() != null) {
@@ -105,6 +112,18 @@ public class BoothService {
 		
 		return boothMapper.toResponse(booth);
 		
+	}
+	
+	@Transactional
+	public void deleteBooth(String boothId) {
+	    Booth booth = boothRepository.findById(boothId)
+	        .orElseThrow(() -> new ResourceNotFoundException("Booth with ID " + boothId + " does not exist"));
+	    if (!booth.isActive()) {
+	        throw new ResourceNotFoundException("Booth with ID " + boothId + " is already deleted");
+	    }
+	    booth.setActive(false);
+	    booth.setBoothStatus(BoothStatus.OFFLINE);
+	    boothRepository.save(booth);
 	}
 	
 	
