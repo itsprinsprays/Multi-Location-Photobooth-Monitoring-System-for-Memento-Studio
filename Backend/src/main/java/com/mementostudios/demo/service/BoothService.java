@@ -126,6 +126,25 @@ public class BoothService {
 	    boothRepository.save(booth);
 	}
 	
+	@Transactional
+	public BoothResponseDTO restoreBooth(String boothId) {
+		
+		Booth booth = boothRepository.findById(boothId)
+				.orElseThrow(() -> new ResourceNotFoundException("Booth with ID " + boothId + " does not exist"));
+		
+		if(booth.isActive()) {
+			throw new ResourceNotFoundException("Booth with ID " + boothId + " is currently active");
+		}
+		
+		booth.setActive(true);
+		booth.setBoothStatus(BoothStatus.OFFLINE);
+		
+		boothRepository.save(booth);
+		
+		return boothMapper.toResponse(booth);
+		
+	}
+	
 	
 	
 

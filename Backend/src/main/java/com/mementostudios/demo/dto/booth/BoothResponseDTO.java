@@ -12,17 +12,19 @@ public class BoothResponseDTO {
     private BoothType boothType;
     private BoothStatus boothStatus;
     private LocalDate creationDate;
+    private boolean isActive;
 
     public BoothResponseDTO() {}
 
     public BoothResponseDTO(String boothId, String boothName, String boothLocation, 
-                            BoothType boothType, BoothStatus boothStatus, LocalDate creationDate) {
+                            BoothType boothType, BoothStatus boothStatus, LocalDate creationDate, boolean isActive) {
         this.boothId = boothId;
         this.boothName = boothName;
         this.boothLocation = boothLocation;
         this.boothType = boothType;
         this.boothStatus = boothStatus;
         this.creationDate = creationDate;
+        this.isActive = isActive;
     }
     
     // Getters and Setters
@@ -43,4 +45,7 @@ public class BoothResponseDTO {
 
     public LocalDate getCreationDate() { return creationDate; }
     public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
+    
+	public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { this.isActive = active; }
 }

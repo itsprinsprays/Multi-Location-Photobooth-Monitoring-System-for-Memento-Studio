@@ -69,4 +69,9 @@ public class BoothController {
 	    boothService.deleteBooth(boothId);
 	    return ResponseEntity.noContent().build();
 	}
+	
+	@PatchMapping("/restore/{boothId}")
+	public ResponseEntity<BoothResponseDTO> restoreBooth(@PathVariable String boothId) {
+		return ResponseEntity.ok().body(boothService.restoreBooth(boothId));
+	}
 }

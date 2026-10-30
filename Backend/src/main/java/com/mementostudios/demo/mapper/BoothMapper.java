@@ -43,7 +43,8 @@ public class BoothMapper {
 				booth.getBoothLocation(),
 				booth.getBoothType(),
 				booth.getBoothStatus(),
-				booth.getCreationDate()
+				booth.getCreationDate(),
+				booth.isActive()
 		);
 	}
 
