@@ -56,9 +56,16 @@ public class BoothService {
 	
 	//GetAllBooth
 	@Transactional
-	public PageResponseDTO<BoothResponseDTO> getAllBooth(Pageable pageable) {
-		Page<Booth> page = boothRepository.findByIsActiveTrue(pageable);
-		return boothMapper.toPageResponse(page);
+	public PageResponseDTO<BoothResponseDTO> getAllBooth(BoothStatus status, Pageable pageable) {
+	    Page<Booth> page;
+	    if (status != null) {
+	        // Filter by status if provided
+	        page = boothRepository.findByBoothStatusAndIsActiveTrue(status, pageable);
+	    } else {
+	        // Return all active booths if status is null ("All Booths")
+	        page = boothRepository.findByIsActiveTrue(pageable);
+	    }
+	    return boothMapper.toPageResponse(page);
 	}
 	
 	//Get Specific Booth
@@ -84,7 +91,7 @@ public class BoothService {
 		return boothMapper.toResponse(booth);
 	}
 	
-	//Update Booth Informatio
+	//Update Booth Information
 	@Transactional
 	public BoothResponseDTO boothInfoUpdate(UpdateBoothInfoRequestDTO dto, String boothId) {
 		
@@ -156,6 +163,7 @@ public class BoothService {
 		return boothMapper.toPageResponse(page);
 	}
 	
+	//Booth Summary
 	@Transactional
 	public BoothSummaryDTO getBoothSummary() {
 		long total = boothRepository.countByIsActiveTrue();

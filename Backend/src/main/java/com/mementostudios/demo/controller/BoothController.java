@@ -22,6 +22,7 @@ import com.mementostudios.demo.dto.booth.BoothResponseDTO;
 import com.mementostudios.demo.dto.booth.BoothSummaryDTO;
 import com.mementostudios.demo.dto.booth.CreateBoothRequestDTO;
 import com.mementostudios.demo.dto.booth.UpdateBoothInfoRequestDTO;
+import com.mementostudios.demo.entity.Booth.BoothStatus;
 import com.mementostudios.demo.service.BoothService;
 import org.springframework.data.domain.Pageable;
 
@@ -44,10 +45,13 @@ public class BoothController {
 	}
 	
 	@GetMapping("/allBooth")
-	public ResponseEntity<PageResponseDTO<BoothResponseDTO>> getAllBooth(@RequestParam(defaultValue = "0") int page, 
-																		 @RequestParam(defaultValue = "10") int size) {
-		Pageable pageable = PageRequest.of(page, size, Sort.by("boothId").ascending());
-		return ResponseEntity.ok().body(boothService.getAllBooth(pageable));
+	public ResponseEntity<PageResponseDTO<BoothResponseDTO>> getAllBooth(
+	        @RequestParam(required = false) BoothStatus status,
+	        @RequestParam(defaultValue = "0") int page, 
+	        @RequestParam(defaultValue = "10") int size) {
+	        
+	    Pageable pageable = PageRequest.of(page, size, Sort.by("boothId").ascending());
+	    return ResponseEntity.ok().body(boothService.getAllBooth(status, pageable));
 	}
 	
 	@GetMapping("/{boothId}")
