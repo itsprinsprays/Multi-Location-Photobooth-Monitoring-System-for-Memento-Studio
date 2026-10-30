@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.mementostudios.demo.dto.PageResponseDTO;
 import com.mementostudios.demo.dto.booth.BoothResponseDTO;
+import com.mementostudios.demo.dto.booth.BoothSummaryDTO;
 import com.mementostudios.demo.dto.booth.CreateBoothRequestDTO;
 import com.mementostudios.demo.dto.booth.UpdateBoothInfoRequestDTO;
 import com.mementostudios.demo.service.BoothService;
@@ -44,7 +45,7 @@ public class BoothController {
 	
 	@GetMapping("/allBooth")
 	public ResponseEntity<PageResponseDTO<BoothResponseDTO>> getAllBooth(@RequestParam(defaultValue = "0") int page, 
-																		@RequestParam(defaultValue = "10") int size) {
+																		 @RequestParam(defaultValue = "10") int size) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by("boothId").ascending());
 		return ResponseEntity.ok().body(boothService.getAllBooth(pageable));
 	}
@@ -77,8 +78,13 @@ public class BoothController {
 	
 	@GetMapping("/allDeletedBooth")
 	public ResponseEntity<PageResponseDTO<BoothResponseDTO>> getAllDeletedBooth(@RequestParam(defaultValue = "0") int page,
-																@RequestParam(defaultValue = "5") int size) {
+																				@RequestParam(defaultValue = "5") int size) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by("boothId").ascending());
 		return ResponseEntity.ok().body(boothService.allDeletedBooth(pageable));
+	}
+	
+	@GetMapping("/summary")
+	public ResponseEntity<BoothSummaryDTO> getBoothSummary() {
+		return ResponseEntity.ok(boothService.getBoothSummary());
 	}
 }

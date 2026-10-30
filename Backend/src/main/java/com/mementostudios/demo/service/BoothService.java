@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.mementostudios.demo.dto.PageResponseDTO;
 import com.mementostudios.demo.dto.booth.BoothResponseDTO;
+import com.mementostudios.demo.dto.booth.BoothSummaryDTO;
 import com.mementostudios.demo.dto.booth.ChangeBoothStatusRequestDTO;
 import com.mementostudios.demo.dto.booth.CreateBoothRequestDTO;
 import com.mementostudios.demo.dto.booth.UpdateBoothInfoRequestDTO;
@@ -136,7 +137,7 @@ public class BoothService {
 				.orElseThrow(() -> new ResourceNotFoundException("Booth with ID " + boothId + " does not exist"));
 		
 		if(booth.isActive()) {
-			throw new ResourceNotFoundException("Booth with ID " + boothId + " is currently active");
+			throw new DuplicateResponseException("Booth with ID " + boothId + " is currently active");
 		}
 		
 		booth.setActive(true);
@@ -148,10 +149,21 @@ public class BoothService {
 		
 	}
 	
+	//Get All deleted booths
 	@Transactional
 	public PageResponseDTO<BoothResponseDTO> allDeletedBooth(Pageable pageable) {
 		Page<Booth> page = boothRepository.findByIsActiveFalse(pageable);
 		return boothMapper.toPageResponse(page);
+	}
+	
+	@Transactional
+	public BoothSummaryDTO getBoothSummary() {
+		long total = boothRepository.countByIsActiveTrue();
+		long online = boothRepository.countByBoothStatusAndIsActiveTrue(BoothStatus.ONLINE);
+		long maintenance = boothRepository.countByBoothStatusAndIsActiveTrue(BoothStatus.MAINTENANCE);
+		long offline = boothRepository.countByBoothStatusAndIsActiveTrue(BoothStatus.OFFLINE);
+		
+		return new BoothSummaryDTO(total, online, maintenance, offline);
 	}
 	
 	
