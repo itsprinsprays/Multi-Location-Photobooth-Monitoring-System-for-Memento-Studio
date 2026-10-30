@@ -48,6 +48,10 @@ public class BoothController {
 		return ResponseEntity.ok().body(boothService.getAllBooth(pageable));
 	}
 	
+	@GetMapping("/{boothId}")
+	public ResponseEntity<BoothResponseDTO> getSpecificBooth(@PathVariable String boothId) {
+		return ResponseEntity.ok(boothService.getBoothById(boothId));
+	}
 
 	@PatchMapping("/status/{boothId}")
 	public ResponseEntity<BoothResponseDTO> changeStatus(@Valid @RequestBody ChangeBoothStatusRequestDTO dto, @PathVariable String boothId) {

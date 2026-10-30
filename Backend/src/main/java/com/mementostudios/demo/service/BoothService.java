@@ -59,6 +59,16 @@ public class BoothService {
 		return boothMapper.toPageResponse(page);
 	}
 	
+	//Get Specific Booth
+	@Transactional
+	public BoothResponseDTO getBoothById(String boothId) {
+		
+		Booth booth = boothRepository.findById(boothId)
+				.orElseThrow(() -> new ResourceNotFoundException("Booth With ID " + boothId + " is not existing"));
+		
+		return boothMapper.toResponse(booth);
+	}
+	
 	//Update Booth Status
 	@Transactional
 	public BoothResponseDTO changeStatus(ChangeBoothStatusRequestDTO dto, String boothId) {
@@ -72,6 +82,7 @@ public class BoothService {
 		return boothMapper.toResponse(booth);
 	}
 	
+	//Update Booth Information
 	@Transactional
 	public BoothResponseDTO boothInfoUpdate(UpdateBoothInfoRequestDTO dto, String boothId) {
 		
