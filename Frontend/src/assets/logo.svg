@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="purpleGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="purpleGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a78bfa" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Angled Photo Print -->
+  <g transform="rotate(12 55 52)" filter="url(#shadow)">
+    <rect x="36" y="22" width="38" height="48" rx="4" fill="url(#purpleGrad2)" />
+    <rect x="40" y="26" width="30" height="34" rx="2" fill="#ffffff" fill-opacity="0.3" />
+  </g>
+
+  <!-- Straight Photo Print -->
+  <g transform="rotate(3 45 52)" filter="url(#shadow)">
+    <rect x="24" y="24" width="40" height="52" rx="4" fill="url(#purpleGrad1)" />
+    <rect x="28" y="28" width="32" height="38" rx="2" fill="#ffffff" fill-opacity="0.9" />
+  </g>
+
+  <!-- Aperture Shutter -->
+  <g transform="translate(14, 18)" filter="url(#shadow)">
+    <circle cx="34" cy="34" r="30" fill="#0f172a" />
+    <circle cx="34" cy="34" r="8" fill="#ffffff" />
+    <path d="M34 10 L44 30" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+    <path d="M55 22 L40 40" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+    <path d="M55 46 L30 42" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+    <path d="M34 58 L24 38" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+    <path d="M13 46 L28 28" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+    <path d="M13 22 L38 26" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+  </g>
+</svg>
+

@@ -1,11 +1,17 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 
+import BoothManagement from './pages/BoothManagement'
+import Layout from './components/layout/Layout'
+
+
 export default function App() {
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-white text-slate-900 font-sans">
-        {/* Your routes and components go here */}
-      </div>
-    </BrowserRouter>
+      <Routes>
+      {/* <Route path="/" element={<Login />} /> */}
+
+      <Route element={<Layout />}>
+        <Route path="/" element={<BoothManagement />} />
+      </Route>
+    </Routes>
   )
 }
