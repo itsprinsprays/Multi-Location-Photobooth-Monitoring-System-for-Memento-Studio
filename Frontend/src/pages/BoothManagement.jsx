@@ -68,14 +68,15 @@ export default function BoothManagement() {
         async function loadBooths() {
             try {
                const statusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
-               const boothsData = await boothService.getAllBooths(0, 10, statusParam);
+               const typeParam = selectedType ? selectedType.toUpperCase() : null;
+               const boothsData = await boothService.getAllBooths(0, 10, statusParam, typeParam);
                setBooths(boothsData.content || []);
             } catch(error) {
                 setError(error.message || "Failed to load filtered booths")
             }
         }
         loadBooths();
-    }, [selectedStatus]);
+    }, [selectedStatus, selectedType]);
 
 
   return (
@@ -161,7 +162,7 @@ export default function BoothManagement() {
                  value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
                 className="border border-slate-300 rounded-md p-2 bg-white">
-                    <option>All Types</option>
+                    <option value="">All Types</option>
                     <option value="POP_UP">POP_UP</option>
                     <option value="PERMANENT">PERMANENT</option>
                 </select>

@@ -7,10 +7,11 @@ export const boothService = {
     return api.get("/booth/summary");
   },
 
-  // GET /api/booth/allBooth?page=0&size=10&status=...
-  getAllBooths: (page = 0, size = 10, status = null) => {
+  // GET /api/booth/allBooth?page=0&size=10&status=...&type=...
+  getAllBooths: (page = 0, size = 10, status = null, type = null) => {
     let query = `/booth/allBooth?page=${page}&size=${size}`;
     if (status) query += `&status=${status}`;
+    if (type) query += `&type=${type}`;
     return api.get(query);
   },
 
