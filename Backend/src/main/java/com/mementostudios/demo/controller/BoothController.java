@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,6 +24,7 @@ import com.mementostudios.demo.dto.booth.BoothSummaryDTO;
 import com.mementostudios.demo.dto.booth.CreateBoothRequestDTO;
 import com.mementostudios.demo.dto.booth.UpdateBoothInfoRequestDTO;
 import com.mementostudios.demo.entity.Booth.BoothStatus;
+import com.mementostudios.demo.entity.Booth.BoothType;
 import com.mementostudios.demo.service.BoothService;
 import org.springframework.data.domain.Pageable;
 
@@ -31,6 +33,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/booth")
 @RestController
 @Validated
+@CrossOrigin(origins = "*")
 public class BoothController {
 	
 	private final BoothService boothService;
@@ -47,11 +50,12 @@ public class BoothController {
 	@GetMapping("/allBooth")
 	public ResponseEntity<PageResponseDTO<BoothResponseDTO>> getAllBooth(
 	        @RequestParam(required = false) BoothStatus status,
+	        @RequestParam(required = false) BoothType type,
 	        @RequestParam(defaultValue = "0") int page, 
 	        @RequestParam(defaultValue = "10") int size) {
 	        
 	    Pageable pageable = PageRequest.of(page, size, Sort.by("boothId").ascending());
-	    return ResponseEntity.ok().body(boothService.getAllBooth(status, pageable));
+	    return ResponseEntity.ok().body(boothService.getAllBooth(status, type, pageable));
 	}
 	
 	@GetMapping("/{boothId}")

@@ -15,6 +15,7 @@ import com.mementostudios.demo.dto.booth.CreateBoothRequestDTO;
 import com.mementostudios.demo.dto.booth.UpdateBoothInfoRequestDTO;
 import com.mementostudios.demo.entity.Booth.Booth;
 import com.mementostudios.demo.entity.Booth.BoothStatus;
+import com.mementostudios.demo.entity.Booth.BoothType;
 import com.mementostudios.demo.exception.DuplicateResponseException;
 import com.mementostudios.demo.exception.ResourceNotFoundException;
 import com.mementostudios.demo.mapper.BoothMapper;
@@ -54,15 +55,18 @@ public class BoothService {
 		return boothMapper.toResponse(booth);	
 	}
 	
-	//GetAllBooth
+	//Get all active booth with or without status
 	@Transactional
-	public PageResponseDTO<BoothResponseDTO> getAllBooth(BoothStatus status, Pageable pageable) {
+	public PageResponseDTO<BoothResponseDTO> getAllBooth(BoothStatus status, BoothType type, Pageable pageable) {
 	    Page<Booth> page;
-	    if (status != null) {
-	        // Filter by status if provided
-	        page = boothRepository.findByBoothStatusAndIsActiveTrue(status, pageable);
-	    } else {
-	        // Return all active booths if status is null ("All Booths")
+	    
+	    if (status != null && type != null) {
+	        page = boothRepository.findByBoothStatusAndBoothTypeAndIsActiveTrue(status, type, pageable);
+	    }else if(status != null) {
+	    	page = boothRepository.findByBoothStatusAndIsActiveTrue(status, pageable);
+	    } else if(type != null) {
+	    	page = boothRepository.findByBoothTypeAndIsActiveTrue(type, pageable);
+	    }else {
 	        page = boothRepository.findByIsActiveTrue(pageable);
 	    }
 	    return boothMapper.toPageResponse(page);
