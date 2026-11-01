@@ -105,6 +105,36 @@ export default function BoothManagement() {
             </div>
         </div>
 
+        <div className="flex flex-row gap-4 items-center mt-4">
+
+            <div className="flex flex-row items-center border-2 border-slate-300 rounded-md p-2 bg-white w-[30%]">
+                <Search className="text-gray-400" />
+                <input
+                type="text"
+                placeholder="Search booth Id, name or location..."
+                className="ml-2  outline-none w-full"
+                />
+            </div>
+
+            <div>
+                <select className="border border-slate-300 rounded-md p-2 bg-white">
+                    <option>All Types</option>
+                    <option>POP_UP</option>
+                    <option>PERMANENT</option>
+                </select>
+            </div>
+
+            <div>
+                <select className="border border-slate-300 rounded-md p-2 bg-white">
+                    <option>All Status</option>
+                    <option>Online</option>
+                    <option>Offline</option>
+                    <option>Maintenance</option>
+                </select>
+            </div>
+
+        </div>
+
     </div>
     </>
   )
