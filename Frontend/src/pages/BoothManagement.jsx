@@ -1,11 +1,32 @@
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, Trash2, SquarePen, Eye } from "lucide-react";
 import { useState, useEffect } from "react";
 import { boothService } from "../services/boothService";
 import StatusCard from "../components/ui/StatusCard.jsx"
 
+function formatDate(dateString) {
+  if (!dateString) return "—";
+  return new Date(dateString).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+const typeBadges = {
+  PERMANENT: "bg-blue-100 text-blue-700 border border-blue-200 py-1 px-2 rounded-2xl",
+  POP_UP: "bg-orange-100 text-orange-700 border border-orange-200 py-1 px-2 rounded-2xl",
+};
+
+const statusBadges = {
+    ONLINE: "bg-emerald-100 text-emerald-700 border border-emerald-200 py-1 px-2 rounded-2xl",
+    OFFLINE: "bg-rose-100 text-rose-700 border border-rose-200 py-1 px-2 rounded-2xl",
+    MAINTENANCE: "bg-amber-100 text-amber-700 border border-amber-200 py-1 px-2 rounded-2xl",
+}
+
 export default function BoothManagement() {
 
     const [summary, setSummary] = useState(null);
+    const [booths, setBooths] = useState([]);
     const [error, setError] = useState(null);
 
     const statusBreakdown = [
@@ -14,6 +35,8 @@ export default function BoothManagement() {
     { label: "MAINTENANCE", count: summary?.maintenanceBooths ?? 0, color: "bg-amber-500" },
     { label: "OFFLINE", count: summary?.offlineBooths ?? 0, color: "bg-rose-500" },
     ];
+
+
 
     // Calculate Fleet Health percentage & dynamic badge
     const total = summary?.totalBooths || 0;
@@ -30,7 +53,12 @@ export default function BoothManagement() {
     useEffect(() => {
         async function loadData() {
             try {
-                setSummary(await boothService.getSummary());
+                const [summaryData, boothsData] = await Promise.all([
+                    boothService.getSummary(),
+                    boothService.getAllBooths()
+                ]);
+                setSummary(summaryData);
+                setBooths(boothsData.content || []);
             } catch(error) {
                 setError(error.message || "Failed to load data")
             }
@@ -134,6 +162,46 @@ export default function BoothManagement() {
             </div>
 
         </div>
+
+            <table className="w-full mt-4 border border-slate-300 rounded-lg bg-white">
+                <thead>
+                    <tr className="bg-gray-100 text-left font-bold text-xs font-semibold">
+                        <th className="p-2">BOOTH ID</th>
+                        <th className="p-2">BOOTH NAME</th>
+                        <th className="p-2">LOCATION</th>
+                        <th className="p-2">TYPE</th>
+                        <th className="p-2">STATUS</th>
+                        <th className="p-2">CREATED DATE</th>
+                        <th className="p-2">ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                   {booths.map((booth) => (
+                    <tr key = {booth.boothId} className="hover:bg-gray-100">
+                        <td className="p-2 font-semibold">{booth.boothId}</td>
+                        <td className="p-2">{booth.boothName}</td>
+                        <td className="p-2 text-gray-500">{booth.boothLocation}</td>
+                        <td className="p-2">
+                            <span className = {`text-xs ${typeBadges[booth.boothType]}`}>
+                                {booth.boothType === "POP_UP" ? "POP_UP" : "PERMANENT"}
+                            </span>
+                        </td>
+                        <td className="p-2">
+                            <span className={`text-xs ${statusBadges[booth.boothStatus]}`}>
+                                {booth.boothStatus === "" ? "Unknown" : booth.boothStatus}
+                            </span>
+                            </td>
+                        <td className="p-2 text-gray-500">{formatDate(booth.creationDate)}</td>
+                        <td className="p-2 flex gap-2">
+                            <button className="bg-gray-500 text-white px-2 py-1 rounded-md"><SquarePen className="w-4 h-4 text-white" /></button>
+                            <button className="bg-red-300 text-white px-2 py-1 rounded-md ml-2"><Trash2 className="w-4 h-4 text-[red]" /></button>
+                            <button className="bg-black text-white px-4 py-1 rounded-md ml-2">View</button>
+                        </td>
+                    </tr>
+                   ))}
+                </tbody>
+            </table>
+       
 
     </div>
     </>
