@@ -25,6 +25,8 @@ const statusBadges = {
 
 export default function BoothManagement() {
 
+    const [selectedType, setSelectedType] = useState(null);
+    const [selectedStatus, setSelectedStatus] = useState("");
     const [summary, setSummary] = useState(null);
     const [booths, setBooths] = useState([]);
     const [error, setError] = useState(null);
@@ -51,20 +53,29 @@ export default function BoothManagement() {
         : { text: "CRITICAL", color: "bg-rose-100 text-rose-700", barColor: "bg-rose-500" };
 
     useEffect(() => {
-        async function loadData() {
+        async function loadSummary() {
             try {
-                const [summaryData, boothsData] = await Promise.all([
-                    boothService.getSummary(),
-                    boothService.getAllBooths()
-                ]);
-                setSummary(summaryData);
-                setBooths(boothsData.content || []);
+                setSummary(await boothService.getSummary());
             } catch(error) {
                 setError(error.message || "Failed to load data")
             }
         }
-        loadData();
+        loadSummary();
     }, []);
+
+
+    useEffect(() => {
+        async function loadBooths() {
+            try {
+               const statusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
+               const boothsData = await boothService.getAllBooths(0, 10, statusParam);
+               setBooths(boothsData.content || []);
+            } catch(error) {
+                setError(error.message || "Failed to load filtered booths")
+            }
+        }
+        loadBooths();
+    }, [selectedStatus]);
 
 
   return (
@@ -145,25 +156,34 @@ export default function BoothManagement() {
             </div>
 
             <div>
-                <select className="border border-slate-300 rounded-md p-2 bg-white">
+                <select
+                 id="boothType"
+                 value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+                className="border border-slate-300 rounded-md p-2 bg-white">
                     <option>All Types</option>
-                    <option>POP_UP</option>
-                    <option>PERMANENT</option>
+                    <option value="POP_UP">POP_UP</option>
+                    <option value="PERMANENT">PERMANENT</option>
                 </select>
             </div>
 
             <div>
-                <select className="border border-slate-300 rounded-md p-2 bg-white">
-                    <option>All Status</option>
-                    <option>Online</option>
-                    <option>Offline</option>
-                    <option>Maintenance</option>
+                <select
+                 id="boothStatus"
+                 value={selectedStatus}
+                 onChange={(e) => setSelectedStatus(e.target.value)}
+                 className="border border-slate-300 rounded-md p-2 bg-white">
+                    <option value="">All Status</option>
+                    <option value="ONLINE">Online</option>
+                    <option value="OFFLINE">Offline</option>
+                    <option value="MAINTENANCE">Maintenance</option>
                 </select>
             </div>
 
         </div>
-
-            <table className="w-full mt-4 border border-slate-300 rounded-lg bg-white">
+        
+        <div className="mt-4 border border-slate-300 rounded-xl overflow-hidden bg-white shadow-sm">
+            <table className="w-full">
                 <thead>
                     <tr className="bg-gray-100 text-left font-bold text-xs font-semibold">
                         <th className="p-2">BOOTH ID</th>
@@ -201,7 +221,7 @@ export default function BoothManagement() {
                    ))}
                 </tbody>
             </table>
-       
+        </div>
 
     </div>
     </>
