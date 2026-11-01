@@ -1,4 +1,4 @@
-import { Plus, Search, Trash2, SquarePen, Eye } from "lucide-react";
+import { Plus, Search, Trash2, SquarePen, ArchiveX } from "lucide-react";
 import { useState, useEffect } from "react";
 import { boothService } from "../services/boothService";
 import StatusCard from "../components/ui/StatusCard.jsx"
@@ -30,6 +30,9 @@ export default function BoothManagement() {
     const [summary, setSummary] = useState(null);
     const [booths, setBooths] = useState([]);
     const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0); // Current page (0-indexed)
+    const [totalPages, setTotalPages] = useState(1);  
+
 
     const statusBreakdown = [
     { label: "TOTAL BOOTHS", count: summary?.totalBooths ?? 0, color: "bg-violet-500" },
@@ -69,23 +72,24 @@ export default function BoothManagement() {
             try {
                const statusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
                const typeParam = selectedType ? selectedType.toUpperCase() : null;
-               const boothsData = await boothService.getAllBooths(0, 10, statusParam, typeParam);
+               const boothsData = await boothService.getAllBooths(currentPage, 5, statusParam, typeParam);
                setBooths(boothsData.content || []);
+               setTotalPages(boothsData.totalPages || 1);
             } catch(error) {
                 setError(error.message || "Failed to load filtered booths")
             }
         }
         loadBooths();
-    }, [selectedStatus, selectedType]);
+    }, [selectedStatus, selectedType, currentPage]);
 
 
   return (
     <>
-    <div className="py-4 px-6">
+    <div className="px-6">
         {/* First Row Div , Header */}
         <div className="flex justify-between items-center mb-4">
             <div className="flex flex-col">
-            <h1 className="font-bold text-3xl">Booth Fleet Management</h1>
+            <h1 className="font-bold text-[40px]">Booth Fleet Management</h1>
             <p className="text-gray-500">Monitor, configure, and manage active photo booths accorss all venues</p>
             </div>
             <button type="submit" className="flex flex-row bg-black p-2 px-4 rounded text-white cursor-pointer transitions-color duration-300 hover:bg-[#3e3a41]">
@@ -144,45 +148,54 @@ export default function BoothManagement() {
                 </div>
             </div>
         </div>
+        
+        {/* Third Row Div */}
+        <div className="flex flex-row justify-between gap-4 items-center mt-4">
+            <div className="flex flex-row w-full gap-4 items-center">
+                <div className="flex flex-row items-center border-2 border-slate-300 rounded-md p-2 bg-white w-[30%]">
+                    <Search className="text-gray-400" />
+                    <input
+                    type="text"
+                    placeholder="Search booth Id, name or location..."
+                    className="ml-2  outline-none w-full"
+                    />
+                </div>
 
-        <div className="flex flex-row gap-4 items-center mt-4">
+                <div>
+                    <select
+                    id="boothType"
+                    value={selectedType}
+                    onChange={(e) => setSelectedType(e.target.value)}
+                    className="border border-slate-300 rounded-md p-2 bg-white">
+                        <option value="">All Types</option>
+                        <option value="POP_UP">POP_UP</option>
+                        <option value="PERMANENT">PERMANENT</option>
+                    </select>
+                </div>
 
-            <div className="flex flex-row items-center border-2 border-slate-300 rounded-md p-2 bg-white w-[30%]">
-                <Search className="text-gray-400" />
-                <input
-                type="text"
-                placeholder="Search booth Id, name or location..."
-                className="ml-2  outline-none w-full"
-                />
+                <div>
+                    <select
+                    id="boothStatus"
+                    value={selectedStatus}
+                    onChange={(e) => setSelectedStatus(e.target.value)}
+                    className="border border-slate-300 rounded-md p-2 bg-white">
+                        <option value="">All Status</option>
+                        <option value="ONLINE">Online</option>
+                        <option value="OFFLINE">Offline</option>
+                        <option value="MAINTENANCE">Maintenance</option>
+                    </select>
+                </div>
             </div>
-
+            
             <div>
-                <select
-                 id="boothType"
-                 value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                className="border border-slate-300 rounded-md p-2 bg-white">
-                    <option value="">All Types</option>
-                    <option value="POP_UP">POP_UP</option>
-                    <option value="PERMANENT">PERMANENT</option>
-                </select>
+                <button className="bg-[red] text-white px-4 py-2 rounded-md flex flex-row items-center">
+                    <ArchiveX className="w-4 h-4 text-white inline-block mr-2" />
+                    <span>Archived</span>
+                    </button>
             </div>
-
-            <div>
-                <select
-                 id="boothStatus"
-                 value={selectedStatus}
-                 onChange={(e) => setSelectedStatus(e.target.value)}
-                 className="border border-slate-300 rounded-md p-2 bg-white">
-                    <option value="">All Status</option>
-                    <option value="ONLINE">Online</option>
-                    <option value="OFFLINE">Offline</option>
-                    <option value="MAINTENANCE">Maintenance</option>
-                </select>
-            </div>
-
         </div>
         
+        {/* Fourth Row Div */}
         <div className="mt-4 border border-slate-300 rounded-xl overflow-hidden bg-white shadow-sm">
             <table className="w-full">
                 <thead>
@@ -222,6 +235,27 @@ export default function BoothManagement() {
                    ))}
                 </tbody>
             </table>
+        </div>
+
+        <div className="flex items-center justify-between mt-2 text-sm text-gray-500 ">
+            <p>
+                Page <span className="font-semibold text-slate-800">{currentPage + 1}</span> of{" "}
+                <span className="font-semibold text-slate-800">{totalPages}</span>
+            </p>
+            <div className="flex items-center gap-2">
+                <button
+                    onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
+                    disabled={currentPage === 0}
+                    className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700">
+                    Previous
+                </button>
+                <button
+                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                    disabled={currentPage >= totalPages - 1}
+                    className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700">
+                    Next
+                </button>
+            </div>
         </div>
 
     </div>
