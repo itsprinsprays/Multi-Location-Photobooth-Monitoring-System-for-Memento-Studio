@@ -25,6 +25,7 @@ async function request(endpoint, options = {}) {
     throw error;
   }
 }
+
 export const api = {
   get: (endpoint) => request(endpoint, { method: "GET" }),
   post: (endpoint, body) => request(endpoint, { method: "POST", body: JSON.stringify(body) }),
