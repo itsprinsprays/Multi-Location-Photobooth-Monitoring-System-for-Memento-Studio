@@ -2,6 +2,7 @@ import { Plus, Search, Trash2, SquarePen, ArchiveX } from "lucide-react";
 import { useState, useEffect } from "react";
 import { boothService } from "../services/boothService";
 import StatusCard from "../components/ui/StatusCard.jsx"
+import CreateBooth from "../components/modals/CreateBooth.jsx";
 
 function formatDate(dateString) {
   if (!dateString) return "—";
@@ -32,6 +33,8 @@ export default function BoothManagement() {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(0); // Current page (0-indexed)
     const [totalPages, setTotalPages] = useState(1);  
+
+    const [creatBooth, setCreateBooth] = useState(false);
 
 
     const statusBreakdown = [
@@ -82,6 +85,10 @@ export default function BoothManagement() {
         loadBooths();
     }, [selectedStatus, selectedType, currentPage]);
 
+    function handleCreateBooth() {
+        setCreateBooth(true);
+    }
+
 
   return (
     <>
@@ -92,7 +99,8 @@ export default function BoothManagement() {
             <h1 className="font-bold text-[40px]">Booth Fleet Management</h1>
             <p className="text-gray-500">Monitor, configure, and manage active photo booths accorss all venues</p>
             </div>
-            <button type="submit" className="flex flex-row bg-black p-2 px-4 rounded text-white cursor-pointer transitions-color duration-300 hover:bg-[#3e3a41]">
+            <button type="submit" className="flex flex-row bg-black p-2 px-4 rounded text-white cursor-pointer transitions-color duration-300 hover:bg-[#3e3a41]"
+            onClick={handleCreateBooth}>
                 <Plus />
                 <span>Create Booth</span>
             </button>
@@ -259,6 +267,8 @@ export default function BoothManagement() {
         </div>
 
     </div>
+    
+    {creatBooth && <CreateBooth onClose={() => setCreateBooth(false)}/>}
     </>
   )
 }
