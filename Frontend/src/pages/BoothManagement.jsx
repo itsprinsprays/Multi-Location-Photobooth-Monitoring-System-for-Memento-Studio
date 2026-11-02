@@ -26,7 +26,7 @@ const statusBadges = {
 
 export default function BoothManagement() {
 
-    const [selectedType, setSelectedType] = useState(null);
+    const [selectedType, setSelectedType] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("");
     const [summary, setSummary] = useState(null);
     const [booths, setBooths] = useState([]);
