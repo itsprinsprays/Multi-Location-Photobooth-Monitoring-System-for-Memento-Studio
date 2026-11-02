@@ -66,12 +66,12 @@ export default function CreateBooth({onClose, onBoothCreated}) {
 
     return(
         <>
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
-            <div className="bg-white rounded-2xl h-156 w-full max-w-xl overflow-y-auto shadow-lg">
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center py-5 px-2">
+            <div className="bg-white rounded-2xl w-full max-w-xl overflow-y-auto shadow-lg">
 
                 {/* Header */}
-                <div className="flex flex-row justify-between mb-2 bg-gray-100 py-4 px-6 border-b border-gray-300">
-                    <div className="flex flex-col mb-4">
+                <div className="flex flex-row justify-between bg-gray-100 py-4 px-6 border-b border-gray-300 ">
+                    <div className="flex flex-col">
                         <h1 className="text-[25px] font-bold mb-2">Add New Booth</h1>
                         <p className="text-gray-500 text-sm">Enter the details to add a photobooth to your fleet</p>
                     </div>
@@ -144,13 +144,13 @@ export default function CreateBooth({onClose, onBoothCreated}) {
                         
                             </div>
 
-                            <div className="flex flex-row justify-end gap-2 border-t border-gray-300 pt-4 px-6 bg-gray-100">
+                            <div className="flex flex-row justify-end gap-2 border-t border-gray-300 py-4 px-6 bg-gray-500 ">
                                     <button className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400" onClick={onClose} disabled={loading}>Cancel</button>
                                     <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600" type="submit" disabled={loading}>
                                         {loading && <Loader2 className="w-4 h-4 animate-spin" />}
                                         <span>{loading ? "Adding..." : "Add Booth"}</span>
                                     </button>
-                        </div>
+                            </div>
                 
                     </form>   
               
