@@ -43,10 +43,10 @@ public class BoothService {
 	    }
 		
 		if(boothRepository.existsByBoothName(dto.getBoothName()))
-			throw new DuplicateResponseException(dto.getBoothName() + " is already existing");
+			throw new DuplicateResponseException("Booth Name " + dto.getBoothName() + " is already existing");
 		
 		if(boothRepository.existsByBoothLocation(dto.getBoothLocation()))
-			throw new DuplicateResponseException(dto.getBoothLocation() + " is already existing. Same location is not allowed");
+			throw new DuplicateResponseException("Booth Location " + dto.getBoothLocation() + " is already existing. Same location is not allowed");
 		
 		Booth booth = boothMapper.toEntity(dto);
 			
