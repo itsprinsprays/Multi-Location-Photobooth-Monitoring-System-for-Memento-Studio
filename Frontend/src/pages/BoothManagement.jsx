@@ -58,35 +58,38 @@ export default function BoothManagement() {
         ? { text: "ATTENTION", color: "bg-amber-100 text-amber-700", barColor: "bg-amber-500" }
         : { text: "CRITICAL", color: "bg-rose-100 text-rose-700", barColor: "bg-rose-500" };
 
-    useEffect(() => {
-        async function loadSummary() {
-            try {
-                setSummary(await boothService.getSummary());
-            } catch(error) {
-                setError(error.message || "Failed to load data")
-            }
+    async function fetchSummary() {
+        try {
+            setSummary(await boothService.getSummary());
+        } catch (error) {
+            setError(error.message || "Failed to fetch booth summary");
         }
-        loadSummary();
+    }
+
+    useEffect(() => {
+        fetchSummary();
     }, []);
 
+    async function loadBooths() {
+        try {
+            const statusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
+            const typeParam = selectedType ? selectedType.toUpperCase() : null;
+            const data = await boothService.getAllBooths(currentPage, 5, statusParam, typeParam);
+            setBooths(data.content || []);
+            setTotalPages(data.totalPages || 1);
+        } catch (error) {
+            setError(error.message || "Failed to fetch booths");
+        }
+    }
+
 
     useEffect(() => {
-        async function loadBooths() {
-            try {
-               const statusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
-               const typeParam = selectedType ? selectedType.toUpperCase() : null;
-               const boothsData = await boothService.getAllBooths(currentPage, 5, statusParam, typeParam);
-               setBooths(boothsData.content || []);
-               setTotalPages(boothsData.totalPages || 1);
-            } catch(error) {
-                setError(error.message || "Failed to load filtered booths")
-            }
-        }
         loadBooths();
     }, [selectedStatus, selectedType, currentPage]);
 
-    function handleCreateBooth() {
-        setCreateBooth(true);
+    function onBoothCreated() {
+        loadBooths();
+        fetchSummary();
     }
 
 
@@ -100,7 +103,7 @@ export default function BoothManagement() {
             <p className="text-gray-500">Monitor, configure, and manage active photo booths accorss all venues</p>
             </div>
             <button type="submit" className="flex flex-row bg-black p-2 px-4 rounded text-white cursor-pointer transitions-color duration-300 hover:bg-[#3e3a41]"
-            onClick={handleCreateBooth}>
+            onClick={() => setCreateBooth(true)}>
                 <Plus />
                 <span>Create Booth</span>
             </button>
@@ -268,7 +271,7 @@ export default function BoothManagement() {
 
     </div>
     
-    {creatBooth && <CreateBooth onClose={() => setCreateBooth(false)}/>}
+    {creatBooth && <CreateBooth onClose={() => setCreateBooth(false)} onBoothCreated={onBoothCreated} />}
     </>
   )
 }
