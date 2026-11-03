@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mementostudios.demo.dto.PageResponseDTO;
+import com.mementostudios.demo.dto.booth.ArchiveBoothSummaryDTO;
 import com.mementostudios.demo.dto.booth.BoothResponseDTO;
 import com.mementostudios.demo.dto.booth.BoothSummaryDTO;
 import com.mementostudios.demo.dto.booth.ChangeBoothStatusRequestDTO;
@@ -167,7 +168,7 @@ public class BoothService {
 		return boothMapper.toPageResponse(page);
 	}
 	
-	//Booth Summary
+	//Active Booth Summary
 	@Transactional
 	public BoothSummaryDTO getBoothSummary() {
 		long total = boothRepository.countByIsActiveTrue();
@@ -176,6 +177,15 @@ public class BoothService {
 		long offline = boothRepository.countByBoothStatusAndIsActiveTrue(BoothStatus.OFFLINE);
 		
 		return new BoothSummaryDTO(total, online, maintenance, offline);
+	}
+	
+	public ArchiveBoothSummaryDTO getArchivedBoothSummary() {
+		long totalArchived = boothRepository.countByIsActiveFalse();
+		long popUpArchived = boothRepository.countByBoothTypeAndIsActiveFalse(BoothType.POP_UP);
+		long permanentArchived = boothRepository.countByBoothTypeAndIsActiveFalse(BoothType.PERMANENT);
+		
+		return new ArchiveBoothSummaryDTO(totalArchived, popUpArchived, permanentArchived);
+		
 	}
 	
 	

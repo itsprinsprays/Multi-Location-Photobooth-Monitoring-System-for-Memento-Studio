@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.mementostudios.demo.dto.PageResponseDTO;
+import com.mementostudios.demo.dto.booth.ArchiveBoothSummaryDTO;
 import com.mementostudios.demo.dto.booth.BoothResponseDTO;
 import com.mementostudios.demo.dto.booth.BoothSummaryDTO;
 import com.mementostudios.demo.dto.booth.CreateBoothRequestDTO;
@@ -94,5 +95,10 @@ public class BoothController {
 	@GetMapping("/summary")
 	public ResponseEntity<BoothSummaryDTO> getBoothSummary() {
 		return ResponseEntity.ok(boothService.getBoothSummary());
+	}
+	
+	@GetMapping("/archive/summary")
+	public ResponseEntity<ArchiveBoothSummaryDTO> getArchiveBoothSummary() {
+		return ResponseEntity.ok(boothService.getArchivedBoothSummary());
 	}
 }
