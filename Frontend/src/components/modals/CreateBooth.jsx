@@ -14,13 +14,14 @@ export default function CreateBooth({onClose, onBoothCreated}) {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const isPopUp = booth.boothType === "POP_UP";
 
-    function handleChange(e) {
-        setBooth({
-            ...booth,
-            [e.target.name]: e.target.value
-        })
-    }
+  function handleChange(e) {
+    setBooth({
+        ...booth,
+        [e.target.name]: e.target.value
+    });
+}
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -32,18 +33,11 @@ export default function CreateBooth({onClose, onBoothCreated}) {
         }
 
 
-
         if(!booth.boothName.trim()) {
             setError("Booth Name is required");
             return;
         }
 
-
-
-        if(!booth.boothLocation.trim()) {
-            setError("Booth Location is required");
-            return;
-        }
 
         if(!booth.boothType.trim()) {
             setError("Please select a booth type");
@@ -109,15 +103,6 @@ export default function CreateBooth({onClose, onBoothCreated}) {
                             className="border border-gray-300 rounded-lg px-3 py-2 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
 
-                            <p>Booth Location</p>
-                            <input
-                            type="text"
-                            placeholder="e.g. SM Southmall, Las Pinas"
-                            name="boothLocation"
-                            value={booth.boothLocation}
-                            onChange={handleChange}
-                            className="border border-gray-300 rounded-lg px-3 py-2 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
 
                             <div className="">
                                 <p className="text-gray-500 text-sm font-semibold">Booth Type</p>
@@ -132,6 +117,19 @@ export default function CreateBooth({onClose, onBoothCreated}) {
                                     <option value="POP_UP">Pop-Up</option>
                                 </select>
                             </div>
+
+                                <p>Booth Location</p>
+                                    <input
+                                        type="text"
+                                        placeholder="e.g. SM Southmall, Las Pinas"
+                                        name="boothLocation"
+                                        value={isPopUp ? "Event Pop-Up (Flexible)" : booth.boothLocation}
+                                        onChange={handleChange}
+                                        disabled={isPopUp}
+                                        className={`border border-gray-300 rounded-lg px-3 py-2 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                                            isPopUp ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""
+                                        }`}
+                                    />
 
                             <div className="flex flex-col justify-between border border-gray-300 rounded-lg px-3 py-2 mb-4 w-full bg-gray-50">
                                 <div className="flex flex-row items-center gap-2 mb-2">
