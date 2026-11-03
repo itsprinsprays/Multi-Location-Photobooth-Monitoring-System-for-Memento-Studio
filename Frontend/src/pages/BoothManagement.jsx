@@ -34,7 +34,8 @@ export default function BoothManagement() {
     const [currentPage, setCurrentPage] = useState(0); // Current page (0-indexed)
     const [totalPages, setTotalPages] = useState(1);  
 
-    const [creatBooth, setCreateBooth] = useState(false);
+    const [createBooth, setCreateBooth] = useState(false);
+    const [boothDelete, setBoothDelete] = useState(false);
 
 
     const statusBreakdown = [
@@ -58,14 +59,16 @@ export default function BoothManagement() {
         ? { text: "ATTENTION", color: "bg-amber-100 text-amber-700", barColor: "bg-amber-500" }
         : { text: "CRITICAL", color: "bg-rose-100 text-rose-700", barColor: "bg-rose-500" };
 
-        async function deleteBooth(boothId) {
-            try{
-                await boothService.deleteBooth(boothId);
-                loadBooths();
-            } catch (error) {
-                setError(error.message || "Failed to delete booth");
-            }
+    async function deleteBooth(boothId) {
+        try{
+            await boothService.deleteBooth(boothId);
+            loadBooths();
+            fetchSummary();
+            setBoothDelete(false);
+        } catch (error) {
+             setError(error.message || "Failed to delete booth");
         }
+    }
 
     async function fetchSummary() {
         try {
@@ -249,7 +252,7 @@ export default function BoothManagement() {
                         <td className="p-2 flex gap-2">
                             <button className="bg-gray-500 text-white px-2 py-1 rounded-md">
                                 <SquarePen className="w-4 h-4 text-white" /></button>
-                            <button className="bg-red-300 text-white px-2 py-1 rounded-md ml-2" onClick={() => deleteBooth(booth.boothId)}>
+                            <button className="bg-red-300 text-white px-2 py-1 rounded-md ml-2 cursor-pointer" onClick={() => setBoothDelete(booth)}>
                             <Trash2 className="w-4 h-4 text-[red]" /></button>
                             <button className="bg-black text-white px-4 py-1 rounded-md ml-2">View</button>
                         </td>
@@ -282,7 +285,43 @@ export default function BoothManagement() {
 
     </div>
     
-    {creatBooth && <CreateBooth onClose={() => setCreateBooth(false)} onBoothCreated={onBoothCreated} />}
+    {createBooth && <CreateBooth onClose={() => setCreateBooth(false)} onBoothCreated={onBoothCreated} />}
+        {boothDelete && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+                <div className="bg-white p-6 rounded-lg shadow-lg w-[400px]">
+                    <Trash2 className="w-16 h-16 rounded-full bg-[red] text-white mx-auto p-2" />
+                    <h1 className="text-[30px] font-bold text-center mt-4">Delete Photobooth</h1>
+                    <div className="mt-2 text-center">
+                        <p>Are you sure you want to delete this photobooth?</p>
+                        <p>This action cannot be undone and will remove all associated data.</p>
+                    </div>
+
+                    <div className="flex flex-row p-2 bg-gray-100 rounded-lg mt-4 gap-4">
+                        <div className="flex flex-col gap-2 text-gray-500 font-semibold text-sm">
+                            <p>BOOTH ID</p>
+                            <p>NAME </p>
+                            <p>LOCATION</p>
+                        </div>
+
+                        <div className="flex flex-col gap-2 ml-2">
+                            <p className="font-bold text-sm">{boothDelete.boothId}</p>
+                            <p className="font-bold text-sm">{boothDelete.boothName}</p>
+                            <p className="font-bold text-sm">{boothDelete.boothLocation}</p>
+                        </div>
+                    </div>
+                    
+                    <div className="flex gap-2 mt-4">
+                        <button type="submit" className="border p-2 w-full rounded-xl bg-gray-100 font-semibold cursor-pointer"
+                        onClick={(() => setBoothDelete(false))}>
+                            Cancel</button>
+
+                        <button type="submit" className="border p-2 w-full rounded-xl bg-red-500 text-white cursor-pointer"
+                        onClick={(() => deleteBooth(boothDelete.boothId))}>
+                            Delete Booth</button>
+                    </div>
+                </div>
+            </div>
+        )}
     </>
   )
 }
