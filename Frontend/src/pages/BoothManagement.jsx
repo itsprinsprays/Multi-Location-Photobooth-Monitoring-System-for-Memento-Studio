@@ -58,6 +58,15 @@ export default function BoothManagement() {
         ? { text: "ATTENTION", color: "bg-amber-100 text-amber-700", barColor: "bg-amber-500" }
         : { text: "CRITICAL", color: "bg-rose-100 text-rose-700", barColor: "bg-rose-500" };
 
+        async function deleteBooth(boothId) {
+            try{
+                await boothService.deleteBooth(boothId);
+                loadBooths();
+            } catch (error) {
+                setError(error.message || "Failed to delete booth");
+            }
+        }
+
     async function fetchSummary() {
         try {
             setSummary(await boothService.getSummary());
@@ -238,8 +247,10 @@ export default function BoothManagement() {
                             </td>
                         <td className="p-2 text-gray-500">{formatDate(booth.creationDate)}</td>
                         <td className="p-2 flex gap-2">
-                            <button className="bg-gray-500 text-white px-2 py-1 rounded-md"><SquarePen className="w-4 h-4 text-white" /></button>
-                            <button className="bg-red-300 text-white px-2 py-1 rounded-md ml-2"><Trash2 className="w-4 h-4 text-[red]" /></button>
+                            <button className="bg-gray-500 text-white px-2 py-1 rounded-md">
+                                <SquarePen className="w-4 h-4 text-white" /></button>
+                            <button className="bg-red-300 text-white px-2 py-1 rounded-md ml-2" onClick={() => deleteBooth(booth.boothId)}>
+                            <Trash2 className="w-4 h-4 text-[red]" /></button>
                             <button className="bg-black text-white px-4 py-1 rounded-md ml-2">View</button>
                         </td>
                     </tr>

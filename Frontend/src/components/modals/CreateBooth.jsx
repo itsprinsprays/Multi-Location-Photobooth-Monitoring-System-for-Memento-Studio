@@ -144,7 +144,7 @@ export default function CreateBooth({onClose, onBoothCreated}) {
                         
                             </div>
 
-                            <div className="flex flex-row justify-end gap-2 border-t border-gray-300 py-4 px-6 bg-gray-500 ">
+                            <div className="flex flex-row justify-end gap-2 border-t border-gray-300 py-4 px-6 bg-gray-200 ">
                                     <button className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400" onClick={onClose} disabled={loading}>Cancel</button>
                                     <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600" type="submit" disabled={loading}>
                                         {loading && <Loader2 className="w-4 h-4 animate-spin" />}
