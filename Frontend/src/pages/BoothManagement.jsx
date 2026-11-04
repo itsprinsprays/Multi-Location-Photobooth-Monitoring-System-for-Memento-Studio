@@ -109,15 +109,15 @@ export default function BoothManagement() {
     <>
     <div className="px-6">
         {/* First Row Div , Header */}
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
             <div className="flex flex-col">
-            <h1 className="font-bold text-[40px]">Booth Fleet Management</h1>
-            <p className="text-gray-500">Monitor, configure, and manage active photo booths accorss all venues</p>
+            <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl ">Booth Fleet Management</h1>
+            <p className="text-gray-500 text-sm sm:text-base mt-1">Monitor, configure, and manage active photo booths accorss all venues</p>
             </div>
-            <button type="submit" className="flex flex-row bg-black p-2 px-4 rounded text-white cursor-pointer transitions-color duration-300 hover:bg-[#3e3a41]"
+            <button type="submit" className="w-full sm:w-40 flex flex-row justify-center items-center bg-black p-2 px-4 rounded text-white cursor-pointer transitions-color duration-300 hover:bg-[#3e3a41]"
             onClick={() => setCreateBooth(true)}>
-                <Plus />
-                <span>Create Booth</span>
+                <Plus className="w-5 h-5" />
+                <span className="font-medium text-sm">Create Booth</span>
             </button>
         </div>
         
