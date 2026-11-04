@@ -233,6 +233,8 @@ export default function BoothManagement() {
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
+
+                    {/* Cellphone View */}
                    {booths.map((booth) => (
                     <tr key = {booth.boothId} className="hover:bg-gray-100">
                         <td className="p-2 font-semibold">{booth.boothId}</td>
