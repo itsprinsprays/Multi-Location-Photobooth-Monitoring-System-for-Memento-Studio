@@ -122,9 +122,9 @@ export default function BoothManagement() {
         </div>
         
         {/* Second Row Div */}
-        <div className="flex flex-row justify-between gap-2">
+        <div className="flex flex-col lg:flex-row gap-4">
              {/* Fleet Health */}
-            <div className="w-[30%] h-46 border-2 border-slate-300 p-4 rounded-2xl flex flex-col justify-between bg-white">
+            <div className="w-full lg:w-[32%] border-2 border-slate-300 p-4 rounded-2xl flex flex-col justify-between bg-white min-h-[170px]">
                 <div>
                     {/* Header + Dynamic Status Badge */}
                     <div className="flex items-center justify-between">
