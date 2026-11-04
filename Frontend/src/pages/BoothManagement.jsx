@@ -219,7 +219,7 @@ export default function BoothManagement() {
         </div>
         
         {/* Fourth Row Div */}
-        <div className="mt-4 border border-slate-300 rounded-xl overflow-hidden bg-white shadow-sm">
+        <div className="hidden sm:flex mt-4 border border-slate-300 rounded-xl overflow-hidden bg-white shadow-sm">
             <table className="w-full">
                 <thead>
                     <tr className="bg-gray-100 text-left font-bold text-xs font-semibold">
@@ -234,7 +234,6 @@ export default function BoothManagement() {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
 
-                    {/* Cellphone View */}
                    {booths.map((booth) => (
                     <tr key = {booth.boothId} className="hover:bg-gray-100">
                         <td className="p-2 font-semibold">{booth.boothId}</td>
@@ -263,7 +262,49 @@ export default function BoothManagement() {
                 </tbody>
             </table>
         </div>
+        <div className="sm:hidden flex flex-col gap-3 mt-4 w-full">
+            {booths.map((booth) => (
+            
+                <div key= {booth.boothId} >
+                    <div className="flex flex-col w-full gap-4 border border-gray-300 p-4 max-w-xl w-50 m-2 rounded-xl">
+                        <div className="flex justify-between">
+                            <td>{booth.boothId}</td>
+                            <span className={`text-xs ${statusBadges[booth.boothStatus]}`}>
+                                    {booth.boothStatus === "" ? "Unknown" : booth.boothStatus}
+                                </span>
+                        </div>
 
+                        <div className="">
+                            <p>{booth.boothName}</p>
+                            <p className="text-gray-500">{booth.boothLocation}</p>
+                        </div>
+
+                        <div className="flex justify-between">
+                            <span className = {`text-xs ${typeBadges[booth.boothType]}`}>
+                                    {booth.boothType === "POP_UP" ? "POP_UP" : "PERMANENT"}
+                                </span>
+                            <p className="text-gray-500 text-xs">Created {formatDate(booth.creationDate)}</p>
+                        </div>
+                        <hr className="text-gray-300" />
+
+                        <div className="flex items-center">
+                            <div className="flex items-center gap-2 bg-white border border-gray-400 text-black px-2 py-1 rounded-md">
+                                    <SquarePen className="w-4 h-4 text-black" />
+                                    <span className="font-semibold">Edit</span>
+                            </div>
+
+                            <button className="bg-red-200 text-white p-2 rounded-md ml-2 cursor-pointer" onClick={() => setBoothDelete(booth)}>
+                            <Trash2 className="w-4 h-4 text-[red]" /></button>
+
+                            <div className="border rounded p-1 w-full text-center bg-black text-white ml-2">
+                                <p>View</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            ))}
+        </div>           
         <div className="flex items-center justify-between mt-2 text-sm text-gray-500 ">
             <p>
                 Page <span className="font-semibold text-slate-800">{currentPage + 1}</span> of{" "}
