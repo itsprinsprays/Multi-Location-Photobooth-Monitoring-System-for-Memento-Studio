@@ -14,16 +14,17 @@ export default function EditBoothInfo({onClose, booth}) {
 
                 {/*Second Row Div */}
                 <div>
-                    <h className="text-2xl sm:text-3xl  lg:text-4xl font-bold">Update Booth Info</h>
+                    <h1 className="text-2xl sm:text-3xl  lg:text-4xl font-bold">Update Booth Info</h1>
                     <p className="text-slate-500">Edit the booth's details and configuration. Save your chnages when you're done</p>
                 </div>
 
                 {/* Third Row Div */}
                 <div className="w-full border rounded-lg ">
                     <div className="w-full p-4 flex justify-between">
-                        <p>BOOTH INFORMATION</p>
-                        {/* <p>{booth.boothName}</p> */}
-
+                        <div>
+                            <p>BOOTH INFORMATION</p>
+                            <p>{booth.boothName}</p>
+                        </div>
                         <div className="flex items-center bg-gray-200 py-2 px-4 rounded-lg">
                             <Pencil className="h-4 w-4"/>
                             <span>Editing booth</span>
