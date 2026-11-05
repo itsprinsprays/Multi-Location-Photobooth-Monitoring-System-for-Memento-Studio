@@ -175,7 +175,7 @@ export default function BoothManagement() {
         {/* Third Row Div */}
         <div className="flex flex-col sm:flex-row justify-between gap-4 items-center mt-4">
             <div className="flex flex-col sm:flex-row w-full gap-4 items-stretch">
-                <div className="flex flex-row items-center border-2 border-slate-300 rounded-md p-2 bg-white">
+                <div className="flex flex-row items-center border-2 border-slate-300 rounded-md p-2 bg-white w-full sm:flex-1">
                     <Search className="text-slate-400" />
                     <input
                     type="text"
@@ -268,9 +268,9 @@ export default function BoothManagement() {
             {booths.map((booth) => (
             
                 <div key= {booth.boothId} >
-                    <div className="flex flex-col w-full gap-4 border border-gray-300 p-4 max-w-xl w-50 m-2 rounded-xl">
+                    <div className="flex flex-col w-full gap-4 border border-gray-300 p-4 max-w-xl rounded-xl">
                         <div className="flex justify-between">
-                            <td>{booth.boothId}</td>
+                            <spa>{booth.boothId}</spa>
                             <span className={`text-xs ${statusBadges[booth.boothStatus]}`}>
                                     {booth.boothStatus === "" ? "Unknown" : booth.boothStatus}
                                 </span>
@@ -333,7 +333,7 @@ export default function BoothManagement() {
     {createBooth && <CreateBooth onClose={() => setCreateBooth(false)} onBoothCreated={onBoothCreated} />}
         {boothDelete && (
             <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-                <div className="bg-white p-6 rounded-lg shadow-lg w-[400px]">
+                <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm mx-4">
                     <Trash2 className="w-16 h-16 rounded-full bg-[red] text-white mx-auto p-2" />
                     <h1 className="text-[30px] font-bold text-center mt-4">Delete Photobooth</h1>
                     <div className="mt-2 text-center">

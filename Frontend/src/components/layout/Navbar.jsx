@@ -7,7 +7,7 @@ import Logo from "../ui/Logo"
 export default function Navbar() {
     return (
         <>
-        <aside className="w-20 h-screen sm:w-64 bg-white flex flex-col duration-300">
+        <aside className="w-20 h-screen sm:w-64 bg-white flex flex-col duration-300 shrink-0">
                 <div className="mb-2 p-4">
                     <Logo className="hidden sm:flex sm:h-10"/> 
                     <img src={logo} className="w-10 h-10 sm:hidden"/>
