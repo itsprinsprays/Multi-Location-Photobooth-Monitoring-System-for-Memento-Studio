@@ -111,8 +111,8 @@ export default function BoothManagement() {
         {/* First Row Div , Header */}
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
             <div className="flex flex-col">
-            <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl ">Booth Fleet Management</h1>
-            <p className="text-gray-500 text-sm sm:text-base mt-1">Monitor, configure, and manage active photo booths accorss all venues</p>
+            <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl text-slate-900 tracking-tight ">Booth Fleet Management</h1>
+            <p className="text-slate-500 text-sm sm:text-base mt-1">Monitor, configure, and manage active photo booths accorss all venues</p>
             </div>
             <button type="submit" className="w-full sm:w-40 flex flex-row justify-center items-center bg-black p-2 px-4 rounded text-white cursor-pointer transitions-color duration-300 hover:bg-[#3e3a41]"
             onClick={() => setCreateBooth(true)}>
@@ -128,7 +128,7 @@ export default function BoothManagement() {
                 <div>
                     {/* Header + Dynamic Status Badge */}
                     <div className="flex items-center justify-between">
-                        <p className="text-gray-500 font-semibold text-xs tracking-wider">FLEET HEALTH</p>
+                        <p className="text-slate-500 font-semibold text-xs sm:text-base tracking-wider">FLEET HEALTH</p>
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${healthBadge.color}`}>
                             {healthBadge.text}
                         </span>
@@ -137,7 +137,7 @@ export default function BoothManagement() {
                     {/* Big Percentage + Progress Bar */}
                     <div className="mt-2">
                         <p className="text-3xl font-extrabold text-slate-900">{healthRate}%</p>
-                        <p className="text-xs text-gray-400">Operational Uptime</p>
+                        <p className="text-xs text-slate-400">Operational Uptime</p>
                         
                         {/* Animated Uptime Bar */}
                         <div className="w-full bg-gray-100 h-2 rounded-full mt-3 overflow-hidden">
@@ -150,14 +150,14 @@ export default function BoothManagement() {
                 </div>
 
                 {/* Footer summary */}
-                <p className="text-[11px] text-gray-500">
+                <p className="text-[11px] text-slate-500">
                     <span className="font-semibold text-slate-800">{online}</span> of <span className="font-semibold text-slate-800">{total}</span> units active right now
                 </p>
             </div>
 
             {/* Status Breakdown */}
-            <div className="w-[70%] h-46 border-2 border-slate-300 rounded-2xl px-4 py-2 ">
-                 <p className="font-bold text-lg ">Status Breakdown</p>
+            <div className="w-full border-2 border-slate-300 rounded-2xl px-4 py-2 ">
+                 <p className="font-bold text-base sm:text-lg ">Status Breakdown</p>
             
                 <div className="grid grid-cols-2 gap-2">
                     {statusBreakdown.map((item) => (
@@ -173,45 +173,47 @@ export default function BoothManagement() {
         </div>
         
         {/* Third Row Div */}
-        <div className="flex flex-row justify-between gap-4 items-center mt-4">
-            <div className="flex flex-row w-full gap-4 items-center">
-                <div className="flex flex-row items-center border-2 border-slate-300 rounded-md p-2 bg-white w-[30%]">
-                    <Search className="text-gray-400" />
+        <div className="flex flex-col sm:flex-row justify-between gap-4 items-center mt-4">
+            <div className="flex flex-col sm:flex-row w-full gap-4 items-stretch">
+                <div className="flex flex-row items-center border-2 border-slate-300 rounded-md p-2 bg-white">
+                    <Search className="text-slate-400" />
                     <input
                     type="text"
                     placeholder="Search booth Id, name or location..."
-                    className="ml-2  outline-none w-full"
+                    className="ml-2  outline-none w-full sm:flex-1"
                     />
                 </div>
 
-                <div>
-                    <select
-                    id="boothType"
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value)}
-                    className="border border-slate-300 rounded-md p-2 bg-white">
-                        <option value="">All Types</option>
-                        <option value="POP_UP">POP_UP</option>
-                        <option value="PERMANENT">PERMANENT</option>
-                    </select>
-                </div>
+                <div className="flex gap-2 justify-between w-full sm:w-auto">
+                    <div className="flex-1">
+                        <select
+                        id="boothType"
+                        value={selectedType}
+                        onChange={(e) => setSelectedType(e.target.value)}
+                        className="border border-slate-300 rounded-md p-2 bg-white w-full">
+                            <option value="">All Types</option>
+                            <option value="POP_UP">POP_UP</option>
+                            <option value="PERMANENT">PERMANENT</option>
+                        </select>
+                    </div>
 
-                <div>
-                    <select
-                    id="boothStatus"
-                    value={selectedStatus}
-                    onChange={(e) => setSelectedStatus(e.target.value)}
-                    className="border border-slate-300 rounded-md p-2 bg-white">
-                        <option value="">All Status</option>
-                        <option value="ONLINE">Online</option>
-                        <option value="OFFLINE">Offline</option>
-                        <option value="MAINTENANCE">Maintenance</option>
-                    </select>
+                    <div className="flex-1">
+                        <select
+                        id="boothStatus"
+                        value={selectedStatus}
+                        onChange={(e) => setSelectedStatus(e.target.value)}
+                        className="border border-slate-300 rounded-md p-2 bg-white w-full">
+                            <option value="">All Status</option>
+                            <option value="ONLINE">Online</option>
+                            <option value="OFFLINE">Offline</option>
+                            <option value="MAINTENANCE">Maintenance</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             
-            <div>
-                <button className="bg-[red] text-white px-4 py-2 rounded-md flex flex-row items-center">
+            <div className="w-full sm:w-auto">
+                <button className="bg-[red] text-white px-4 py-2 rounded-md flex flex-row items-center w-full flex flex-row items-center justify-center ">
                     <ArchiveX className="w-4 h-4 text-white inline-block mr-2" />
                     <span>Archived</span>
                     </button>
@@ -219,7 +221,7 @@ export default function BoothManagement() {
         </div>
         
         {/* Fourth Row Div */}
-        <div className="hidden sm:flex mt-4 border border-slate-300 rounded-xl overflow-hidden bg-white shadow-sm">
+        <div className="hidden lg:flex mt-4 border border-slate-300 rounded-xl overflow-hidden bg-white shadow-sm">
             <table className="w-full">
                 <thead>
                     <tr className="bg-gray-100 text-left font-bold text-xs font-semibold">
@@ -238,7 +240,7 @@ export default function BoothManagement() {
                     <tr key = {booth.boothId} className="hover:bg-gray-100">
                         <td className="p-2 font-semibold">{booth.boothId}</td>
                         <td className="p-2">{booth.boothName}</td>
-                        <td className="p-2 text-gray-500">{booth.boothLocation}</td>
+                        <td className="p-2 text-slate-500">{booth.boothLocation}</td>
                         <td className="p-2">
                             <span className = {`text-xs ${typeBadges[booth.boothType]}`}>
                                 {booth.boothType === "POP_UP" ? "POP_UP" : "PERMANENT"}
@@ -249,7 +251,7 @@ export default function BoothManagement() {
                                 {booth.boothStatus === "" ? "Unknown" : booth.boothStatus}
                             </span>
                             </td>
-                        <td className="p-2 text-gray-500">{formatDate(booth.creationDate)}</td>
+                        <td className="p-2 text-slate-500">{formatDate(booth.creationDate)}</td>
                         <td className="p-2 flex gap-2">
                             <button className="bg-gray-500 text-white px-2 py-1 rounded-md">
                                 <SquarePen className="w-4 h-4 text-white" /></button>
@@ -262,7 +264,7 @@ export default function BoothManagement() {
                 </tbody>
             </table>
         </div>
-        <div className="sm:hidden flex flex-col gap-3 mt-4 w-full">
+        <div className="lg:hidden flex flex-col gap-3 mt-4 w-full">
             {booths.map((booth) => (
             
                 <div key= {booth.boothId} >
@@ -276,27 +278,27 @@ export default function BoothManagement() {
 
                         <div className="">
                             <p>{booth.boothName}</p>
-                            <p className="text-gray-500">{booth.boothLocation}</p>
+                            <p className="text-slate-500">{booth.boothLocation}</p>
                         </div>
 
                         <div className="flex justify-between">
                             <span className = {`text-xs ${typeBadges[booth.boothType]}`}>
                                     {booth.boothType === "POP_UP" ? "POP_UP" : "PERMANENT"}
                                 </span>
-                            <p className="text-gray-500 text-xs">Created {formatDate(booth.creationDate)}</p>
+                            <p className="text-slate-500 text-xs">Created {formatDate(booth.creationDate)}</p>
                         </div>
-                        <hr className="text-gray-300" />
+                        <hr className="text-slate-300" />
 
                         <div className="flex items-center">
-                            <div className="flex items-center gap-2 bg-white border border-gray-400 text-black px-2 py-1 rounded-md">
+                            <div className="flex items-center gap-2 bg-white border border-gray-300 text-black p-2 rounded-md">
                                     <SquarePen className="w-4 h-4 text-black" />
-                                    <span className="font-semibold">Edit</span>
+                                    <span className="text-slate-900">Edit</span>
                             </div>
 
-                            <button className="bg-red-200 text-white p-2 rounded-md ml-2 cursor-pointer" onClick={() => setBoothDelete(booth)}>
+                            <button className="bg-red-200 text-white p-3 rounded-md ml-2 cursor-pointer" onClick={() => setBoothDelete(booth)}>
                             <Trash2 className="w-4 h-4 text-[red]" /></button>
 
-                            <div className="border rounded p-1 w-full text-center bg-black text-white ml-2">
+                            <div className="border rounded-md p-2 w-full text-center bg-black text-white ml-2">
                                 <p>View</p>
                             </div>
                         </div>
@@ -305,7 +307,7 @@ export default function BoothManagement() {
 
             ))}
         </div>           
-        <div className="flex items-center justify-between mt-2 text-sm text-gray-500 ">
+        <div className="flex items-center justify-between mt-2 text-sm text-slate-500 mb-4">
             <p>
                 Page <span className="font-semibold text-slate-800">{currentPage + 1}</span> of{" "}
                 <span className="font-semibold text-slate-800">{totalPages}</span>
@@ -340,7 +342,7 @@ export default function BoothManagement() {
                     </div>
 
                     <div className="flex flex-row p-2 bg-gray-100 rounded-lg mt-4 gap-4">
-                        <div className="flex flex-col gap-2 text-gray-500 font-semibold text-sm">
+                        <div className="flex flex-col gap-2 text-slate-500 font-semibold text-sm">
                             <p>BOOTH ID</p>
                             <p>NAME </p>
                             <p>LOCATION</p>

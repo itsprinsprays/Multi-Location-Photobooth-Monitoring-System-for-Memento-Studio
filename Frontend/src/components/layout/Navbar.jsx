@@ -15,7 +15,7 @@ export default function Navbar() {
 
                 <div className="flex flex-col justify-between gap-2 flex-1 border-t-3 border-r-2 border-gray-200">
 
-                    <nav className="flex flex-col text-gray-600 p-4 sticky">
+                    <nav className="flex flex-col text-gray-600 p-4">
                         <p className="hidden sm:block text-gray-600 text-xs">MAIN MENU</p>
                         <Link to="" className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
                             <LayoutDashboard />
