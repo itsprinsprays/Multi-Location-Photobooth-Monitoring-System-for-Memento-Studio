@@ -7,12 +7,22 @@ export const boothService = {
     return api.get("/booth/summary");
   },
 
+  // GET /api/booth/archive/summary
+  getArchiveSummary: () => {
+    return api.get("/booth/archive/summary");
+  },
+
   // GET /api/booth/allBooth?page=0&size=10&status=...&type=...
   getAllBooths: (page = 0, size = 10, status = null, type = null) => {
     let query = `/booth/allBooth?page=${page}&size=${size}`;
     if (status) query += `&status=${status}`;
     if (type) query += `&type=${type}`;
     return api.get(query);
+  },
+
+  // GET /api/booth/allDeletedBooth?page=0&size=5
+  getAllDeletedBooths: (page = 0, size = 5) => {
+    return api.get(`/booth/allDeletedBooth?page=${page}&size=${size}`);
   },
 
   // GET /api/booth/{boothId}
@@ -33,6 +43,11 @@ export const boothService = {
   // PATCH /api/booth/updateInfo/{boothId}
   updateBoothInfo: (boothId, infoData) => {
     return api.patch(`/booth/updateInfo/${boothId}`, infoData);
+  },
+
+  // PATCH /api/booth/restore/{boothId}
+  restoreBooth: (boothId) => {
+    return api.patch(`/booth/restore/${boothId}`);
   },
 
   // DELETE /api/booth/{boothId}

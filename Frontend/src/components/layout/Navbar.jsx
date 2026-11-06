@@ -22,7 +22,7 @@ export default function Navbar() {
                             <span className="hidden sm:inline">Dashboard</span>
                         </Link> 
 
-                        <Link to="" className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
+                        <Link to="/booth-fleet-management" className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
                             <MapPin />
                             <span className="hidden sm:inline">Booth Management</span>
                         </Link>

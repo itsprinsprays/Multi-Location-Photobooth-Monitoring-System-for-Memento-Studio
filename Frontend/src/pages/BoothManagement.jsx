@@ -1,5 +1,6 @@
 import { Plus, Search, Trash2, SquarePen, ArchiveX } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom"
 import { boothService } from "../services/boothService";
 import StatusCard from "../components/ui/StatusCard.jsx"
 import CreateBooth from "../components/modals/CreateBooth.jsx";
@@ -217,10 +218,10 @@ export default function BoothManagement() {
                 </div>
                 
                 <div className="w-full sm:w-auto">
-                    <button className="bg-[red] text-white px-4 py-2 rounded-md flex flex-row items-center w-full flex flex-row items-center justify-center ">
+                    <Link to="/archived-booths" className="bg-[red] text-white px-4 py-2 rounded-md flex flex-row items-center w-full flex flex-row items-center justify-center cursor-pointer">
                         <ArchiveX className="w-4 h-4 text-white inline-block mr-2" />
                         <span>Archived</span>
-                        </button>
+                        </Link>
                 </div>
             </div>
             

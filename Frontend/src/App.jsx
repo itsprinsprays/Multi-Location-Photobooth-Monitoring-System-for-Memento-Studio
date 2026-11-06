@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 
 import BoothManagement from './pages/BoothManagement'
 import Layout from './components/layout/Layout'
+import BoothArchived from './components/ui/BoothArchived'
 
 
 export default function App() {
@@ -10,7 +11,8 @@ export default function App() {
       {/* <Route path="/" element={<Login />} /> */}
 
       <Route element={<Layout />}>
-        <Route path="/" element={<BoothManagement />} />
+        <Route path="/booth-fleet-management" element={<BoothManagement />} />
+        <Route path="/archived-booths" element={<BoothArchived />}/>
       </Route>
     </Routes>
   )
