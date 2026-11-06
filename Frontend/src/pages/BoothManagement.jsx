@@ -257,7 +257,7 @@ export default function BoothManagement() {
                                 </td>
                             <td className="p-2 text-slate-500">{formatDate(booth.creationDate)}</td>
                             <td className="p-2 flex gap-2">
-                                <button className="bg-gray-500 text-white px-2 py-1 rounded-md cursor-pointer" onClick={() => setEditBooth(booth)} >
+                                <button className="bg-gray-500 text-white px-2 py-1 rounded-md cursor-pointer" onClick={() => setEditBooth(booth)}>
                                     <SquarePen className="w-4 h-4 text-white"/></button>
                                 <button className="bg-red-300 text-white px-2 py-1 rounded-md ml-2 cursor-pointer" onClick={() => setBoothDelete(booth)}>
                                 <Trash2 className="w-4 h-4 text-[red]" /></button>
@@ -272,7 +272,7 @@ export default function BoothManagement() {
                 {booths.map((booth) => (
                 
                     <div key= {booth.boothId} >
-                        <div className="flex flex-col w-full gap-4 border border-gray-300 p-4 max-w-xl rounded-xl">
+                        <div className="flex flex-col w-full gap-4 border border-gray-300 p-4 max-w-xl rounded-xl hover:bg-gray-200 hover:shadow-lg">
                             <div className="flex justify-between">
                                 <span>{booth.boothId}</span>
                                 <span className={`text-xs ${statusBadges[booth.boothStatus]}`}>
@@ -294,7 +294,7 @@ export default function BoothManagement() {
                             <hr className="text-slate-300" />
 
                             <div className="flex items-center">
-                                <div className="flex items-center gap-2 bg-white border border-gray-300 text-black p-2 rounded-md">
+                                <div className="flex items-center gap-2 bg-white border border-gray-300 text-black p-2 rounded-md cursor-pointer" onClick={() => setEditBooth(booth)}>
                                         <SquarePen className="w-4 h-4 text-black" />
                                         <span className="text-slate-900">Edit</span>
                                 </div>

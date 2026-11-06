@@ -178,7 +178,7 @@ export default function EditBoothInfo({onClose, booth, onUpdateBooth}) {
                                 </div>
                             )}
                             <div className="flex  gap-2">
-                                <button className="border p-2 px-4 rounded-lg border-gray-400 text-sm font-medium">Cancel</button>
+                                <button className="border p-2 px-4 rounded-lg border-gray-400 text-sm font-medium cursor-pointer" onClick={onClose}>Cancel</button>
                                 <button className="border p-2 px-4 rounded-lg bg-black text-white cursor-pointer" type="submit" disabled={loading}
                                 >{loading && <Loader2 className="w-4 h-4 animate-spin" />}
                                         <span className="text-sm font-medium">{loading ? "Saving..." : "Save Changes"}</span></button>
