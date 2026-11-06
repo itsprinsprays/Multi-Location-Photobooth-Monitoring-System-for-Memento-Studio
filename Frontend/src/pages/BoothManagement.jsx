@@ -101,7 +101,7 @@ export default function BoothManagement() {
         loadBooths();
     }, [selectedStatus, selectedType, currentPage]);
 
-    function onBoothCreated() {
+    function onBoothLoad() {
         loadBooths();
         fetchSummary();
     }
@@ -179,7 +179,7 @@ export default function BoothManagement() {
             {/* Third Row Div */}
             <div className="flex flex-col sm:flex-row justify-between gap-4 items-center mt-4">
                 <div className="flex flex-col sm:flex-row w-full gap-4 items-stretch">
-                    <div className="flex flex-row items-center border-2 border-slate-300 rounded-md p-2 bg-white w-full sm:flex-1">
+                    <div className="flex flex-row items-center border-2 border-slate-300 rounded-md p-2 bg-white w-full sm:w-auto">
                         <Search className="text-slate-400" />
                         <input
                         type="text"
@@ -335,7 +335,7 @@ export default function BoothManagement() {
         )}
     </div>
     
-        {createBooth && <CreateBooth onClose={() => setCreateBooth(false)} onBoothCreated={onBoothCreated} />}
+        {createBooth && <CreateBooth onClose={() => setCreateBooth(false)} onBoothCreated={onBoothLoad} />}
 
         {boothDelete && (
             <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
@@ -375,7 +375,7 @@ export default function BoothManagement() {
             </div>
         )}
 
-        {editBooth && <EditBoothInfo onClose={(() => setEditBooth(false))} booth={editBooth}/>}
+        {editBooth && <EditBoothInfo onClose={(() => setEditBooth(false))} booth={editBooth} onUpdateBooth={onBoothLoad}/>}
     </>
   )
 }

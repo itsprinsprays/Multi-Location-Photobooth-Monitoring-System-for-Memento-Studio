@@ -1,5 +1,6 @@
 import { ArrowLeft, Pencil } from "lucide-react"
 import { useState } from "react";
+import { boothService } from "../../services/boothService";
 
 function formatDate(dateString) {
   if (!dateString) return "—";
@@ -10,7 +11,7 @@ function formatDate(dateString) {
   });
 }
 
-export default function EditBoothInfo({onClose, booth}) {
+export default function EditBoothInfo({onClose, booth, onUpdateBooth}) {
 
     const [editBooth, setEditBooth] = useState({
         boothName: booth?.boothName || "No Booth Name",
@@ -19,7 +20,7 @@ export default function EditBoothInfo({onClose, booth}) {
         boothStatus: booth?.boothStatus || "OFFLINE"
     })
 
-    const [selected, setSelected] = useState("");
+    const [error, setError] = useState("");
 
     function handleChange(e) {
         setEditBooth({
@@ -27,6 +28,21 @@ export default function EditBoothInfo({onClose, booth}) {
             [e.target.name]: e.target.value
         })
     }
+
+
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        setError(null);
+
+        try {
+            await boothService.updateBoothInfo(booth.boothId, editBooth);
+            onUpdateBooth();
+        } catch(error) {
+            setError("Update Failed");
+        }
+    }
+    
 
     return(
         <>
@@ -74,7 +90,8 @@ export default function EditBoothInfo({onClose, booth}) {
                         </div>
                     </div>
 
-                     <form className="flex flex-col gap-4">
+                     <form className="flex flex-col gap-4"
+                     onSubmit={handleSubmit}>
                         <div className="border-t-1 border-gray-400 p-4 flex flex-col gap-3 w-full">
                             <div>
                                 <p className="font-semibold text-lg">Booth details</p>
@@ -148,7 +165,7 @@ export default function EditBoothInfo({onClose, booth}) {
                             <p className="text-slate-500 text-xs">Changes apply only after saving.</p>
                             <div className="flex gap-2">
                                 <button className="border p-2 px-4 rounded-lg border-gray-400">Cancel</button>
-                                <button className="border p-2 px-4 rounded-lg bg-black text-white">Save Changes</button>
+                                <button className="border p-2 px-4 rounded-lg bg-black text-white cursor-pointer" type="submit">Save Changes</button>
                             </div>
                         </div>
 

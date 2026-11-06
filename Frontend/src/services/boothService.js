@@ -30,6 +30,11 @@ export const boothService = {
     return api.patch(`/booth/status/${boothId}`, statusData);
   },
 
+  // PATCH /api/booth/updateInfo/{boothId}
+  updateBoothInfo: (boothId, infoData) => {
+    return api.patch(`/booth/updateInfo/${boothId}`, infoData);
+  },
+
   // DELETE /api/booth/{boothId}
   deleteBooth: (boothId) => {
     return api.delete(`/booth/${boothId}`);
