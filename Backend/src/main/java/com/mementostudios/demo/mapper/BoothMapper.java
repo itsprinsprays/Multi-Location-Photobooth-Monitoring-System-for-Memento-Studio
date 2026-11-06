@@ -28,7 +28,7 @@ public class BoothMapper {
 		booth.setBoothType(dto.getBoothType());
 		booth.setBoothStatus(BoothStatus.OFFLINE);
 		booth.setCreationDate(LocalDate.now());
-
+		
 		return booth;
 	}
 
@@ -44,7 +44,8 @@ public class BoothMapper {
 				booth.getBoothType(),
 				booth.getBoothStatus(),
 				booth.getCreationDate(),
-				booth.isActive()
+				booth.isActive(),
+				booth.getArchivedAt()
 		);
 	}
 

@@ -1,6 +1,7 @@
 package com.mementostudios.demo.entity.Booth;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,9 @@ public class Booth {
 	@Column(name = "is_active", nullable = false)
 	private boolean isActive = true;
 	
+	@Column(name = "archived_at")
+	private LocalDateTime archivedAt;
+	
 	@OneToMany(mappedBy = "booth", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<BoothAssignment> assignments = new ArrayList<>();
 	
@@ -63,6 +67,7 @@ public class Booth {
 	public BoothType getBoothType() { return boothType; }
 	public BoothStatus getBoothStatus() { return boothStatus; }
 	public boolean isActive() { return isActive; }
+	public LocalDateTime getArchivedAt() { return archivedAt; }
 	
 	public void setBoothId(String boothId) { this.boothId = boothId; }
 	public void setBoothName(String boothName) { this.boothName = boothName; }
@@ -71,7 +76,7 @@ public class Booth {
 	public void setBoothType(BoothType boothType) { this.boothType = boothType; }
 	public void setBoothStatus(BoothStatus boothStatus) { this.boothStatus = boothStatus; }
 	public void setActive(boolean active) { this.isActive = active; }
-	
+	public void setArchivedAt(LocalDateTime archivedAt) { this.archivedAt = archivedAt; }
 	
 	
 	

@@ -1,6 +1,7 @@
 package com.mementostudios.demo.dto.booth;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import com.mementostudios.demo.entity.Booth.BoothStatus;
 import com.mementostudios.demo.entity.Booth.BoothType;
 
@@ -13,11 +14,12 @@ public class BoothResponseDTO {
     private BoothStatus boothStatus;
     private LocalDate creationDate;
     private boolean isActive;
+    private LocalDateTime archivedAt;
 
     public BoothResponseDTO() {}
 
     public BoothResponseDTO(String boothId, String boothName, String boothLocation, 
-                            BoothType boothType, BoothStatus boothStatus, LocalDate creationDate, boolean isActive) {
+                            BoothType boothType, BoothStatus boothStatus, LocalDate creationDate, boolean isActive, LocalDateTime archivedAt) {
         this.boothId = boothId;
         this.boothName = boothName;
         this.boothLocation = boothLocation;
@@ -25,6 +27,7 @@ public class BoothResponseDTO {
         this.boothStatus = boothStatus;
         this.creationDate = creationDate;
         this.isActive = isActive;
+        this.archivedAt = archivedAt;
     }
     
     // Getters and Setters
@@ -48,4 +51,7 @@ public class BoothResponseDTO {
     
 	public boolean isActive() { return isActive; }
     public void setActive(boolean active) { this.isActive = active; }
+    
+    public LocalDateTime getArchivedAt() { return archivedAt; }
+    public void setArchivedAt(LocalDateTime archivedAt) { this.archivedAt = archivedAt; }
 }

@@ -24,5 +24,5 @@ public interface BoothRepository extends JpaRepository<Booth, String> {
 	long countByIsActiveFalse();
 	long countByBoothStatusAndIsActiveTrue(BoothStatus status);
 	long countByBoothTypeAndIsActiveFalse(BoothType type);
-	
+	Optional<Booth> findTopByIsActiveFalseOrderByArchivedAtDesc();
 }

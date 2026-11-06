@@ -2,6 +2,7 @@ package com.mementostudios.demo.service;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,6 +52,15 @@ public class BoothService {
 			throw new DuplicateResponseException("Booth Location " + dto.getBoothLocation() + " is already existing. Same location is not allowed");
 			}
 		}
+		
+		boolean hasLocation = dto.getBoothLocation() != null && !dto.getBoothLocation().trim().isEmpty();
+		if (dto.getBoothType() == BoothType.PERMANENT && !hasLocation) {
+		    throw new DuplicateResponseException("Location is required for permanent booths");
+		}
+		if (hasLocation && boothRepository.existsByBoothLocation(dto.getBoothLocation().trim())) {
+		    throw new DuplicateResponseException("Booth Location '" + dto.getBoothLocation() + "' is already existing. Same location is not allowed");
+		}
+		
 		Booth booth = boothMapper.toEntity(dto);
 			
 		boothRepository.save(booth);
@@ -149,6 +159,7 @@ public class BoothService {
 	    }
 	    booth.setActive(false);
 	    booth.setBoothStatus(BoothStatus.OFFLINE);
+	    booth.setArchivedAt(LocalDateTime.now()); 
 	    boothRepository.save(booth);
 	}
 	
@@ -165,6 +176,7 @@ public class BoothService {
 		
 		booth.setActive(true);
 		booth.setBoothStatus(BoothStatus.OFFLINE);
+		booth.setArchivedAt(null);
 		
 		boothRepository.save(booth);
 		
@@ -195,7 +207,11 @@ public class BoothService {
 		long popUpArchived = boothRepository.countByBoothTypeAndIsActiveFalse(BoothType.POP_UP);
 		long permanentArchived = boothRepository.countByBoothTypeAndIsActiveFalse(BoothType.PERMANENT);
 		
-		return new ArchiveBoothSummaryDTO(totalArchived, popUpArchived, permanentArchived);
+		 LocalDateTime lastArchivedAt = boothRepository.findTopByIsActiveFalseOrderByArchivedAtDesc()
+		            .map(Booth::getArchivedAt)
+		            .orElse(null);
+		
+		return new ArchiveBoothSummaryDTO(totalArchived, popUpArchived, permanentArchived, lastArchivedAt);
 		
 	}
 	
