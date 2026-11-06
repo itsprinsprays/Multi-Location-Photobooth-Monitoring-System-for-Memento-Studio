@@ -16,6 +16,7 @@ export default function EditBoothInfo({onClose, booth}) {
         boothName: booth?.boothName || "No Booth Name",
         boothLocation: booth?.boothLocation || "",
         boothType: booth?.boothType || "PERMANENT",
+        boothStatus: booth?.boothStatus || "OFFLINE"
     })
 
     const [selected, setSelected] = useState("");
@@ -40,7 +41,7 @@ export default function EditBoothInfo({onClose, booth}) {
                 {/*Second Row Div */}
                 <div>
                     <h1 className="text-2xl sm:text-3xl  lg:text-4xl font-bold">Update Booth Info</h1>
-                    <p className="text-slate-500">Edit the booth's details and configuration. Save your chnages when you're done</p>
+                    <p className="text-slate-500">Edit the booth's details and configuration. Save your changes when you're done</p>
                 </div>
 
                 {/* Third Row Div */}
@@ -90,7 +91,7 @@ export default function EditBoothInfo({onClose, booth}) {
                                     name="boothName"
                                     onChange={handleChange}
                                     placeholder="Enter new booth name"
-                                    className="p-2 rounded-lg border border-gray-400 w-full"
+                                    className="p-2 rounded-lg border border-gray-400 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     />
                                 </div>
 
@@ -102,7 +103,7 @@ export default function EditBoothInfo({onClose, booth}) {
                                     name="boothLocation"
                                     onChange={handleChange}
                                     placeholder="Enter new booth location"
-                                    className="p-2 rounded-lg border border-gray-400 w-full"
+                                    className="p-2 rounded-lg border border-gray-400 w-full focus:outline focus:ring-2 focus:ring-blue-500"
                                     />
                                 </div>
                             </div>
@@ -111,25 +112,40 @@ export default function EditBoothInfo({onClose, booth}) {
 
                             <div>
                                 <p className="font-semibold text-lg">Configuration</p>
-                                <p className="text-slate-500 text-xs">Manage the booth's installation type.</p>
+                                <p className="text-slate-500 text-xs">Manage the booth's installation type and status.</p>
                             </div>
 
-                            <div className="flex flex-col">
-                                <label className="font-semibold">Booth type</label>
-                                    <select
+                            <div className="grid grid-cols-2 gap-2">
+                                <div className="flex flex-col">
+                                    <label className="font-semibold">Booth type</label>
+                                        <select
+                                        className="border p-2 rounded-lg border-gray-400"
+                                        value={editBooth.boothType}
+                                        onChange={handleChange}
+                                        name="boothType">
+                                            <option value="PERMANENT">Permanent</option>
+                                                <option value="POP_UP">Pop-Up</option>
+                                        </select>
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <label className="font-semibold">Booth Status</label>
+                                    <select 
                                     className="border p-2 rounded-lg border-gray-400"
-                                    value={editBooth.boothType}
+                                    value={editBooth.boothStatus}
                                     onChange={handleChange}
-                                    name="boothType">
-                                        <option value="PERMANENT">Permanent</option>
-                                            <option value="POP_UP">Pop-Up</option>
+                                    name="boothStatus">
+                                        <option value="ONLINE">Online</option>
+                                        <option value="MAINTENANCE">Maintenance</option>
+                                        <option value="OFFLINE">Offline</option>
                                     </select>
+                                </div>
                             </div>
                         
                         </div>
 
                         <div className="border-t-1 border-gray-400 p-4 flex flex-row items-center justify-between">
-                            <p className="text-slate-500 text-xs">Changes apply only after saving</p>
+                            <p className="text-slate-500 text-xs">Changes apply only after saving.</p>
                             <div className="flex gap-2">
                                 <button className="border p-2 px-4 rounded-lg border-gray-400">Cancel</button>
                                 <button className="border p-2 px-4 rounded-lg bg-black text-white">Save Changes</button>

@@ -257,8 +257,8 @@ export default function BoothManagement() {
                                 </td>
                             <td className="p-2 text-slate-500">{formatDate(booth.creationDate)}</td>
                             <td className="p-2 flex gap-2">
-                                <button className="bg-gray-500 text-white px-2 py-1 rounded-md" onClick={() => setEditBooth(booth)} >
-                                    <SquarePen className="w-4 h-4 text-white cursor-pointer"/></button>
+                                <button className="bg-gray-500 text-white px-2 py-1 rounded-md cursor-pointer" onClick={() => setEditBooth(booth)} >
+                                    <SquarePen className="w-4 h-4 text-white"/></button>
                                 <button className="bg-red-300 text-white px-2 py-1 rounded-md ml-2 cursor-pointer" onClick={() => setBoothDelete(booth)}>
                                 <Trash2 className="w-4 h-4 text-[red]" /></button>
                                 <button className="bg-black text-white px-4 py-1 rounded-md ml-2">View</button>
