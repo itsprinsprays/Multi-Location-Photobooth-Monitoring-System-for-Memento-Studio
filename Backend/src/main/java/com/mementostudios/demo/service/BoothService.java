@@ -121,6 +121,10 @@ public class BoothService {
 			booth.setBoothType(dto.getBoothType());
 		}
 		
+		if(dto.getBoothStatus() != null) {
+			booth.setBoothStatus(dto.getBoothStatus());
+		}
+		
 		boothRepository.save(booth);
 		
 		return boothMapper.toResponse(booth);

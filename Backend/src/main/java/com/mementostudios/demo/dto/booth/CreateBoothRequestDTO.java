@@ -20,7 +20,6 @@ public class CreateBoothRequestDTO {
 	@Size(min = 5, max = 30, message = "Name must be between 5 and 30 characters")
 	private String boothName;
 	
-	@NotBlank(message = "Location is required")
 	private String boothLocation;
 	
 	@NotNull(message = "Booth Type is required")
