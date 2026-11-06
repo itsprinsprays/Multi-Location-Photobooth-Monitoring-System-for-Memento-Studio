@@ -46,9 +46,11 @@ public class BoothService {
 		if(boothRepository.existsByBoothName(dto.getBoothName()))
 			throw new DuplicateResponseException("Booth Name " + dto.getBoothName() + " is already existing");
 		
-		if(boothRepository.existsByBoothLocation(dto.getBoothLocation()))
+		if(dto.getBoothLocation() != null && !dto.getBoothLocation().trim().isEmpty()) {
+		if(boothRepository.existsByBoothLocation(dto.getBoothLocation())) {
 			throw new DuplicateResponseException("Booth Location " + dto.getBoothLocation() + " is already existing. Same location is not allowed");
-		
+			}
+		}
 		Booth booth = boothMapper.toEntity(dto);
 			
 		boothRepository.save(booth);
@@ -110,11 +112,16 @@ public class BoothService {
 		    booth.setBoothName(dto.getBoothName());
 		}
 
-		if (dto.getBoothLocation() != null && !dto.getBoothLocation().equals(booth.getBoothLocation())) {
-		    if (boothRepository.existsByBoothLocation(dto.getBoothLocation())) {
-		        throw new DuplicateResponseException(dto.getBoothLocation() + " is already in use by another booth");
+		if (dto.getBoothLocation() != null) {
+		    String newLocation = dto.getBoothLocation().trim();
+		    // Only check for duplicate if the new location is NOT empty and has CHANGED
+		    if (!newLocation.isEmpty() && !newLocation.equalsIgnoreCase(booth.getBoothLocation())) {
+		        if (boothRepository.existsByBoothLocation(newLocation)) {
+		            throw new DuplicateResponseException(newLocation + " is already in use by another booth");
+		        }
 		    }
-		    booth.setBoothLocation(dto.getBoothLocation());
+		    
+		    booth.setBoothLocation(newLocation);
 		}
 		
 		if(dto.getBoothType() != null) {
