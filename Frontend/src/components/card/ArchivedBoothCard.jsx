@@ -32,7 +32,7 @@ export default function ArchivedBoothCard({onLoad, onRestore}) {
 
     return(
         <>
-        <div className="p-4 border border-orange-400 rounded-lg bg-orange-50 flex flex-col gap-2">
+        <div className="p-4 border border-orange-300 rounded-lg bg-orange-50 flex flex-col gap-2">
 
             <div className="flex justify-between">
                 <p className="text-slate-500 font-bold text-sm">{onLoad?.boothId}</p>

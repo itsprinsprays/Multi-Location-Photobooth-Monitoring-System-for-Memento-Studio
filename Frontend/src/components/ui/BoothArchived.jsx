@@ -22,6 +22,8 @@ export default function BoothArchived() {
     const [summary, setSummary] = useState(null);
     const [archivedBooth, setArchivedBooth] = useState([]);
     const [error, setError] = useState("");
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
 
     async function archivedSummaryFunction() {
         try {
@@ -33,9 +35,9 @@ export default function BoothArchived() {
 
     async function archivedBoothFunction() {
         try{
-            const data = await boothService.getAllDeletedBooths(0, 5);
+            const data = await boothService.getAllDeletedBooths(currentPage, 5);
             setArchivedBooth(data.content || []);
-            
+            setTotalPages(data.totalPages || 1)
         } catch(error) {
             setError(error.message || "Failed to fetch archived booths")
         }
@@ -57,7 +59,7 @@ export default function BoothArchived() {
 
     useEffect(() => {
         archivedBoothFunction();
-    }, [])
+    }, [currentPage])
 
     return(
         <>
@@ -85,7 +87,7 @@ export default function BoothArchived() {
                         <TypeCard archivedSummary={summary} boothArchived={archivedBooth} error={error}/>       
                     </div>
 
-                    <div className="flex items-center gap-2 bg-orange-50 border-orange-400 border p-2 rounded-xl ">
+                    <div className="flex items-center gap-2 bg-orange-50 border-orange-300 border p-2 rounded-xl ">
                         <Info className="text-slate-500"/>
                         <p className="text-xs text-slate-500"> - Archived booths are excluded from your active fleet. <br />
                         - Restoring a booth keep its settings and session history.</p>
@@ -111,9 +113,29 @@ export default function BoothArchived() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
-                    {archivedBooth.map((item) => (
-                        <ArchivedBoothCard key={item.boothId} onLoad={item} onRestore={handleRestore}/>
-                    ))}
+                        {archivedBooth.map((item) => (
+                            <ArchivedBoothCard key={item.boothId} onLoad={item} onRestore={handleRestore}/>
+                        ))}
+                    </div>
+                    <div className="flex items-center justify-between mt-4 text-sm text-slate-500 pt-3 border-t border-slate-200">
+                        <p>
+                            Page <span className="font-semibold text-slate-800">{currentPage + 1}</span> of{" "}
+                            <span className="font-semibold text-slate-800">{totalPages}</span>
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
+                                disabled={currentPage === 0}
+                                className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700 cursor-pointer" >
+                                Previous
+                            </button>
+                            <button
+                                onClick={() => setCurrentPage((prev) => prev + 1)}
+                                disabled={currentPage >= totalPages - 1}
+                                className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700 cursor-pointer">
+                                Next
+                            </button>
+                        </div>
                     </div>
                 </div>
 
