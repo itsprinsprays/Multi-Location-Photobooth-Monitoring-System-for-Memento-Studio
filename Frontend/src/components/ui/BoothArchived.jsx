@@ -67,11 +67,11 @@ export default function BoothArchived() {
             {/* Second Row Div */}
             <div>
                 <div className="p-4 border w-56 rounded-lg border-gray-400">
-                    <h2>Archive summary</h2>
-                    <p className="text-slate-500">Last Archived: {formatDate(summary?.lastArchivedAt)}</p>
+                    <h2 className="font-bold text-xl">Archive summary</h2>
+                    <p className="text-slate-500 text-xs mb-4">Last Archived: {formatDate(summary?.lastArchivedAt)}</p>
                 
                     <div>
-                        <TypeCard archivedSummary={summary} boothArchived={archivedBooth}/>       
+                        <TypeCard archivedSummary={summary} boothArchived={archivedBooth} error={error}/>       
                     </div>
                 </div>
             </div>
