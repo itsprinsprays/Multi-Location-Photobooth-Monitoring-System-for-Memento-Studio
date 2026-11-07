@@ -53,7 +53,7 @@ export default function EditBoothInfo({onClose, booth, onUpdateBooth}) {
 
     return(
         <>
-            <div className="p-4 flex flex-col gap-3">
+            <div className="px-4 sm:px-6 py-6 max-w-4xl mx-auto w-full flex flex-col gap-4">
 
                 {/* First Row Div*/}
                 <div className="flex items-center text-slate-500 gap-2 cursor-pointer" onClick={onClose}>

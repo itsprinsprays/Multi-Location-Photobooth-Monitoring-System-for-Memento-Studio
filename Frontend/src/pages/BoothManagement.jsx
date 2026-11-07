@@ -2,7 +2,7 @@ import { Plus, Search, Trash2, SquarePen, ArchiveX } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
 import { boothService } from "../services/boothService";
-import StatusCard from "../components/ui/StatusCard.jsx"
+import StatusCard from "../components/card/StatusCard.jsx"
 import CreateBooth from "../components/modals/CreateBooth.jsx";
 import EditBoothInfo from "../components/ui/EditBoothInfo.jsx";
 
@@ -110,7 +110,7 @@ export default function BoothManagement() {
 
   return (
     <>
-    <div className="px-6">
+    <div className="px-6 max-w-7xl mx-auto w-full">
         {!editBooth && (
             <>
             {/* First Row Div , Header */}
