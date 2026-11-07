@@ -1,5 +1,5 @@
 import { RotateCcw } from "lucide-react";
-
+import { useState } from "react";
 function formatDate(dateString) {
   if (!dateString) return "—";
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -15,7 +15,21 @@ const typeBadges = {
 };
 
 
-export default function ArchivedBoothCard({onLoad}) {
+
+export default function ArchivedBoothCard({onLoad, onRestore}) {
+
+    const [loading, setLoading] = useState(false);
+
+    async function handleRestoreClick() {
+        try {
+            setLoading(true);
+            await onRestore(onLoad.boothId);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
     return(
         <>
         <div className="p-4 border border-orange-400 rounded-lg bg-orange-50 flex flex-col gap-2">
@@ -42,9 +56,11 @@ export default function ArchivedBoothCard({onLoad}) {
 
                 <div className="flex gap-2">
                     <button className="border rounded-lg py-1 px-3 bg-black text-white">View</button>
-                    <button className="border rounded-lg py-1 px-2 bg-white border-gray-400 flex items-center gap-2">
-                        <RotateCcw className="h-4 w-4 "/>
-                        <span className="font-semibold">Restore</span>
+
+                    <button className="border rounded-lg py-1 px-2 bg-white border-gray-400 flex items-center gap-2 cursor-pointer"
+                    onClick={handleRestoreClick}>
+                          <RotateCcw className={`h-3.5 w-3.5 text-slate-600 ${loading ? "animate-spin" : ""}`} />
+                        <span>{loading ? "Restoring..." : "Restore"}</span>
                         </button>
                 </div>
             </div>

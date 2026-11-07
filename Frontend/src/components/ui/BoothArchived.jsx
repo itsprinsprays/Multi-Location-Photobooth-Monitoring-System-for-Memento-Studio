@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { ArrowLeft, Search } from "lucide-react"
+import { ArrowLeft, Search, Info } from "lucide-react"
 import { useState, useEffect } from "react";
 import { boothService } from "../../services/boothService";
 import TypeCard from "../card/TypeCard";
@@ -31,12 +31,6 @@ export default function BoothArchived() {
         }
     }
 
-
-
-    useEffect(() => {
-        archivedSummaryFunction();
-    }, []);
-
     async function archivedBoothFunction() {
         try{
             const data = await boothService.getAllDeletedBooths(0, 5);
@@ -45,7 +39,21 @@ export default function BoothArchived() {
         } catch(error) {
             setError(error.message || "Failed to fetch archived booths")
         }
+    }    
+
+    async function handleRestore(boothId) {
+        try {
+            await boothService.restoreBooth(boothId);
+            archivedSummaryFunction();
+            archivedBoothFunction();
+        } catch(error) {
+            setError(error.message || "Restore failed")
+        }
     }
+    
+    useEffect(() => {
+        archivedSummaryFunction();
+    }, []);
 
     useEffect(() => {
         archivedBoothFunction();
@@ -69,12 +77,18 @@ export default function BoothArchived() {
 
             {/* Second Row Div */}
             <div className="flex gap-2">
-                <div className="p-4 border w-auto rounded-lg border-gray-400">
+                <div className="p-4 border w-auto rounded-lg border-gray-400 flex flex-col gap-2">
                     <h2 className="font-semibold text-xl">Archive summary</h2>
                     <p className="text-slate-500 text-xs mb-4">Last Archived: {formatDate(summary?.lastArchivedAt)}</p>
                 
                     <div>
                         <TypeCard archivedSummary={summary} boothArchived={archivedBooth} error={error}/>       
+                    </div>
+
+                    <div className="flex items-center gap-2 bg-orange-50 border-orange-400 border p-2 rounded-xl ">
+                        <Info className="text-slate-500"/>
+                        <p className="text-xs text-slate-500"> - Archived booths are excluded from your active fleet. <br />
+                        - Restoring a booth keep its settings and session history.</p>
                     </div>
                 </div>
                    
@@ -98,7 +112,7 @@ export default function BoothArchived() {
 
                     <div className="grid grid-cols-2 gap-2">
                     {archivedBooth.map((item) => (
-                        <ArchivedBoothCard key={item.boothId} onLoad={item}/>
+                        <ArchivedBoothCard key={item.boothId} onLoad={item} onRestore={handleRestore}/>
                     ))}
                     </div>
                 </div>
