@@ -87,9 +87,10 @@ public class BoothController {
 	
 	@GetMapping("/allDeletedBooth")
 	public ResponseEntity<PageResponseDTO<BoothResponseDTO>> getAllDeletedBooth(@RequestParam(defaultValue = "0") int page,
-																				@RequestParam(defaultValue = "5") int size) {
+																				@RequestParam(defaultValue = "5") int size,
+																				@RequestParam(required = false) BoothType boothType){
 		Pageable pageable = PageRequest.of(page, size, Sort.by("boothId").ascending());
-		return ResponseEntity.ok().body(boothService.allDeletedBooth(pageable));
+		return ResponseEntity.ok().body(boothService.allDeletedBooth(pageable, boothType));
 	}
 	
 	@GetMapping("/summary")

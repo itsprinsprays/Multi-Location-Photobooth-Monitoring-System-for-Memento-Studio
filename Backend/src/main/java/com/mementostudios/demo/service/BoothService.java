@@ -186,9 +186,14 @@ public class BoothService {
 	
 	//Get All deleted booths
 	@Transactional
-	public PageResponseDTO<BoothResponseDTO> allDeletedBooth(Pageable pageable) {
-		Page<Booth> page = boothRepository.findByIsActiveFalse(pageable);
-		return boothMapper.toPageResponse(page);
+	public PageResponseDTO<BoothResponseDTO> allDeletedBooth(Pageable pageable, BoothType boothType) {
+	    Page<Booth> page;
+	    if (boothType != null) {
+	        page = boothRepository.findByBoothTypeAndIsActiveFalse(pageable, boothType);
+	    } else {
+	        page = boothRepository.findByIsActiveFalse(pageable); // 👈 Returns ALL deleted booths when no type is selected
+	    }
+	    return boothMapper.toPageResponse(page);
 	}
 	
 	//Active Booth Summary
