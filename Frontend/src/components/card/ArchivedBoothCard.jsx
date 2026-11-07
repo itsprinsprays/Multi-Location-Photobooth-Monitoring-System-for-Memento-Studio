@@ -36,7 +36,7 @@ export default function ArchivedBoothCard({onLoad, onRestore}) {
 
             <div className="flex justify-between">
                 <p className="text-slate-500 font-bold text-sm">{onLoad?.boothId}</p>
-                <p className={`${typeBadges[onLoad?.boothType]}"}`}>{onLoad?.boothType}</p>
+                <p className={typeBadges[onLoad?.boothType]}>{onLoad?.boothType}</p>
             </div>
 
             <div className="flex justify-between items-center">

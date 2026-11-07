@@ -20,6 +20,7 @@ function formatDate(dateString) {
 export default function BoothArchived() {
 
     const [summary, setSummary] = useState(null);
+    const [selectedType, setSelectedType] = useState("");
     const [archivedBooth, setArchivedBooth] = useState([]);
     const [error, setError] = useState("");
     const [currentPage, setCurrentPage] = useState(0);
@@ -35,7 +36,8 @@ export default function BoothArchived() {
 
     async function archivedBoothFunction() {
         try{
-            const data = await boothService.getAllDeletedBooths(currentPage, 5);
+            const typeParam = selectedType ? selectedType.toUpperCase() : null
+            const data = await boothService.getAllDeletedBooths(currentPage, 5, typeParam);
             setArchivedBooth(data.content || []);
             setTotalPages(data.totalPages || 1)
         } catch(error) {
@@ -59,7 +61,7 @@ export default function BoothArchived() {
 
     useEffect(() => {
         archivedBoothFunction();
-    }, [currentPage])
+    }, [currentPage, selectedType])
 
     return(
         <>
@@ -105,10 +107,19 @@ export default function BoothArchived() {
                     </div>
 
                     <div>
-                        <select className="border rounded-lg p-2 border-gray-400">
-                            <option>All Types</option>
-                            <option>Permanent</option>
-                            <option>Pop-Up</option>
+                        <select 
+                        id="boothType"
+                        value={selectedType}
+                        onChange={(e) => {
+                            setSelectedType(e.target.value);
+                            setCurrentPage(0);
+                        }}
+                        
+                        className="border rounded-lg p-2 border-gray-400"
+                        >
+                            <option value="">All Types</option>
+                            <option value="POP_UP">Pop_Up</option>
+                            <option value="PERMANENT">Permanent</option>
                         </select>
                     </div>
 

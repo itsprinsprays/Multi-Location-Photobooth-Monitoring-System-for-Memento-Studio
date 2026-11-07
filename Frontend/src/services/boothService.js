@@ -21,8 +21,10 @@ export const boothService = {
   },
 
   // GET /api/booth/allDeletedBooth?page=0&size=5
-  getAllDeletedBooths: (page = 0, size = 5) => {
-    return api.get(`/booth/allDeletedBooth?page=${page}&size=${size}`);
+  getAllDeletedBooths: (page = 0, size = 5, type = null) => {
+    let query = `/booth/allDeletedBooth?page=${page}&size=${size}`;
+    if (type) query += `&boothType=${type}`; // 👈 Changed from &type= to &boothType=
+    return api.get(query);
   },
 
   // GET /api/booth/{boothId}
