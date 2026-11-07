@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Type } from "lucide-react"
 import { useState, useEffect } from "react";
 import { boothService } from "../../services/boothService";
+import TypeCard from "./TypeCard";
+
 
 function formatDate(dateString) {
   if (!dateString) return "—";
@@ -15,6 +17,7 @@ function formatDate(dateString) {
 export default function BoothArchived() {
 
     const [summary, setSummary] = useState(null);
+    const [archivedBooth, setArchivedBooth] = useState([]);
     const [error, setError] = useState("");
 
     async function archivedSummaryFunction() {
@@ -25,9 +28,25 @@ export default function BoothArchived() {
         }
     }
 
+
+
     useEffect(() => {
         archivedSummaryFunction();
     }, []);
+
+    async function archivedBoothFunction() {
+        try{
+            const data = await boothService.getAllDeletedBooths(0, 5);
+            setArchivedBooth(data.content || []);
+            
+        } catch(error) {
+            setError(error.message || "Failed to fetch archived booths")
+        }
+    }
+
+    useEffect(() => {
+        archivedBoothFunction();
+    }, [])
 
     return(
         <>
@@ -47,12 +66,12 @@ export default function BoothArchived() {
 
             {/* Second Row Div */}
             <div>
-                <div className="p-4 border">
+                <div className="p-4 border w-56 rounded-lg border-gray-400">
                     <h2>Archive summary</h2>
-                    <p>{formatDate(summary?.lastArchivedAt)}</p>
-
+                    <p className="text-slate-500">Last Archived: {formatDate(summary?.lastArchivedAt)}</p>
+                
                     <div>
-                       
+                        <TypeCard archivedSummary={summary} boothArchived={archivedBooth}/>       
                     </div>
                 </div>
             </div>
