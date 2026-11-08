@@ -21,9 +21,12 @@ export const boothService = {
   },
 
   // GET /api/booth/allDeletedBooth?page=0&size=5
-  getAllDeletedBooths: (page = 0, size = 5, type = null) => {
+  getAllDeletedBooths: (page = 0, size = 5, type = null, search = "") => {
     let query = `/booth/allDeletedBooth?page=${page}&size=${size}`;
-    if (type) query += `&boothType=${type}`; 
+    if (type) query += `&boothType=${type}`;
+    if (search && search.trim() !== "") {
+      query += `&search=${encodeURIComponent(search.trim())}`;
+    }
     return api.get(query);
   },
 

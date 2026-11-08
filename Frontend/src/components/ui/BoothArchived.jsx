@@ -21,6 +21,7 @@ export default function BoothArchived() {
     const [error, setError] = useState("");
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
+    const [searchTerm, setSearchTerm] = useState("");
 
     // Modal & feedback state
     const [boothToRestore, setBoothToRestore] = useState(null);
@@ -39,7 +40,7 @@ export default function BoothArchived() {
     async function archivedBoothFunction() {
         try{
             const typeParam = selectedType ? selectedType.toUpperCase() : null
-            const data = await boothService.getAllDeletedBooths(currentPage, 5, typeParam);
+            const data = await boothService.getAllDeletedBooths(currentPage, 6, typeParam, searchTerm);
             setArchivedBooth(data.content || []);
             setTotalPages(data.totalPages || 1)
         } catch(error) {
@@ -78,6 +79,13 @@ export default function BoothArchived() {
     useEffect(() => {
         archivedBoothFunction();
     }, [currentPage, selectedType])
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            archivedBoothFunction();
+        }, 300)
+        return () => clearTimeout(timer);
+    }, [currentPage, selectedType, searchTerm])
 
     return(
         <>
@@ -133,9 +141,22 @@ export default function BoothArchived() {
                         <Search className="text-slate-400 h-4 w-4" />
                         <input
                         type="text"
+                        value={searchTerm}
                         placeholder="Search booth Id, name or location..."
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                            setCurrentPage(0);
+                        }}
                         className="ml-2  outline-none w-full sm:flex-1"
                         />
+
+                         {searchTerm && (
+                        <button 
+                            onClick={() => setSearchTerm("")} 
+                            className="text-xs text-slate-400 hover:text-slate-600 px-1 cursor-pointer">
+                            ✕
+                        </button>
+                        )}
                     </div>
 
                     <div>
