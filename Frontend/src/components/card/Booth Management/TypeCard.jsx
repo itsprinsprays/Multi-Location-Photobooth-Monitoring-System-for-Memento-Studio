@@ -24,7 +24,7 @@ export default function TypeCard({ archivedSummary, boothArchived = [], error })
                     <span className="w-2.5 h-2.5 rounded-full bg-red-500 shrink-0"></span>
                     <p className="text-xs tracking-wider text-slate-500 font-bold uppercase">ARCHIVED BOOTHS</p>
                 </div>
-                <p className="text-4xl font-extrabold text-slate-900 py-2">{total}</p>
+                <p className="text-3xl sm:text-4xl font-extrabold text-slate-900 py-2">{total}</p>
                 <p className="text-xs text-slate-500">
                     {popUpCount} pop-up and {archivedSummary?.permanentArchived ?? 0} permanent booths are currently archived
                 </p>
@@ -46,7 +46,7 @@ export default function TypeCard({ archivedSummary, boothArchived = [], error })
                     {/* Safe mapping with automatic return */}
                     {popUpBooths && popUpBooths.length > 0 ? (
                         popUpBooths.map((item) => (
-                            <div key={item?.boothId} className="pt-2 flex justify-between items-center text-sm">
+                            <div key={item?.boothId} className="pt-2 flex flex-col sm:flex-row justify-between sm:items-center text-sm">
                                 <span className="font-medium text-slate-800">{item?.boothName}</span>
                                 <span className="text-xs text-slate-400">{item?.boothId}</span>
                             </div>
@@ -71,7 +71,7 @@ export default function TypeCard({ archivedSummary, boothArchived = [], error })
                     <div className="mt-3 flex flex-col gap-2 divide-y divide-slate-100">
                     {permanentBooths && permanentBooths.length > 0 ? (
                         permanentBooths.map((item) => (
-                            <div key={item?.boothId} className="pt-2 flex justify-between items-center text-sm">
+                            <div key={item?.boothId} className="pt-2 flex flex-col sm:flex-row justify-between sm:items-center text-sm">
                                 <span className="font-medium text-slate-800">{item?.boothName}</span>
                                 <span className="text-xs text-slate-400">{item?.boothId}</span>
                                 

@@ -89,17 +89,20 @@ export default function BoothArchived() {
 
     return(
         <>
-        <div className="px-6 max-w-7xl mx-auto w-full">
+        <div className="px-6 max-w-7xl mx-auto w-full mb-4">
             {/* First Row Div, Header */}
-            <div className="flex flex-row justify-between items-center mb-4">
-                <div>
-                    <h1 className="text-2xl font-bold">Archived Booths</h1>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
+            
+                <div className="order-2 sm:order-1">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Archived Booths</h1>
                     <p className="text-slate-500 text-xs sm:text-sm">Review archived photo booths and restore them to your active fleet</p>
                 </div>
 
-                <Link to="/booth-fleet-management" className="flex items-center gap-2 border p-2 rounded bg-black text-white hover:bg-slate-800 transition">
+                <Link 
+                    to="/booth-fleet-management" 
+                    className="order-1 sm:order-2 flex items-center gap-2 border p-2 rounded-lg bg-black text-white hover:bg-slate-800 transition self-start sm:self-auto">
                     <ArrowLeft className="w-4 h-4"/>
-                    <span>Active Booths</span>
+                    <span className="text-xs sm:text-sm font-medium">Active Booths</span>
                 </Link>
             </div>
 
@@ -120,9 +123,9 @@ export default function BoothArchived() {
             )}
 
             {/* Second Row Div */}
-            <div className="flex gap-2">
-                <div className="p-4 border w-auto rounded-lg border-gray-400 flex flex-col gap-2">
-                    <h2 className="font-semibold text-xl">Archive summary</h2>
+            <div className="flex flex-col lg:flex-row gap-4">
+                <div className="p-4 border w-full lg:w-[340px] lg:shrink-0 rounded-lg border-gray-400 flex flex-col gap-2">
+                    <h2 className="font-semibold text-lg sm:text-xl">Archive summary</h2>
                     <p className="text-slate-500 text-xs mb-4">Last Archived: {formatDate(summary?.lastArchivedAt)}</p>
                 
                     <div>
