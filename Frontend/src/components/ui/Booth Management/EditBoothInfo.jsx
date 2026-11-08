@@ -1,6 +1,6 @@
 import { ArrowLeft, Pencil, Loader2 } from "lucide-react"
 import { useState } from "react";
-import { boothService } from "../../services/boothService";
+import { boothService } from "../../../services/boothService";
 
 function formatDate(dateString) {
   if (!dateString) return "—";

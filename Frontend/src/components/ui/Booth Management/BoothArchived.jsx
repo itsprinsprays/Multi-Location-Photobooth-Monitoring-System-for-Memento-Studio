@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
 import { ArrowLeft, Search, Info, RotateCcw, CheckCircle2 } from "lucide-react"
 import { useState, useEffect } from "react";
-import { boothService } from "../../services/boothService";
-import TypeCard from "../card/TypeCard";
-import ArchivedBoothCard from "../card/ArchivedBoothCard";
+import { boothService } from "../../../services/boothService";
+import TypeCard from "../../card/Booth Management/TypeCard";
+import ArchivedBoothCard from "../../card/Booth Management/ArchivedBoothCard";
 
 function formatDate(dateString) {
   if (!dateString) return "—";
@@ -176,7 +176,7 @@ export default function BoothArchived() {
                         </select>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                         {archivedBooth.map((item) => (
                             <ArchivedBoothCard 
                                 key={item.boothId} 

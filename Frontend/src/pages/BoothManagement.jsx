@@ -2,9 +2,9 @@ import { Plus, Search, Trash2, SquarePen, ArchiveX } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
 import { boothService } from "../services/boothService";
-import StatusCard from "../components/card/StatusCard.jsx"
+import StatusCard from "../components/card/Booth Management/StatusCard.jsx"
 import CreateBooth from "../components/modals/CreateBooth.jsx";
-import EditBoothInfo from "../components/ui/EditBoothInfo.jsx";
+import EditBoothInfo from "../components/ui/Booth Management/EditBoothInfo.jsx";
 
 function formatDate(dateString) {
   if (!dateString) return "—";
@@ -35,6 +35,7 @@ export default function BoothManagement() {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(0); // Current page (0-indexed)
     const [totalPages, setTotalPages] = useState(1);  
+    const [searchTerm, setSearchTerm] = useState("");
 
     const [createBooth, setCreateBooth] = useState(false);
     const [boothDelete, setBoothDelete] = useState(false);
@@ -89,7 +90,7 @@ export default function BoothManagement() {
         try {
             const statusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
             const typeParam = selectedType ? selectedType.toUpperCase() : null;
-            const data = await boothService.getAllBooths(currentPage, 5, statusParam, typeParam);
+            const data = await boothService.getAllBooths(currentPage, 5, statusParam, typeParam, searchTerm);
             setBooths(data.content || []);
             setTotalPages(data.totalPages || 1);
         } catch (error) {
@@ -101,6 +102,13 @@ export default function BoothManagement() {
     useEffect(() => {
         loadBooths();
     }, [selectedStatus, selectedType, currentPage]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            loadBooths();
+        }, 300)
+        return () => clearTimeout(timer);
+    }, [selectedStatus, selectedType, currentPage, searchTerm])
 
     function onBoothLoad() {
         loadBooths();
@@ -185,6 +193,11 @@ export default function BoothManagement() {
                         <input
                         type="text"
                         placeholder="Search booth Id, name or location..."
+                        value={searchTerm}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                            setCurrentPage(0);
+                        }}
                         className="ml-2  outline-none w-full sm:flex-1"
                         />
                     </div>

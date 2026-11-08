@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 
 import BoothManagement from './pages/BoothManagement'
 import Layout from './components/layout/Layout'
-import BoothArchived from './components/ui/BoothArchived'
+import BoothArchived from './components/ui/Booth Management/BoothArchived'
 
 
 export default function App() {

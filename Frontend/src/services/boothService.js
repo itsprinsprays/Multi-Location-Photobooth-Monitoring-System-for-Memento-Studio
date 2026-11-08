@@ -13,10 +13,13 @@ export const boothService = {
   },
 
   // GET /api/booth/allBooth?page=0&size=10&status=...&type=...
-  getAllBooths: (page = 0, size = 10, status = null, type = null) => {
+  getAllBooths: (page = 0, size = 10, status = null, type = null, search = "") => {
     let query = `/booth/allBooth?page=${page}&size=${size}`;
     if (status) query += `&status=${status}`;
     if (type) query += `&type=${type}`;
+    if(search && search.trim() !== "") {
+      query += `&search=${encodeURIComponent(search.trim())}`;
+    }
     return api.get(query);
   },
 
