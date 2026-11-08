@@ -230,7 +230,7 @@ export default function BoothManagement() {
                     </div>
                 </div>
                 
-                <div className="w-full sm:w-auto">
+                <div className="w-full sm:w-auto order-first sm:order-last">
                     <Link to="/archived-booths" className="bg-[red] text-white px-4 py-2 rounded-md flex flex-row items-center w-full flex flex-row items-center justify-center cursor-pointer">
                         <ArchiveX className="w-4 h-4 text-white inline-block mr-2" />
                         <span>Archived</span>

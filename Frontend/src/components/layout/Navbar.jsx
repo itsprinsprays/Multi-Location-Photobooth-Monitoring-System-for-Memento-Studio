@@ -1,10 +1,17 @@
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { MapPin, LayoutDashboard, ChartNoAxesCombined, Clock4, TrendingUp, UsersRound, Settings, LogOut } from "lucide-react";
 import  logo  from "../../assets/logo.svg"
 
 import Logo from "../ui/Logo"
 
 export default function Navbar() {
+
+    const location = useLocation();
+
+    const isBoothSection = 
+        location.pathname.startsWith("/booth-fleet-management") || 
+        location.pathname.startsWith("/archived-booths");
+
     return (
         <>
         <aside className="w-20 h-screen sm:w-64 bg-white flex flex-col duration-300 shrink-0">
@@ -17,43 +24,52 @@ export default function Navbar() {
 
                     <nav className="flex flex-col text-gray-600 p-4">
                         <p className="hidden sm:block text-gray-600 text-xs">MAIN MENU</p>
-                        <Link to="" className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
+                        <NavLink to=""
+                        className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
                             <LayoutDashboard />
                             <span className="hidden sm:inline">Dashboard</span>
-                        </Link> 
+                        </NavLink> 
 
-                        <Link to="/booth-fleet-management" className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
+                        <NavLink to="/
+                        booth-fleet-management" className={`w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl
+                        ${isBoothSection 
+                        ? "bg-black text-white font-semibold" : "text-gray-600 hover:bg-gray-100"}`}>
                             <MapPin />
                             <span className="hidden sm:inline">Booth Management</span>
-                        </Link>
+                        </NavLink>
 
-                        <Link to="" className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
+                        <NavLink to=""
+                        className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
                             <ChartNoAxesCombined />
                             <span className="hidden sm:inline">Analytics</span>
-                        </Link>
+                        </NavLink>
 
-                        <Link to="" className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
+                        <NavLink to=""
+                        className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
                             <Clock4 />
                             <span className="hidden sm:inline"> Sessions</span>
-                        </Link>
+                        </NavLink>
 
-                        <Link to="" className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
+                        <NavLink to=""
+                        className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
                             <TrendingUp />
                             <span className="hidden sm:inline">Revenue</span>
-                        </Link>
+                        </NavLink>
 
-                        <Link to="" className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
+                        <NavLink to=""
+                        className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
                             <UsersRound />
                             <span className="hidden sm:inline">Users</span>
-                        </Link>
+                        </NavLink>
                     </nav>
 
                     <div>
                         <div className="border-y-2 border-gray-300 px-4 py-2">
-                            <Link to="" className="flex flex-row items-center justify-center sm:justify-start w-full gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
+                            <NavLink to=""
+                            className="flex flex-row items-center justify-center sm:justify-start w-full gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
                                 <Settings />
                                 <span className="hidden sm:inline">Settings</span>
-                            </Link>
+                            </NavLink>
                         </div>
 
                         <div className="flex flex-row p-4 gap-4 items-center justify-center sm:justify-between ">
