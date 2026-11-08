@@ -44,4 +44,23 @@ public interface BoothRepository extends JpaRepository<Booth, String> {
 		    Pageable pageable
 		);
 	
+	@Query("""
+			SELECT b FROM Booth b
+			WHERE b.isActive = true
+			AND (:status IS NULL OR b.boothStatus = :status)
+			AND (:type IS NULL OR b.boothType = :type)
+			AND (:keyword IS NULL OR :keyword = '' OR
+				LOWER(b.boothId) LIKE LOWER(CONCAT('%', :keyword, '%')) OR
+				LOWER(b.boothName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR
+				LOWER(b.boothName) LIKE LOWER(CONCAT('%', :keyword, '%')))
+			
+			""")
+		Page<Booth> searchBooths(
+				@Param("keyword") String keyword,
+				@Param("status") BoothStatus status,
+				@Param("type") BoothType type,
+				Pageable pageable
+			);
+
+	
 }

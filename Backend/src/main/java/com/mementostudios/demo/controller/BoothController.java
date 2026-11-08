@@ -50,13 +50,14 @@ public class BoothController {
 	
 	@GetMapping("/allBooth")
 	public ResponseEntity<PageResponseDTO<BoothResponseDTO>> getAllBooth(
+	        @RequestParam(defaultValue = "0") int page, 
+	        @RequestParam(defaultValue = "10") int size,
 	        @RequestParam(required = false) BoothStatus status,
 	        @RequestParam(required = false) BoothType type,
-	        @RequestParam(defaultValue = "0") int page, 
-	        @RequestParam(defaultValue = "10") int size) {
+	        @RequestParam(required = false) String search) {
 	        
 	    Pageable pageable = PageRequest.of(page, size, Sort.by("boothId").ascending());
-	    return ResponseEntity.ok().body(boothService.getAllBooth(status, type, pageable));
+	    return ResponseEntity.ok().body(boothService.getAllBooth(pageable, status, type, search));
 	}
 	
 	@GetMapping("/{boothId}")
@@ -89,7 +90,7 @@ public class BoothController {
 	public ResponseEntity<PageResponseDTO<BoothResponseDTO>> getAllDeletedBooth(@RequestParam(defaultValue = "0") int page,
 																				@RequestParam(defaultValue = "6") int size,
 																				@RequestParam(required = false) BoothType boothType,
-																				 @RequestParam(required = false) String search) {
+																				@RequestParam(required = false) String search) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by("archivedAt").descending());
 		return ResponseEntity.ok().body(boothService.allDeletedBooth(pageable, boothType, search));
 	}

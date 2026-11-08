@@ -70,19 +70,12 @@ public class BoothService {
 	
 	//Get all active booth with or without status
 	@Transactional
-	public PageResponseDTO<BoothResponseDTO> getAllBooth(BoothStatus status, BoothType type, Pageable pageable) {
-	    Page<Booth> page;
-	    
-	    if (status != null && type != null) {
-	        page = boothRepository.findByBoothStatusAndBoothTypeAndIsActiveTrue(status, type, pageable);
-	    }else if(status != null) {
-	    	page = boothRepository.findByBoothStatusAndIsActiveTrue(status, pageable);
-	    } else if(type != null) {
-	    	page = boothRepository.findByBoothTypeAndIsActiveTrue(type, pageable);
-	    }else {
-	        page = boothRepository.findByIsActiveTrue(pageable);
-	    }
-	    return boothMapper.toPageResponse(page);
+	public PageResponseDTO<BoothResponseDTO> getAllBooth(Pageable pageable, BoothStatus status, BoothType type, String search) {
+		String query = (search != null && !search.trim().isEmpty()) ? search.trim() : null;
+		
+		Page<Booth> page = boothRepository.searchBooths(query, status, type, pageable);
+		
+		return boothMapper.toPageResponse(page);
 	}
 	
 	//Get Specific Booth
