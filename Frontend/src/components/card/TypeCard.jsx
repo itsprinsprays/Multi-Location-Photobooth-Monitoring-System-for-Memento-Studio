@@ -38,7 +38,7 @@ export default function TypeCard({ archivedSummary, boothArchived = [], error })
                         <p className="text-xs tracking-wider text-slate-500 font-bold uppercase">POP-UP BOOTHS</p>
                     </div>
                     <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
-                        {popUpCount}
+                        {popUpBooths.length > 0 ? popUpCount : "0"}
                     </span>
                 </div>
 
@@ -64,7 +64,7 @@ export default function TypeCard({ archivedSummary, boothArchived = [], error })
                             <p className="text-xs tracking-wider text-slate-500 font-bold uppercase">PERMANENT BOOTHS</p>
                         </div>
                         <span className="text-xs font-semibold h-4 w-4 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center">
-                            {permanentCount}
+                            {permanentBooths.length > 0 ? permanentCount : "0"}
                         </span>
                     </div>
 

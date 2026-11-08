@@ -1,5 +1,5 @@
 import { RotateCcw } from "lucide-react";
-import { useState } from "react";
+
 function formatDate(dateString) {
   if (!dateString) return "—";
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -14,22 +14,7 @@ const typeBadges = {
   POP_UP: "text-orange-700 ",
 };
 
-
-
-export default function ArchivedBoothCard({onLoad, onRestore}) {
-
-    const [loading, setLoading] = useState(false);
-
-    async function handleRestoreClick() {
-        try {
-            setLoading(true);
-            await onRestore(onLoad.boothId);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-
+export default function ArchivedBoothCard({ onLoad, onRestore }) {
     return(
         <>
         <div className="p-4 border border-orange-300 rounded-lg bg-orange-50 flex flex-col gap-2">
@@ -55,13 +40,14 @@ export default function ArchivedBoothCard({onLoad, onRestore}) {
                 <p>{formatDate(onLoad?.archivedAt)}</p>
 
                 <div className="flex gap-2">
-                    <button className="border rounded-lg py-1 px-3 bg-black text-white">View</button>
+                    <button className="border rounded-lg py-1 px-3 bg-black text-white cursor-pointer hover:bg-slate-800 transition">View</button>
 
-                    <button className="border rounded-lg py-1 px-2 bg-white border-gray-400 flex items-center gap-2 cursor-pointer"
-                    onClick={handleRestoreClick}>
-                          <RotateCcw className={`h-3.5 w-3.5 text-slate-600 ${loading ? "animate-spin" : ""}`} />
-                        <span>{loading ? "Restoring..." : "Restore"}</span>
-                        </button>
+                    <button 
+                        className="border rounded-lg py-1 px-2 bg-white border-gray-400 flex items-center gap-2 cursor-pointer hover:bg-slate-100 transition"
+                        onClick={() => onRestore(onLoad)}>
+                        <RotateCcw className="h-3.5 w-3.5 text-slate-600" />
+                        <span>Restore</span>
+                    </button>
                 </div>
             </div>
         </div>

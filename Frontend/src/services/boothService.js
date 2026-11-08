@@ -23,7 +23,7 @@ export const boothService = {
   // GET /api/booth/allDeletedBooth?page=0&size=5
   getAllDeletedBooths: (page = 0, size = 5, type = null) => {
     let query = `/booth/allDeletedBooth?page=${page}&size=${size}`;
-    if (type) query += `&boothType=${type}`; // 👈 Changed from &type= to &boothType=
+    if (type) query += `&boothType=${type}`; 
     return api.get(query);
   },
 
