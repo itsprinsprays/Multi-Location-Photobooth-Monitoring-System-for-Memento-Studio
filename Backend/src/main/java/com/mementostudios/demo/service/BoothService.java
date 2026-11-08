@@ -186,13 +186,11 @@ public class BoothService {
 	
 	//Get All deleted booths
 	@Transactional
-	public PageResponseDTO<BoothResponseDTO> allDeletedBooth(Pageable pageable, BoothType boothType) {
-	    Page<Booth> page;
-	    if (boothType != null) {
-	        page = boothRepository.findByBoothTypeAndIsActiveFalse(pageable, boothType);
-	    } else {
-	        page = boothRepository.findByIsActiveFalse(pageable); // 👈 Returns ALL deleted booths when no type is selected
-	    }
+	public PageResponseDTO<BoothResponseDTO> allDeletedBooth(Pageable pageable, BoothType boothType, String search) {
+	    // If search is empty or whitespace, normalize to null
+	    String query = (search != null && !search.trim().isEmpty()) ? search.trim() : null;
+	    
+	    Page<Booth> page = boothRepository.searchArchivedBooths(query, boothType, pageable);
 	    return boothMapper.toPageResponse(page);
 	}
 	

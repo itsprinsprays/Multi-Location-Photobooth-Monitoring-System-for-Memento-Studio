@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -26,4 +28,20 @@ public interface BoothRepository extends JpaRepository<Booth, String> {
 	long countByBoothStatusAndIsActiveTrue(BoothStatus status);
 	long countByBoothTypeAndIsActiveFalse(BoothType type);
 	Optional<Booth> findTopByIsActiveFalseOrderByArchivedAtDesc();
+
+	@Query("""
+		    SELECT b FROM Booth b 
+		    WHERE b.isActive = false 
+		      AND (:type IS NULL OR b.boothType = :type)
+		      AND (:keyword IS NULL OR :keyword = '' OR 
+		           LOWER(b.boothId) LIKE LOWER(CONCAT('%', :keyword, '%')) OR 
+		           LOWER(b.boothName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR 
+		           LOWER(b.boothLocation) LIKE LOWER(CONCAT('%', :keyword, '%')))
+		""")
+		Page<Booth> searchArchivedBooths(
+		    @Param("keyword") String keyword, 
+		    @Param("type") BoothType type, 
+		    Pageable pageable
+		);
+	
 }
