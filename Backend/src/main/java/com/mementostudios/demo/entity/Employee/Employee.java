@@ -1,6 +1,7 @@
 package com.mementostudios.demo.entity.Employee;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +41,8 @@ public class Employee {
 	@Column(name = "contact_number")
 	private String contactNumber;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "employee_status",nullable = false)
-	private EmployeeStatus employeeStatus = EmployeeStatus.ACTIVE;
+	@Column(name = "is_active", nullable = false)
+	private boolean isActive = true;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "employee_roles", nullable = false)
@@ -51,6 +51,9 @@ public class Employee {
 	@CreationTimestamp
 	@Column(name = "creation_date", updatable = false)
 	private LocalDate creationDate;
+	
+	@Column(name = "archived_at")
+	private LocalDateTime archivedAt;
 	
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<BoothAssignment> assignments = new ArrayList<>();
@@ -62,9 +65,10 @@ public class Employee {
 	public String getUsername() { return username; }
 	public String getEmail() { return email; }
 	public String getContactNumber() { return contactNumber; }
-	public EmployeeStatus getEmployeeStatus() { return employeeStatus; }
+	public boolean isActive() { return isActive; }
 	public EmployeeRole getEmployeeRole() { return employeeRole; }
 	public LocalDate getCreationDate() { return creationDate; }
+	public LocalDateTime getArchivedAt() { return archivedAt; }
 	public List<BoothAssignment> getAssignments() { return assignments; }
 	
 	// Setters
@@ -73,9 +77,10 @@ public class Employee {
 	public void setUsername(String username) { this.username = username; }
 	public void setEmail(String email) { this.email = email; }
 	public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
-	public void setEmployeeStatus(EmployeeStatus employeeStatus) { this.employeeStatus = employeeStatus; }
+	public void setActive(boolean active) { this.isActive = active; }
 	public void setEmployeeRole(EmployeeRole employeeRole) { this.employeeRole = employeeRole; }
 	public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
+	public void setArchivedAt(LocalDateTime archivedAt) { this.archivedAt = archivedAt; }
 	public void setAssignments(List<BoothAssignment> assignments) { this.assignments = assignments; }
 
 }

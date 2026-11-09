@@ -35,7 +35,7 @@ public class EmployeeMapper {
 				employee.getUsername(),
 				employee.getEmail(),
 				employee.getContactNumber(),
-				employee.getEmployeeStatus(),
+				employee.isActive(),
 				employee.getEmployeeRole(),
 				employee.getCreationDate()
 				);

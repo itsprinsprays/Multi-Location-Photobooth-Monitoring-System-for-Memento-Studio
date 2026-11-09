@@ -2,6 +2,7 @@ package com.mementostudios.demo.service;
 
 import org.springframework.stereotype.Service;
 
+
 import com.mementostudios.demo.dto.employee.CreateEmployeeRequestDTO;
 import com.mementostudios.demo.dto.employee.EmployeeResponseDTO;
 import com.mementostudios.demo.entity.Employee.Employee;
@@ -40,11 +41,13 @@ public class EmployeeService {
 	public EmployeeResponseDTO getEmployeeById(Integer employeeId) {
 		
 		Employee employee = employeeRepository.findById(employeeId)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee Id" + employeeId + " is not existing"));
+				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + employeeId + " is not existing"));
 		
 		return employeeMapper.toResponse(employee);
 		
 	}
+	
+
 	
 	
 	
