@@ -27,7 +27,6 @@ public class CreateBoothRequestDTO {
 
 	public CreateBoothRequestDTO() {}
 
-	
 	public String getBoothId() { return boothId; }
 	public void setBoothId(String boothId) { this.boothId = boothId; }
 

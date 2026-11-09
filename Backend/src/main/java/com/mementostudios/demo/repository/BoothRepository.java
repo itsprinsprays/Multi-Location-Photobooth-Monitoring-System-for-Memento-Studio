@@ -52,7 +52,7 @@ public interface BoothRepository extends JpaRepository<Booth, String> {
 			AND (:keyword IS NULL OR :keyword = '' OR
 				LOWER(b.boothId) LIKE LOWER(CONCAT('%', :keyword, '%')) OR
 				LOWER(b.boothName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR
-				LOWER(b.boothName) LIKE LOWER(CONCAT('%', :keyword, '%')))
+				LOWER(b.boothLocation) LIKE LOWER(CONCAT('%', :keyword, '%')))
 			
 			""")
 		Page<Booth> searchBooths(
