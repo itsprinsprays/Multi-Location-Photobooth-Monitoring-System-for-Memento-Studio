@@ -38,6 +38,9 @@ public class Employee {
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 	
+	@Column(name = "password_hash")
+	private String passwordHash;
+	
 	@Column(name = "contact_number")
 	private String contactNumber;
 	
