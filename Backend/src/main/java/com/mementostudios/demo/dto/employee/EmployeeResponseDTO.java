@@ -33,7 +33,7 @@ public class EmployeeResponseDTO {
 	public String getUsername() { return username; }
 	public String getEmail() { return email; }
 	public String getContactNumber() { return contactNumber; }
-	public boolean getEmployeeStatus() { return isActive; }
+	public boolean isActive() { return isActive; }
 	public EmployeeRole getEmployeeRole() { return employeeRole; }
 	public LocalDate getCreationDate() { return creationDate; }
 	
@@ -43,7 +43,7 @@ public class EmployeeResponseDTO {
 	public void setUsername(String username) { this.username = username; }
 	public void setEmail(String email) { this.email = email; }
 	public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
-	public void setEmployeeStatus(boolean isActive) { this.isActive = isActive; }
+	public void setActive(boolean isActive) { this.isActive = isActive; }
 	public void setEmployeeRole(EmployeeRole employeeRole) { this.employeeRole = employeeRole; }
 	public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
 }

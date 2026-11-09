@@ -1,7 +1,12 @@
 package com.mementostudios.demo.mapper;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import com.mementostudios.demo.dto.PageResponseDTO;
 import com.mementostudios.demo.dto.employee.CreateEmployeeRequestDTO;
 import com.mementostudios.demo.dto.employee.EmployeeResponseDTO;
 import com.mementostudios.demo.entity.Employee.Employee;
@@ -39,6 +44,25 @@ public class EmployeeMapper {
 				employee.getEmployeeRole(),
 				employee.getCreationDate()
 				);
+	}
+	
+	public List<EmployeeResponseDTO> toResponseList(List<Employee> booths) {
+		if (booths == null) {
+			return Collections.emptyList();
+		}
+
+		return booths.stream()
+				.map(this::toResponse)
+				.toList();
+	}
+
+	public PageResponseDTO<EmployeeResponseDTO> toPageResponse(Page<Employee> boothPage) {
+		if (boothPage == null) {
+			return null;
+		}
+
+		Page<EmployeeResponseDTO> dtoPage = boothPage.map(this::toResponse);
+		return PageResponseDTO.from(dtoPage);
 	}
 	
 	
