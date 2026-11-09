@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.mementostudios.demo.dto.PageResponseDTO;
 import com.mementostudios.demo.dto.employee.CreateEmployeeRequestDTO;
 import com.mementostudios.demo.dto.employee.EmployeeResponseDTO;
+import com.mementostudios.demo.dto.employee.EmployeeSummaryDTO;
 import com.mementostudios.demo.entity.Employee.Employee;
 import com.mementostudios.demo.entity.Employee.EmployeeRole;
 import com.mementostudios.demo.exception.DuplicateResponseException;
@@ -58,6 +59,14 @@ public class EmployeeService {
 		
 		return employeeMapper.toResponse(employee);
 		
+	}
+	
+	public EmployeeSummaryDTO employeeSummary() {
+		long total = employeeRepository.countByIsActiveTrue();
+		long admin = employeeRepository.countByEmployeeRoleAndIsActiveTrue(EmployeeRole.ADMIN);
+		long staff = employeeRepository.countByEmployeeRoleAndIsActiveTrue(EmployeeRole.STAFF);
+		
+		return new EmployeeSummaryDTO(total, admin, staff);
 	}
 	
 

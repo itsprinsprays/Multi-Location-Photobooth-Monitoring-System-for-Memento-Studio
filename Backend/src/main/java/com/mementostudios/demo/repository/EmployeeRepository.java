@@ -14,6 +14,8 @@ import com.mementostudios.demo.entity.Employee.*;
 public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 
 	boolean existsByUsername(String username);
+	long countByIsActiveTrue();
+	long countByEmployeeRoleAndIsActiveTrue(EmployeeRole employeeRole);
 	
 	@Query("""
 		    SELECT e FROM Employee e
