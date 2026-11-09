@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +33,11 @@ public class EmployeeController {
 	@PostMapping("/create")
 	public ResponseEntity<EmployeeResponseDTO> createEmployee(@Valid @RequestBody CreateEmployeeRequestDTO dto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.createEmployee(dto));
-		
+	}
+	
+	@GetMapping("/{employeeId}")
+	public ResponseEntity<EmployeeResponseDTO> getSpecificEmployee(@PathVariable Integer employeeId) {
+		return ResponseEntity.ok().body(employeeService.getEmployeeById(employeeId));
 	}
 	
 }

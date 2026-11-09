@@ -6,6 +6,7 @@ import com.mementostudios.demo.dto.employee.CreateEmployeeRequestDTO;
 import com.mementostudios.demo.dto.employee.EmployeeResponseDTO;
 import com.mementostudios.demo.entity.Employee.Employee;
 import com.mementostudios.demo.exception.DuplicateResponseException;
+import com.mementostudios.demo.exception.ResourceNotFoundException;
 import com.mementostudios.demo.mapper.EmployeeMapper;
 import com.mementostudios.demo.repository.EmployeeRepository;
 
@@ -33,6 +34,16 @@ public class EmployeeService {
 		employeeRepository.save(employee);
 		
 		return employeeMapper.toResponse(employee);
+	}
+	
+	@Transactional
+	public EmployeeResponseDTO getEmployeeById(Integer employeeId) {
+		
+		Employee employee = employeeRepository.findById(employeeId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee Id" + employeeId + " is not existing"));
+		
+		return employeeMapper.toResponse(employee);
+		
 	}
 	
 	
