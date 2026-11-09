@@ -51,6 +51,10 @@ public class Employee {
 	@Column(name = "employee_roles", nullable = false)
 	private EmployeeRole employeeRole;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "work_status", nullable = false)
+	private WorkStatus workStatus = WorkStatus.OFF_DUTY;
+	
 	@CreationTimestamp
 	@Column(name = "creation_date", updatable = false)
 	private LocalDate creationDate;
@@ -70,6 +74,7 @@ public class Employee {
 	public String getContactNumber() { return contactNumber; }
 	public boolean isActive() { return isActive; }
 	public EmployeeRole getEmployeeRole() { return employeeRole; }
+	public WorkStatus getWorkStatus() { return workStatus; }
 	public LocalDate getCreationDate() { return creationDate; }
 	public LocalDateTime getArchivedAt() { return archivedAt; }
 	public List<BoothAssignment> getAssignments() { return assignments; }
@@ -82,6 +87,7 @@ public class Employee {
 	public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
 	public void setActive(boolean active) { this.isActive = active; }
 	public void setEmployeeRole(EmployeeRole employeeRole) { this.employeeRole = employeeRole; }
+	public void setWorkStatus(WorkStatus workStatus) { this.workStatus = workStatus; }
 	public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
 	public void setArchivedAt(LocalDateTime archivedAt) { this.archivedAt = archivedAt; }
 	public void setAssignments(List<BoothAssignment> assignments) { this.assignments = assignments; }

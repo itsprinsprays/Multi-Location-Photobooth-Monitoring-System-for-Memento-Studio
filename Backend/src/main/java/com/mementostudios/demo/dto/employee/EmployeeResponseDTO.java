@@ -3,6 +3,7 @@ package com.mementostudios.demo.dto.employee;
 import java.time.LocalDate;
 
 import com.mementostudios.demo.entity.Employee.EmployeeRole;
+import com.mementostudios.demo.entity.Employee.WorkStatus;
 
 public class EmployeeResponseDTO {
 	
@@ -12,11 +13,12 @@ public class EmployeeResponseDTO {
 	private String email;
 	private String contactNumber;
 	private boolean isActive;	
-	private EmployeeRole employeeRole;		
+	private EmployeeRole employeeRole;	
+	private WorkStatus workStatus;
 	private LocalDate creationDate;
 
 	public EmployeeResponseDTO(Integer employeeId, String employeeName, String username, String email, 
-			String contactNumber, boolean isActive, EmployeeRole employeeRole, LocalDate creationDate ) { 
+			String contactNumber, boolean isActive, EmployeeRole employeeRole, WorkStatus workStatus, LocalDate creationDate ) { 
 			
 		this.employeeId = employeeId;
 		this.employeeName = employeeName;
@@ -25,6 +27,7 @@ public class EmployeeResponseDTO {
 		this.contactNumber = contactNumber;
 		this.isActive = isActive;
 		this.employeeRole = employeeRole;
+		this.workStatus = workStatus;
 		this.creationDate = creationDate;
 	}
 	// Getters
@@ -35,6 +38,7 @@ public class EmployeeResponseDTO {
 	public String getContactNumber() { return contactNumber; }
 	public boolean isActive() { return isActive; }
 	public EmployeeRole getEmployeeRole() { return employeeRole; }
+	public WorkStatus getWorkStatus() { return workStatus; }
 	public LocalDate getCreationDate() { return creationDate; }
 	
 	// Setters
@@ -45,5 +49,6 @@ public class EmployeeResponseDTO {
 	public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
 	public void setActive(boolean isActive) { this.isActive = isActive; }
 	public void setEmployeeRole(EmployeeRole employeeRole) { this.employeeRole = employeeRole; }
+    public void setWorkStatus(WorkStatus workStatus) { this.workStatus = workStatus; }
 	public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
 }
