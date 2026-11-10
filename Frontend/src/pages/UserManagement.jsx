@@ -1,10 +1,38 @@
 import { Plus } from "lucide-react";
+import { useState, useEffect } from "react";
+import { employeeService } from "../services/employeeService";
+import UserSummaryCard from "../components/card/User Management/UserSummaryCard";
 
 
 export default function UserManagement() {
+
+    const [error, setError] = useState("");
+
+    const [summary, setSummary] = useState(null);
+    const summaryBreakdown = [
+        {label: "TOTAL EMPLOYEES", count: summary?.totalEmployee, bgColor: "bg-black text-white", description: "Non-Archived accounts"},
+        {label: "ONLINE", count: summary?.onlineEmployee, bgColor: "bg-white border border-gray-400", description: "Employed: Sign in"},
+        {label: "OFFLINE", count: summary?.offlineEmployee, bgColor: "bg-white border border-gray-400", description: "Employed: Signed out"},
+    ];
+
+
+    async function getSummary(){
+        try{
+            setSummary(await employeeService.getSummary());
+        } catch(error) {
+            setError(error.message || "Summary Failed to fetch");
+        }
+    }
+
+    useEffect(() => {
+        getSummary();
+    }, [])
+
+
     return(
         <>
             <div className="p-5">
+
                 <div className="flex flex justify-between items-center">
                     <div>
                         <h1 className="text-xl font-bold">User Management</h1>
@@ -16,6 +44,18 @@ export default function UserManagement() {
                         <span>Create Employee</span>
                     </div>
                 </div>
+
+                <div className="grid grid-cols-3 gap-2 mt-4">
+                    {summaryBreakdown.map((item) => (
+                        <UserSummaryCard key={item.label}
+                        label={item.label}
+                        count={item.count}
+                        bgColor={item.bgColor}
+                        description={item.description}/>
+
+                    ))}
+                </div>
+
             </div>
         </>
     )
