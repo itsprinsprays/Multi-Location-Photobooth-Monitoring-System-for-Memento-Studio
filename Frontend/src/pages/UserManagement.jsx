@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { employeeService } from "../services/employeeService";
 import UserSummaryCard from "../components/card/User Management/UserSummaryCard";
@@ -33,29 +33,50 @@ export default function UserManagement() {
         <>
             <div className="p-5">
 
-                <div className="flex flex justify-between items-center">
-                    <div>
-                        <h1 className="text-xl font-bold">User Management</h1>
-                        <p>Manage employee accounts, monitor status, and archive departed employees.</p>
+                <div className="flex flex-col gap-4">
+                    <div className="flex flex justify-between items-center">
+                        <div>
+                            <h1 className="text-xl font-bold">User Management</h1>
+                            <p>Manage employee accounts, monitor status, and archive departed employees.</p>
+                        </div>
+                        
+                        <div className="flex items-center p-2 bg-black text-white rounded-lg gap-2 px-4">
+                            <Plus className="h-4 w-4"/>
+                            <span>Create Employee</span>
+                        </div>
                     </div>
-                    
-                    <div className="flex items-center p-2 bg-black text-white rounded-lg gap-2 px-4">
-                        <Plus className="h-4 w-4"/>
-                        <span>Create Employee</span>
+
+                    <div className="grid grid-cols-3 gap-2">
+                        {summaryBreakdown.map((item) => (
+                            <UserSummaryCard key={item.label}
+                            label={item.label}
+                            count={item.count}
+                            bgColor={item.bgColor}
+                            description={item.description}/>
+
+                        ))}
+                    </div>
+
+                    <div className="flex gap-2">
+
+                        <div className="flex items-center gap-2 border p-2 rounded-lg border-gray-400 ">
+                            <Search className="h-5 w-5 text-slate-600"/>
+                            <input
+                            type="text"
+                            placeholder="Search Employee ID or name"
+                            className="outline-none"
+                            />
+                        </div>
+
+                        <select
+                        className="border rounded p-2 border-gray-400">
+                            <option>All Status</option>
+                            <option>Online</option>
+                            <option value="">Offline</option>
+                        </select>
+                        
                     </div>
                 </div>
-
-                <div className="grid grid-cols-3 gap-2 mt-4">
-                    {summaryBreakdown.map((item) => (
-                        <UserSummaryCard key={item.label}
-                        label={item.label}
-                        count={item.count}
-                        bgColor={item.bgColor}
-                        description={item.description}/>
-
-                    ))}
-                </div>
-
             </div>
         </>
     )
