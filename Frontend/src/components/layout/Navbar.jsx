@@ -31,9 +31,12 @@ export default function Navbar() {
                         </NavLink> 
 
                         <NavLink to="/
-                        booth-fleet-management" className={`w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl
+                        booth-fleet-management" 
+                        onClick={(e) => { if(isBoothSection) { e.preventDefault();} }}
+                        className={`w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl
                         ${isBoothSection 
-                        ? "bg-black text-white font-semibold" : "text-gray-600 hover:bg-gray-100"}`}>
+                        ? "bg-black text-white font-semibold pointers-event-none cursor-default" 
+                        : "text-gray-600 hover:bg-gray-100"}`}>
                             <MapPin />
                             <span className="hidden sm:inline">Booth Management</span>
                         </NavLink>
@@ -56,7 +59,7 @@ export default function Navbar() {
                             <span className="hidden sm:inline">Revenue</span>
                         </NavLink>
 
-                        <NavLink to=""
+                        <NavLink to="/user-management"
                         className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
                             <UsersRound />
                             <span className="hidden sm:inline">Users</span>
