@@ -9,11 +9,11 @@ export default function UserManagement() {
     const [error, setError] = useState("");
 
     const [summary, setSummary] = useState(null);
-    const summaryBreakdown = [
-        {label: "TOTAL EMPLOYEES", count: summary?.totalEmployee, bgColor: "bg-black text-white", description: "Non-Archived accounts"},
-        {label: "ONLINE", count: summary?.onlineEmployee, bgColor: "bg-white border border-gray-400", description: "Employed: Sign in"},
-        {label: "OFFLINE", count: summary?.offlineEmployee, bgColor: "bg-white border border-gray-400", description: "Employed: Signed out"},
-    ];
+const summaryBreakdown = [
+  { label: "TOTAL EMPLOYEES", count: summary?.totalEmployee, bgColor: "bg-black text-white", dotColor: "bg-violet-500", description: "Non-Archived accounts" },
+  { label: "ONLINE", count: summary?.onlineEmployee, bgColor: "bg-white border border-gray-400", dotColor: "bg-emerald-500", description: "Employed: Sign in" },
+  { label: "OFFLINE", count: summary?.offlineEmployee, bgColor: "bg-white border border-gray-400", dotColor: "bg-rose-500", description: "Employed: Signed out" },
+];
 
 
     async function getSummary(){
@@ -52,6 +52,7 @@ export default function UserManagement() {
                             label={item.label}
                             count={item.count}
                             bgColor={item.bgColor}
+                            dotColor={item.dotColor}
                             description={item.description}/>
 
                         ))}
