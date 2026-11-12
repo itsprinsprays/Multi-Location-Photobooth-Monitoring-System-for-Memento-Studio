@@ -43,10 +43,10 @@ public class EmployeeService {
 	}
 	
 	@Transactional
-	public PageResponseDTO<EmployeeResponseDTO> getAllEmployee(Pageable pageable, EmployeeRole employeeRole, String search) {
+	public PageResponseDTO<EmployeeResponseDTO> getAllEmployee(Pageable pageable, EmployeeRole employeeRole, WorkStatus workStatus, String search) {
 		String query = (search != null && !search.trim().isEmpty()) ? search.trim() : null;
 		
-		Page<Employee> page = employeeRepository.searchEmployees(query, employeeRole, pageable);
+		Page<Employee> page = employeeRepository.searchEmployees(query, employeeRole, workStatus, pageable);
 		
 		return employeeMapper.toPageResponse(page);
 		

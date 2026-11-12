@@ -19,6 +19,7 @@ import com.mementostudios.demo.dto.employee.CreateEmployeeRequestDTO;
 import com.mementostudios.demo.dto.employee.EmployeeResponseDTO;
 import com.mementostudios.demo.dto.employee.EmployeeSummaryDTO;
 import com.mementostudios.demo.entity.Employee.EmployeeRole;
+import com.mementostudios.demo.entity.Employee.WorkStatus;
 import com.mementostudios.demo.service.EmployeeService;
 import org.springframework.data.domain.Pageable;
 
@@ -51,12 +52,13 @@ public class EmployeeController {
 			@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "5") int size,
 			@RequestParam(required = false) EmployeeRole employeeRole,
+			@RequestParam(required = false) WorkStatus workStatus,
 			@RequestParam(required = false) String search
 		) {
 		
 		Pageable pageable = PageRequest.of(page, size, Sort.by("employeeId").ascending());
 		
-		return ResponseEntity.ok().body(employeeService.getAllEmployee(pageable, employeeRole, search));
+		return ResponseEntity.ok().body(employeeService.getAllEmployee(pageable, employeeRole, workStatus,  search));
 	}
 	
 	@GetMapping("/summary")

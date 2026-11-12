@@ -21,6 +21,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 		    SELECT e FROM Employee e
 		    WHERE e.isActive = true
 		      AND (:role IS NULL OR e.employeeRole = :role)
+		      AND (:workStatus IS NULL OR e.workStatus = :workStatus)
 		      AND (:keyword IS NULL OR :keyword = '' OR
 		           LOWER(e.employeeName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR
 		           LOWER(e.username) LIKE LOWER(CONCAT('%', :keyword, '%')) OR
@@ -30,6 +31,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 		Page<Employee> searchEmployees(
 		    @Param("keyword") String keyword,
 		    @Param("role") EmployeeRole role,
+		    @Param("workStatus") WorkStatus status,
 		    Pageable pageable
 		);
 }
