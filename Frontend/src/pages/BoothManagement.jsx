@@ -252,8 +252,8 @@ export default function BoothManagement() {
                             <th className="p-2">ACTIONS</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
 
+                    <tbody className="divide-y divide-gray-200">
                     {booths.map((booth) => (
                         <tr key = {booth.boothId} className="hover:bg-gray-100">
                             <td className="p-2 font-semibold">{booth.boothId}</td>

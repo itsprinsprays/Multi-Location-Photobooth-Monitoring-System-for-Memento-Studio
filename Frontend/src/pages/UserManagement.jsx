@@ -7,6 +7,9 @@ import UserSummaryCard from "../components/card/User Management/UserSummaryCard"
 export default function UserManagement() {
 
     const [error, setError] = useState("");
+    const [employee, setEmployee] = useState([]);
+    const [selectedStatus, setSelectedStatus] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
 
     const [summary, setSummary] = useState(null);
 const summaryBreakdown = [
@@ -24,9 +27,23 @@ const summaryBreakdown = [
         }
     }
 
+    async function loadEmployee() {
+        try {
+            const statusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
+            const data = await employeeService.getAllEmployees(0, 5, statusParam, searchTerm);
+            setEmployee(data.content || []);
+        } catch(error) {
+            setError(error.message || "Employee Table Faied to fetch");
+        }
+    }
+
     useEffect(() => {
         getSummary();
     }, [])
+
+    useEffect(() => {
+        loadEmployee();
+    }, [selectedStatus, searchTerm])
 
 
     return(
@@ -34,6 +51,7 @@ const summaryBreakdown = [
             <div className="p-5">
 
                 <div className="flex flex-col gap-4">
+
                     <div className="flex flex justify-between items-center">
                         <div>
                             <h1 className="text-xl font-bold">User Management</h1>
@@ -76,6 +94,38 @@ const summaryBreakdown = [
                             <option value="">Offline</option>
                         </select>
                         
+                    </div>
+
+                    <div className="border rounded-xl border-gray-400">
+                        <div className="p-4">
+                            <h1 className="font-semibold">Employee Directory</h1>
+                        </div>
+                        
+                        <table className="w-full">
+                            <thead>
+                                <tr className="text-xs text-left border-y-1 border-gray-400 bg-gray-200">
+                                    <th className="p-2">EMPLOYEE ID</th>
+                                    <th className="p-2">EMPLOYEE NAME</th>
+                                    <th className="p-2">STATUS</th>
+                                    <th className="p-2">ROLE</th>
+                                    <th className="p-2">WORK EMAIL</th>
+                                    <th className="p-2">CONTACT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {employee.map((employee) => (
+                                    <tr key={employee.employeeId} className="hover:bg-gray-100">
+                                        <td className="p-2">{employee.employeeId}</td>
+                                        <td className="p-2">{employee.employeeName}</td>
+                                        <td className="p-2">{employee.workStatus}</td>
+                                        <td className="p-2">{employee.employeeRole}</td>
+                                        <td className="p-2">{employee.email}</td> 
+                                        <td className="p-2">{employee.contactNumber}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
             </div>
