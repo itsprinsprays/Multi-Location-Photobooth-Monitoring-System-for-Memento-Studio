@@ -34,7 +34,7 @@ const summaryBreakdown = [
         try {
             const roleParam = selectedRole ? selectedRole.toUpperCase() : null; 
             const workStatusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
-            const data = await employeeService.getAllEmployees(currentPage, 2, roleParam, workStatusParam, searchTerm);
+            const data = await employeeService.getAllEmployees(currentPage, 5, roleParam, workStatusParam, searchTerm);
             setEmployee(data.content || []);
             setTotalPages(data.totalPages || 1);
         } catch(error) {
@@ -83,8 +83,8 @@ const summaryBreakdown = [
 
                     <div className="flex justify-between gap-2">
                         
-                        <div className="flex gap-3">
-                            <div className="flex items-center gap-2 border p-2 rounded-lg border-gray-400 ">
+                        <div className="flex gap-3 flex-wrap items-center flex-1">
+                            <div className="flex items-center gap-2 border p-2 rounded-lg border-gray-400 w-full sm:w-72 ">
                                 <Search className="h-5 w-5 text-slate-600"/>
                                 <input
                                 type="text"
@@ -94,7 +94,7 @@ const summaryBreakdown = [
                                     setSearchTerm(e.target.value); 
                                     setCurrentPage(0);
                                 }}
-                                className="outline-none"
+                                className="outline-none w-full"
                                 />
                             </div>
 
@@ -119,18 +119,19 @@ const summaryBreakdown = [
                             </select>
                         </div>
 
-                        <div className="flex items-center bg-red-500 text-white p-2 rounded-lg">
-                            <ArchiveX />
+                        <div className="flex items-center bg-red-500 text-white p-2 rounded-lg gap-2">
+                            <ArchiveX className="w-5 h-5"/>
                             <span>Archived Employees</span>
                         </div>
                     </div>
 
                     <div className="border rounded-xl border-gray-400">
-                        <div className="p-4">
+                        <div className="p-4 flex justify-between items-center">
                             <h1 className="font-semibold">Employee Directory</h1>
+                            <p className="text-slate-500 text-xs">Employee Portal accounts only</p>
                         </div>
                         
-                        <table className="w-full">
+                        <table className="w-full border-b border-gray-300">
                             <thead>
                                 <tr className="text-xs text-left border-y-1 border-gray-300 bg-gray-200">
                                     <th className="p-2">EMPLOYEE ID</th>
@@ -155,26 +156,26 @@ const summaryBreakdown = [
                             </tbody>
                         </table>
 
-                                    <div className="flex items-center justify-between mt-2 text-sm text-slate-500 mb-4">
-                <p>
-                    Page <span className="font-semibold text-slate-800">{currentPage + 1}</span> of{" "}
-                    <span className="font-semibold text-slate-800">{totalPages}</span>
-                </p>
-                <div className="flex items-center gap-2">
-                    <button
-                        onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
-                        disabled={currentPage === 0}
-                        className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700">
-                        Previous
-                    </button>
-                    <button
-                        onClick={() => setCurrentPage((prev) => prev + 1)}
-                        disabled={currentPage >= totalPages - 1}
-                        className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700">
-                        Next
-                    </button>
-                </div>
-            </div>
+                        <div className="flex items-center justify-between mt-2 text-sm text-slate-500 mb-4">
+                            <p>
+                                Page <span className="font-semibold text-slate-800">{currentPage + 1}</span> of{" "}
+                                <span className="font-semibold text-slate-800">{totalPages}</span>
+                            </p>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
+                                    disabled={currentPage === 0}
+                                    className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700">
+                                    Previous
+                                </button>
+                                <button
+                                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                                    disabled={currentPage >= totalPages - 1}
+                                    className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
