@@ -86,6 +86,10 @@ const summaryBreakdown = [
                                 <input
                                 type="text"
                                 placeholder="Search Employee ID or name"
+                                value={searchTerm}
+                                onChange={(e) => {
+                                    setSearchTerm(e.target.value); 
+                                }}
                                 className="outline-none"
                                 />
                             </div>
