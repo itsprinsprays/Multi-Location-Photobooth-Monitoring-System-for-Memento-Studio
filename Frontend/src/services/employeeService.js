@@ -8,9 +8,10 @@ export const employeeService = {
   },
 
   // GET /api/employee/allEmployee?page=0&size=10&role=...&search=...
-  getAllEmployees: (page = 0, size = 10, role = null, search = "") => {
+  getAllEmployees: (page = 0, size = 10, role = null, workStatus = null, search = "") => {
     let query = `/employee/allEmployee?page=${page}&size=${size}`;
     if (role) query += `&role=${role}`;
+    if (workStatus) query += `&workStatus=${workStatus}`;
     if (search && search.trim() !== "") {
       query += `&search=${encodeURIComponent(search.trim())}`;
     }

@@ -1,4 +1,4 @@
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, ArchiveX } from "lucide-react";
 import { useState, useEffect } from "react";
 import { employeeService } from "../services/employeeService";
 import UserSummaryCard from "../components/card/User Management/UserSummaryCard";
@@ -8,6 +8,7 @@ export default function UserManagement() {
 
     const [error, setError] = useState("");
     const [employee, setEmployee] = useState([]);
+    const [selectedRole, setSelectedRole] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -29,8 +30,9 @@ const summaryBreakdown = [
 
     async function loadEmployee() {
         try {
-            const statusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
-            const data = await employeeService.getAllEmployees(0, 5, statusParam, searchTerm);
+            const workStatusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
+            const roleParam = selectedRole ? selectedStatus.toUpperCase() : null; 
+            const data = await employeeService.getAllEmployees(0, 5, roleParam, workStatusParam, searchTerm);
             setEmployee(data.content || []);
         } catch(error) {
             setError(error.message || "Employee Table Faied to fetch");
@@ -43,7 +45,7 @@ const summaryBreakdown = [
 
     useEffect(() => {
         loadEmployee();
-    }, [selectedStatus, searchTerm])
+    }, [selectedRole, selectedStatus, searchTerm])
 
 
     return(
@@ -54,8 +56,8 @@ const summaryBreakdown = [
 
                     <div className="flex flex justify-between items-center">
                         <div>
-                            <h1 className="text-xl font-bold">User Management</h1>
-                            <p>Manage employee accounts, monitor status, and archive departed employees.</p>
+                            <h1 className="text-xl sm:text-2xl font-bold">User Management</h1>
+                            <p className="text-slate-500 text-xs sm:text-sm">Manage employee accounts, monitor status, and archive departed employees.</p>
                         </div>
                         
                         <div className="flex items-center p-2 bg-black text-white rounded-lg gap-2 px-4">
@@ -76,24 +78,33 @@ const summaryBreakdown = [
                         ))}
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex justify-between gap-2">
+                        
+                        <div className="flex gap-3">
+                            <div className="flex items-center gap-2 border p-2 rounded-lg border-gray-400 ">
+                                <Search className="h-5 w-5 text-slate-600"/>
+                                <input
+                                type="text"
+                                placeholder="Search Employee ID or name"
+                                className="outline-none"
+                                />
+                            </div>
 
-                        <div className="flex items-center gap-2 border p-2 rounded-lg border-gray-400 ">
-                            <Search className="h-5 w-5 text-slate-600"/>
-                            <input
-                            type="text"
-                            placeholder="Search Employee ID or name"
-                            className="outline-none"
-                            />
+                            <select
+                            id="workStatus"
+                            value={selectedStatus}
+                            onChange={(e) => setSelectedStatus(e.target.value)}
+                            className="border rounded p-2 border-gray-400">
+                                <option value="">All Status</option>
+                                <option value="ON_DUTY">On-Duty</option>
+                                <option value="OFF_DUTY">Off-Duty</option>
+                            </select>
                         </div>
 
-                        <select
-                        className="border rounded p-2 border-gray-400">
-                            <option>All Status</option>
-                            <option>Online</option>
-                            <option value="">Offline</option>
-                        </select>
-                        
+                        <div className="flex items-center bg-red-500 text-white p-2 rounded-lg">
+                            <ArchiveX />
+                            <span>Archived Employees</span>
+                        </div>
                     </div>
 
                     <div className="border rounded-xl border-gray-400">
@@ -103,7 +114,7 @@ const summaryBreakdown = [
                         
                         <table className="w-full">
                             <thead>
-                                <tr className="text-xs text-left border-y-1 border-gray-400 bg-gray-200">
+                                <tr className="text-xs text-left border-y-1 border-gray-300 bg-gray-200">
                                     <th className="p-2">EMPLOYEE ID</th>
                                     <th className="p-2">EMPLOYEE NAME</th>
                                     <th className="p-2">STATUS</th>
@@ -112,7 +123,7 @@ const summaryBreakdown = [
                                     <th className="p-2">CONTACT</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="divide-y divide-gray-300">
                                 {employee.map((employee) => (
                                     <tr key={employee.employeeId} className="hover:bg-gray-100">
                                         <td className="p-2">{employee.employeeId}</td>
