@@ -30,8 +30,8 @@ const summaryBreakdown = [
 
     async function loadEmployee() {
         try {
+            const roleParam = selectedRole ? selectedRole.toUpperCase() : null; 
             const workStatusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
-            const roleParam = selectedRole ? selectedStatus.toUpperCase() : null; 
             const data = await employeeService.getAllEmployees(0, 5, roleParam, workStatusParam, searchTerm);
             setEmployee(data.content || []);
         } catch(error) {
@@ -89,6 +89,16 @@ const summaryBreakdown = [
                                 className="outline-none"
                                 />
                             </div>
+
+                            <select
+                            id="role"
+                            value={selectedRole}
+                            onChange={(e) => setSelectedRole(e.target.value)}
+                            className="border rounded p-2 border-gray-400">
+                                <option value="">All Roles</option>
+                                <option value="ADMIN">Admin</option>
+                                <option value="STAFF">Staff</option>
+                            </select>
 
                             <select
                             id="workStatus"
