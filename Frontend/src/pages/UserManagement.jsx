@@ -11,6 +11,8 @@ export default function UserManagement() {
     const [selectedRole, setSelectedRole] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
 
     const [summary, setSummary] = useState(null);
 const summaryBreakdown = [
@@ -32,8 +34,9 @@ const summaryBreakdown = [
         try {
             const roleParam = selectedRole ? selectedRole.toUpperCase() : null; 
             const workStatusParam = selectedStatus ? selectedStatus.toUpperCase() : null;
-            const data = await employeeService.getAllEmployees(0, 5, roleParam, workStatusParam, searchTerm);
+            const data = await employeeService.getAllEmployees(currentPage, 2, roleParam, workStatusParam, searchTerm);
             setEmployee(data.content || []);
+            setTotalPages(data.totalPages || 1);
         } catch(error) {
             setError(error.message || "Employee Table Faied to fetch");
         }
@@ -45,7 +48,7 @@ const summaryBreakdown = [
 
     useEffect(() => {
         loadEmployee();
-    }, [selectedRole, selectedStatus, searchTerm])
+    }, [selectedRole, selectedStatus, searchTerm, currentPage])
 
 
     return(
@@ -89,6 +92,7 @@ const summaryBreakdown = [
                                 value={searchTerm}
                                 onChange={(e) => {
                                     setSearchTerm(e.target.value); 
+                                    setCurrentPage(0);
                                 }}
                                 className="outline-none"
                                 />
@@ -150,6 +154,27 @@ const summaryBreakdown = [
                                 ))}
                             </tbody>
                         </table>
+
+                                    <div className="flex items-center justify-between mt-2 text-sm text-slate-500 mb-4">
+                <p>
+                    Page <span className="font-semibold text-slate-800">{currentPage + 1}</span> of{" "}
+                    <span className="font-semibold text-slate-800">{totalPages}</span>
+                </p>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
+                        disabled={currentPage === 0}
+                        className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700">
+                        Previous
+                    </button>
+                    <button
+                        onClick={() => setCurrentPage((prev) => prev + 1)}
+                        disabled={currentPage >= totalPages - 1}
+                        className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700">
+                        Next
+                    </button>
+                </div>
+            </div>
 
                     </div>
                 </div>
