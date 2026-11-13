@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import com.mementostudios.demo.dto.PageResponseDTO;
 import com.mementostudios.demo.dto.employee.CreateEmployeeRequestDTO;
 import com.mementostudios.demo.dto.employee.EmployeeResponseDTO;
 import com.mementostudios.demo.dto.employee.EmployeeSummaryDTO;
+import com.mementostudios.demo.dto.employee.UpdateEmployeeInfoRequestDTO;
 import com.mementostudios.demo.entity.Employee.EmployeeRole;
 import com.mementostudios.demo.entity.Employee.WorkStatus;
 import com.mementostudios.demo.service.EmployeeService;
@@ -59,6 +61,12 @@ public class EmployeeController {
 		Pageable pageable = PageRequest.of(page, size, Sort.by("employeeId").ascending());
 		
 		return ResponseEntity.ok().body(employeeService.getAllEmployee(pageable, employeeRole, workStatus,  search));
+	}
+	
+	@PatchMapping("/updateEmployee/{employeeId}")
+	public ResponseEntity<EmployeeResponseDTO> updateEmployeeInformation(@Valid @RequestBody UpdateEmployeeInfoRequestDTO dto, @PathVariable Integer employeeId){
+		return ResponseEntity.ok().body(employeeService.updateEmployeeInfo(dto, employeeId));
+		
 	}
 	
 	@GetMapping("/summary")

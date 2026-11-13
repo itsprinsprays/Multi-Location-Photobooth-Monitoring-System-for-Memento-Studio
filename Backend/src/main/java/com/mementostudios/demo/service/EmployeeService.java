@@ -8,6 +8,7 @@ import com.mementostudios.demo.dto.PageResponseDTO;
 import com.mementostudios.demo.dto.employee.CreateEmployeeRequestDTO;
 import com.mementostudios.demo.dto.employee.EmployeeResponseDTO;
 import com.mementostudios.demo.dto.employee.EmployeeSummaryDTO;
+import com.mementostudios.demo.dto.employee.UpdateEmployeeInfoRequestDTO;
 import com.mementostudios.demo.entity.Employee.Employee;
 import com.mementostudios.demo.entity.Employee.EmployeeRole;
 import com.mementostudios.demo.entity.Employee.WorkStatus;
@@ -33,7 +34,13 @@ public class EmployeeService {
 	public EmployeeResponseDTO createEmployee(CreateEmployeeRequestDTO dto) {
 		
 		if(employeeRepository.existsByUsername(dto.getUsername()))
-			throw new DuplicateResponseException("Username " + dto.getUsername() + " is already existing");
+			throw new DuplicateResponseException("Username " + dto.getUsername() + " is existing");
+		
+		if(employeeRepository.existsByContactNumber(dto.getContactNumber()))
+			throw new DuplicateResponseException("Contact Number " + dto.getContactNumber() + " is existing");
+		
+		if(employeeRepository.existsByEmail(dto.getEmail()))
+			throw new DuplicateResponseException("Work Email " + dto.getEmail() + " is existing");
 		
 		Employee employee = employeeMapper.toEntity(dto);
 		
@@ -57,6 +64,38 @@ public class EmployeeService {
 		
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + employeeId + " is not existing"));
+		
+		return employeeMapper.toResponse(employee);
+		
+	}
+	
+	@Transactional
+	public EmployeeResponseDTO updateEmployeeInfo(UpdateEmployeeInfoRequestDTO dto, Integer employeeId) {
+		
+		Employee employee = employeeRepository.findById(employeeId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + employeeId + " is not existing"));
+		
+		if(dto.getEmployeeName() != null) {
+			employee.setEmployeeName(dto.getEmployeeName());
+		}
+		
+		if(dto.getEmail() != null) {
+			if(employeeRepository.existsByEmail(dto.getEmail())) 
+				throw new DuplicateResponseException("Work Email " + dto.getEmail() + " is existing");
+			employee.setEmail(dto.getEmail());
+		}
+		
+		if(dto.getContactNumber() != null) {
+			if(employeeRepository.existsByContactNumber(dto.getContactNumber()))
+				throw new DuplicateResponseException("Contact Number " + dto.getContactNumber() + " is existing");
+			employee.setContactNumber(dto.getContactNumber());
+		}
+		
+		if(dto.getEmployeeRole() != null) {
+			employee.setEmployeeRole(dto.getEmployeeRole());
+		}
+		
+		employeeRepository.save(employee);
 		
 		return employeeMapper.toResponse(employee);
 		

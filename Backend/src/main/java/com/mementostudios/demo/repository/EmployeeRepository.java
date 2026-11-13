@@ -14,6 +14,8 @@ import com.mementostudios.demo.entity.Employee.*;
 public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 
 	boolean existsByUsername(String username);
+	boolean existsByContactNumber(String number);
+	boolean existsByEmail(String email);
 	long countByIsActiveTrue();
 	long countByWorkStatusAndIsActiveTrue(WorkStatus workStatus);
 	
