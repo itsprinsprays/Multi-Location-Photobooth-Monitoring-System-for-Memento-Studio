@@ -211,7 +211,7 @@ export default function UserManagement() {
                 </div>
             </div>
 
-            {createEmployee && <CreateEmployee />}
+            {createEmployee && <CreateEmployee onClose={() => setCreateEmployee(false)}/>}
         </>
     )
 }
