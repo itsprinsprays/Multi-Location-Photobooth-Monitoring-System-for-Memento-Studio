@@ -3,6 +3,20 @@ import { useState, useEffect } from "react";
 import { employeeService } from "../services/employeeService";
 import UserSummaryCard from "../components/card/User Management/UserSummaryCard";
 
+  function formatDate(dateString) {
+    if (!dateString) return "—";
+    return new Date(dateString).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
+    }
+
+    const workStatusBadges = {
+    ON_DUTY: "bg-green-100 text-green-700 border border-green-200 py-1 px-2 rounded-2xl",
+    OFF_DUTY: "bg-red-100 text-red-700 border border-red-200 py-1 px-2 rounded-2xl",
+    };
+
 
 export default function UserManagement() {
 
@@ -15,11 +29,12 @@ export default function UserManagement() {
     const [totalPages, setTotalPages] = useState(1);
 
     const [summary, setSummary] = useState(null);
-const summaryBreakdown = [
-  { label: "TOTAL EMPLOYEES", count: summary?.totalEmployee, bgColor: "bg-black text-white", dotColor: "bg-violet-500", description: "Non-Archived accounts" },
-  { label: "ONLINE", count: summary?.onlineEmployee, bgColor: "bg-white border border-gray-400", dotColor: "bg-emerald-500", description: "Employed: Sign in" },
-  { label: "OFFLINE", count: summary?.offlineEmployee, bgColor: "bg-white border border-gray-400", dotColor: "bg-rose-500", description: "Employed: Signed out" },
-];
+
+      const summaryBreakdown = [
+    { label: "TOTAL EMPLOYEES", count: summary?.totalEmployee, bgColor: "bg-black text-white", dotColor: "bg-violet-500", description: "Non-Archived accounts" },
+    { label: "ONLINE", count: summary?.onlineEmployee, bgColor: "bg-white border border-gray-400", dotColor: "bg-emerald-500", description: "Employed: Sign in" },
+    { label: "OFFLINE", count: summary?.offlineEmployee, bgColor: "bg-white border border-gray-400", dotColor: "bg-rose-500", description: "Employed: Signed out" },
+    ];
 
 
     async function getSummary(){
@@ -136,21 +151,29 @@ const summaryBreakdown = [
                                 <tr className="text-xs text-left border-y-1 border-gray-300 bg-gray-200">
                                     <th className="p-2">EMPLOYEE ID</th>
                                     <th className="p-2">EMPLOYEE NAME</th>
+                                    <th className="p-2">USERNAME</th>
                                     <th className="p-2">STATUS</th>
                                     <th className="p-2">ROLE</th>
                                     <th className="p-2">WORK EMAIL</th>
                                     <th className="p-2">CONTACT</th>
+                                    <th className="p-2">CREATION DATE</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-300">
                                 {employee.map((employee) => (
-                                    <tr key={employee.employeeId} className="hover:bg-gray-100">
+                                    <tr key={employee.employeeId} className="hover:bg-gray-200">
                                         <td className="p-2">{employee.employeeId}</td>
                                         <td className="p-2">{employee.employeeName}</td>
-                                        <td className="p-2">{employee.workStatus}</td>
+                                        <td className="p-2">{employee.username}</td>
+                                        <td className="p-2">
+                                            <span className = {`text-xs ${workStatusBadges[employee.workStatus]}`}>
+                                                {employee.workStatus === "ON_DUTY" ? "On_Duty" : "Off_Duty"}
+                                            </span>
+                                        </td>
                                         <td className="p-2">{employee.employeeRole}</td>
                                         <td className="p-2">{employee.email}</td> 
                                         <td className="p-2">{employee.contactNumber}</td>
+                                        <td>{formatDate(employee.creationDate)}</td>
                                     </tr>
                                 ))}
                             </tbody>
