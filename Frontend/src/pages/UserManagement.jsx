@@ -68,6 +68,11 @@ export default function UserManagement() {
         loadEmployee();
     }, [selectedRole, selectedStatus, searchTerm, currentPage])
 
+    function loadEmployees() {
+        loadEmployee();
+        getSummary();
+    }
+
 
     return(
         <>
@@ -211,7 +216,7 @@ export default function UserManagement() {
                 </div>
             </div>
 
-            {createEmployee && <CreateEmployee onClose={() => setCreateEmployee(false)}/>}
+            {createEmployee && <CreateEmployee onClose={() => setCreateEmployee(false)} onLoadEmployees={loadEmployees}/>}
         </>
     )
 }

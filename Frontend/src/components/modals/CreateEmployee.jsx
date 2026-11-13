@@ -1,7 +1,71 @@
 import { Info, X } from "lucide-react";
+import { employeeService } from "../../services/employeeService";
+import { useState } from "react";
 
+export default function CreateEmployee({onClose, onLoadEmployees}) {
 
-export default function CreateEmployee({onClose}) {
+    const [employee, setEmployee] = useState({
+        employeeName: "",
+        email: "",
+        contactNumber: "",
+        username: "",
+        password: "",
+        employeeRole: "STAFF"
+   })
+   const [error, setError] = useState(null);
+
+   function handleChange(e) {
+    setEmployee({
+        ...employee,
+        [e.target.name]: e.target.value
+    })
+   }
+
+   async function handleSubmit(e) {
+        e.preventDefault();
+        setError(null);
+
+        try{
+
+            if(!employee.employeeName.trim()) {
+                setError("Employee Name is required");
+                return;
+            }
+
+            if(!employee.email.trim()){
+                setError("Email is required");
+                return;
+            }
+
+            if(!employee.contactNumber.trim()) {
+                setError("Contact Number is required");
+                return;
+            }
+
+            if(!employee.username.trim()) {
+                setError("Username is required");
+                return;
+            }
+
+            if(!employee.password.trim()) {
+                setError("Temporary password is required");
+                return;
+            }
+
+            if(!employee.employeeRole.trim()) {
+                setError("Employee Role is required");
+                return;
+            }
+
+            await employeeService.createEmployee(employee);
+            if(onLoadEmployees) onLoadEmployees();
+            onClose();
+        } catch(error) {
+            setError(error || "Failed to Create Employee")
+        }
+    
+   }
+
     return(
         <>
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-3 sm:p-6 z-50">
@@ -24,7 +88,7 @@ export default function CreateEmployee({onClose}) {
                     <div className="">
                         <p className="font-medium py-2 px-4">Personal Details</p>
 
-                        <form className="">
+                        <form onSubmit={handleSubmit}>
                             <div className="p-4">
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                     <div>
@@ -32,6 +96,9 @@ export default function CreateEmployee({onClose}) {
                                         <input
                                         type="text"
                                         placeholder="Enter Full Name"
+                                        value={employee.employeeName}
+                                        name="employeeName"
+                                        onChange={handleChange}
                                         className="outline outline-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1 placeholder:text-xs placeholder:text-xs w-full"
                                         />
                                     </div>
@@ -41,6 +108,9 @@ export default function CreateEmployee({onClose}) {
                                         <input
                                         type="text"
                                         placeholder="Enter work email"
+                                        value={employee.email}
+                                        name="email"
+                                        onChange={handleChange}
                                         className="outline outline-gray-400 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1 placeholder:text-xs w-full"
                                         />
                                     </div>
@@ -50,6 +120,9 @@ export default function CreateEmployee({onClose}) {
                                         <input
                                         type="text"
                                         placeholder="Enter contact number"
+                                        value={employee.contactNumber}
+                                        name="contactNumber"
+                                        onChange={handleChange}
                                         className="outline outline-gray-400 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1 placeholder:text-xs w-full"
                                         />
                                     </div>
@@ -63,6 +136,9 @@ export default function CreateEmployee({onClose}) {
                                         <input
                                         type="text"
                                         placeholder="Enter username"
+                                        value={employee.username}
+                                        name="username"
+                                        onChange={handleChange}
                                         className="w-full outline outline-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 my-1 placeholder:text-xs"
                                         />
                                         <p className="text-slate-400 text-xs">Enter a unique username</p>
@@ -73,6 +149,9 @@ export default function CreateEmployee({onClose}) {
                                         <input
                                         type="password"
                                         placeholder="Enter temporary password"
+                                        value={employee.password}
+                                        name="password"
+                                        onChange={handleChange}
                                         className="w-full outline outline-gray-400 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 my-1 placeholder:text-xs"
                                         />
                                         <p className="text-slate-400 text-xs">Share securely with the employee</p>
@@ -81,6 +160,9 @@ export default function CreateEmployee({onClose}) {
                                     <div className="col-span-2 flex flex-col w-full">
                                         <label className="font-medium text-sm mb-1">Role / Access *</label>
                                         <select 
+                                            value={employee.employeeRole}
+                                            name="employeeRole"
+                                            onChange={handleChange}
                                             className="w-full border border-gray-300 p-2.5 rounded-lg bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                                             <option value="STAFF">Staff</option>
                                             <option value="ADMIN">Admin</option>
@@ -103,8 +185,8 @@ export default function CreateEmployee({onClose}) {
                                 <p className="text-slate-400 text-xs">Access is granted after account creation</p>
                                 
                                 <div className="flex gap-2">
-                                    <button className="border border-gray-300 p-2 rounded-lg">Cancel</button>
-                                    <button className="bg-black text-white p-2 rounded-lg">Create Employee Account</button>
+                                    <button className="border border-gray-300 p-2 rounded-lg" type="submit" onClick={onClose}>Cancel</button>
+                                    <button className="bg-black text-white p-2 rounded-lg" type="submit">Create Employee Account</button>
                                 </div>
                             </div>
 
