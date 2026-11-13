@@ -55,8 +55,7 @@ public class EmployeeService {
 		
 		Page<Employee> page = employeeRepository.searchEmployees(query, employeeRole, workStatus, pageable);
 		
-		return employeeMapper.toPageResponse(page);
-		
+		return employeeMapper.toPageResponse(page);	
 	}
 	
 	@Transactional
@@ -99,6 +98,20 @@ public class EmployeeService {
 		
 		return employeeMapper.toResponse(employee);
 		
+	}
+	
+	@Transactional
+	public void deleteEmployee(Integer employeeId) {
+		Employee employee = employeeRepository.findById(employeeId)
+				.orElseThrow(() -> new ResourceNotFoundException(""));
+		
+		if(!employee.isActive()) {
+			throw new ResourceNotFoundException("");
+		}
+		
+		employee.setActive(false);
+		employee.setWorkStatus(WorkStatus.OFF_DUTY);
+		employeeRepository.save(employee);
 	}
 	
 	public EmployeeSummaryDTO employeeSummary() {
