@@ -2,6 +2,7 @@ import { Plus, Search, ArchiveX } from "lucide-react";
 import { useState, useEffect } from "react";
 import { employeeService } from "../services/employeeService";
 import UserSummaryCard from "../components/card/User Management/UserSummaryCard";
+import CreateEmployee from "../components/modals/CreateEmployee";
 
   function formatDate(dateString) {
     if (!dateString) return "—";
@@ -29,6 +30,8 @@ export default function UserManagement() {
     const [totalPages, setTotalPages] = useState(1);
 
     const [summary, setSummary] = useState(null);
+
+    const [createEmployee, setCreateEmployee] = useState(false);
 
       const summaryBreakdown = [
     { label: "TOTAL EMPLOYEES", count: summary?.totalEmployee, bgColor: "bg-black text-white", dotColor: "bg-violet-500", description: "Non-Archived accounts" },
@@ -78,7 +81,7 @@ export default function UserManagement() {
                             <p className="text-slate-500 text-xs sm:text-sm">Manage employee accounts, monitor status, and archive departed employees.</p>
                         </div>
                         
-                        <div className="flex items-center p-2 bg-black text-white rounded-lg gap-2 px-4">
+                        <div className="flex items-center p-2 bg-black text-white rounded-lg gap-2 px-4 cursor-pointer" onClick={() => setCreateEmployee(true)}>
                             <Plus className="h-4 w-4"/>
                             <span>Create Employee</span>
                         </div>
@@ -152,7 +155,7 @@ export default function UserManagement() {
                                     <th className="p-2">EMPLOYEE ID</th>
                                     <th className="p-2">EMPLOYEE NAME</th>
                                     <th className="p-2">USERNAME</th>
-                                    <th className="p-2">STATUS</th>
+                                    <th className="p-2">WORK STATUS</th>
                                     <th className="p-2">ROLE</th>
                                     <th className="p-2">WORK EMAIL</th>
                                     <th className="p-2">CONTACT</th>
@@ -166,8 +169,12 @@ export default function UserManagement() {
                                         <td className="p-2">{employee.employeeName}</td>
                                         <td className="p-2">{employee.username}</td>
                                         <td className="p-2">
-                                            <span className = {`text-xs ${workStatusBadges[employee.workStatus]}`}>
-                                                {employee.workStatus === "ON_DUTY" ? "On_Duty" : "Off_Duty"}
+                                            <span className = {`text-xs flex items-center justify-center gap-2 ${workStatusBadges[employee.workStatus]}`}>
+                                                {employee.workStatus === "ON_DUTY" 
+                                                ? <span className="w-2 h-2 bg-[green] rounded-full"/>
+                                                : <span className="w-2 h-2 bg-[red] rounded-full"/> }
+                                                
+                                                {employee.workStatus === "ON_DUTY" ? "ON_DUTY" : "OFF_DUTY"}
                                             </span>
                                         </td>
                                         <td className="p-2">{employee.employeeRole}</td>
@@ -203,6 +210,8 @@ export default function UserManagement() {
                     </div>
                 </div>
             </div>
+
+            {createEmployee && <CreateEmployee />}
         </>
     )
 }
