@@ -114,6 +114,21 @@ public class EmployeeService {
 		employeeRepository.save(employee);
 	}
 	
+	@Transactional
+	public EmployeeResponseDTO restoreEmployee(Integer employeeId) {
+		Employee employee = employeeRepository.findById(employeeId)
+				.orElseThrow(() -> new ResourceNotFoundException(""));
+		
+		if(employee.isActive()) {
+			throw new DuplicateResponseException("");
+		}
+		
+		employee.setActive(true);
+		employeeRepository.save(employee);
+		
+		return employeeMapper.toResponse(employee);
+	}
+	
 	public EmployeeSummaryDTO employeeSummary() {
 		long total = employeeRepository.countByIsActiveTrue();
 		long online = employeeRepository.countByWorkStatusAndIsActiveTrue(WorkStatus.ON_DUTY);

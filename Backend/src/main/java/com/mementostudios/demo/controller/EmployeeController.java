@@ -75,6 +75,11 @@ public class EmployeeController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PatchMapping("restoreEmployee/{employeeId}")
+	public ResponseEntity<EmployeeResponseDTO> restoreEmployee(@PathVariable Integer employeeId) {
+		return ResponseEntity.ok().body(employeeService.restoreEmployee(employeeId));
+	}
+	
 	@GetMapping("/summary")
 	public ResponseEntity<EmployeeSummaryDTO> getEmployeeSummary() {
 		return ResponseEntity.ok().body(employeeService.employeeSummary());
