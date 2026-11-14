@@ -44,6 +44,17 @@ export default function UserManagement() {
     ];
 
 
+    async function deleteEmployeeFunction() {
+        try {
+            await employeeService.deleteEmployee(deleteEmployee.employeeId);
+            getSummary();
+            loadEmployee();
+            setDeleteEmployee(false);
+        } catch(error) {
+            setError(error.message || "Failed to archive")
+        }
+    }
+
     async function getSummary(){
         try{
             setSummary(await employeeService.getSummary());
@@ -258,7 +269,7 @@ export default function UserManagement() {
 
                         <div className="flex gap-4 justify-center mt-4">
                             <button className="border p-2 border-gray-400 rounded-lg font-semibold cursor-pointer" onClick={() => setDeleteEmployee(false)}>Cancel</button>
-                            <button className="bg-black text-white rounded-lg p-2">Archive Employee</button>
+                            <button className="bg-black text-white rounded-lg p-2 cursor-pointer" onClick={deleteEmployeeFunction}>Archive Employee</button>
                         </div>
                     </div>
                 </div>

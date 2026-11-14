@@ -35,7 +35,7 @@ export const employeeService = {
 
   // DELETE /api/employee/{employeeId} (Soft-deletes/archives an employee)
   deleteEmployee: (employeeId) => {
-    return api.delete(`/employee/${employeeId}`);
+    return api.delete(`/employee/deleteEmployee/${employeeId}`);
   },
 
   // PATCH /api/employee/restore/{employeeId} (Restores an archived employee)
