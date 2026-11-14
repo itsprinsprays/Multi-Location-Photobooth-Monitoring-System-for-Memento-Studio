@@ -59,7 +59,7 @@ public class EmployeeController {
 			@RequestParam(required = false) String search
 		) {
 		
-		Pageable pageable = PageRequest.of(page, size, Sort.by("employeeId").ascending());
+		Pageable pageable = PageRequest.of(page, size, Sort.by("workStatus").descending().and(Sort.by("employeeId").ascending()));
 		
 		return ResponseEntity.ok().body(employeeService.getAllEmployee(pageable, employeeRole, workStatus,  search));
 	}
