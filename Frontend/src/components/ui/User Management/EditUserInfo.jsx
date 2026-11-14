@@ -22,7 +22,7 @@ export default function EditUserInfo({onClose, employee, loadEmployees}) {
     const [error, setError] = useState(null);
 
     const workStatusBadge = {
-        ON_DUTY: "bg-green-400",
+        ON_DUTY: "bg-green-200 text-green-500 rounded-full p-2",
         OFF_DUTY: "bg-red-200 text-red-500 rounded-full p-2 "
     }
 
@@ -63,7 +63,7 @@ export default function EditUserInfo({onClose, employee, loadEmployees}) {
                             <p className="text-slate-400 text-xs font-medium">Employee ID - {employee.employeeId}</p>
                         </div>
                         
-                        <p className={`${workStatusBadge[employee.workStatus]}`}>{employee.workStatus === "ON_DUTY" ? "On duty" : "Off Duty"}</p>
+                        <p className={`${workStatusBadge[employee.workStatus]}`}>{employee.workStatus === "ON_DUTY" ? "On-Duty" : "Off-Duty"}</p>
                     </div>
 
 

@@ -188,7 +188,7 @@ export default function CreateEmployee({onClose, onLoadEmployees}) {
                                     <p className="text-slate-400 text-xs">Access is granted after account creation</p>
                                 )}
                                 
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 p-2">
                                     <button className="border border-gray-300 p-2 rounded-lg" type="submit" onClick={onClose}>Cancel</button>
                                     <button className="bg-black text-white p-2 rounded-lg" type="submit">Create Employee Account</button>
                                 </div>

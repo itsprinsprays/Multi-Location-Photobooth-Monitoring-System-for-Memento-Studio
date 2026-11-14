@@ -1,4 +1,4 @@
-import { Plus, Search, ArchiveX, Pencil, Antenna } from "lucide-react";
+import { Plus, Search, ArchiveX, Pencil, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
 import { employeeService } from "../services/employeeService";
@@ -35,6 +35,7 @@ export default function UserManagement() {
 
     const [createEmployee, setCreateEmployee] = useState(false);
     const [editEmployee, setEditEmployee] = useState(false);
+    const [deleteEmployee, setDeleteEmployee] = useState(false);
 
       const summaryBreakdown = [
     { label: "TOTAL EMPLOYEES", count: summary?.totalEmployee, bgColor: "bg-black text-white", dotColor: "bg-violet-500", description: "Non-Archived accounts" },
@@ -195,15 +196,16 @@ export default function UserManagement() {
                                         <td className="p-2">{employee.email}</td> 
                                         <td className="p-2">{employee.contactNumber}</td>
                                         <td>{formatDate(employee.creationDate)}</td>
-                                        <td className="p-2">
+                                        <td className="p-2 flex gap-2">
                                             <Pencil className="border border-gray-400 rounded p-1 cursor-pointer" onClick={() => setEditEmployee(employee)}/>
+                                            <Trash2 className="border border-red-400 bg-red-100 text-red-400 rounded p-1 cursor-pointer" onClick={() => setDeleteEmployee(employee)}/>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
 
-                        <div className="flex items-center justify-between mt-2 text-sm text-slate-500 mb-4">
+                        <div className="flex items-center justify-between mt-2 text-sm text-slate-500 mb-4 px-2">
                             <p>
                                 Page <span className="font-semibold text-slate-800">{currentPage + 1}</span> of{" "}
                                 <span className="font-semibold text-slate-800">{totalPages}</span>
@@ -230,6 +232,37 @@ export default function UserManagement() {
             </div>
 
             {createEmployee && <CreateEmployee onClose={() => setCreateEmployee(false)} onLoadEmployees={loadEmployees}/>}
+            {deleteEmployee && (
+                <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
+                    <div className="bg-white p-4 rounded-xl ">
+                        <Trash2 className="w-16 h-16 rounded-full bg-[red] text-white mx-auto p-2" />
+                        <h1 className="text-[30px] font-bold text-center mt-4">Delete Employee</h1>
+                        <div className="mt-2 text-center text-sm text-slate-500 mb-2">
+                            <p>Are you sure you want to delete this employee?</p>
+                            <p>This action cannot be undone and will remove all associated data.</p>
+                        </div>
+
+                        <div className="flex gap-6 border rounded-xl border-gray-400 p-4 bg-gray-100">
+                            <div className="flex flex-col gap-2 text-slate-500 text-sm ">
+                                <p>EMPLOYEE ID</p>
+                                <p>EMPLOYEE NAME</p>
+                                <p>EMPLOYEE ROLE</p>
+                            </div>
+
+                            <div className="flex flex-col gap-2 text-sm font-semibold">
+                                <p>{deleteEmployee.employeeId}</p>
+                                <p>{deleteEmployee.employeeName}</p>
+                                <p>{deleteEmployee.employeeRole}</p>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-4 justify-center mt-4">
+                            <button className="border p-2 border-gray-400 rounded-lg font-semibold cursor-pointer" onClick={() => setDeleteEmployee(false)}>Cancel</button>
+                            <button className="bg-black text-white rounded-lg p-2">Archive Employee</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }
