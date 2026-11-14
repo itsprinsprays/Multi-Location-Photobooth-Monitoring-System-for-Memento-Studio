@@ -1,8 +1,10 @@
-import { Plus, Search, ArchiveX } from "lucide-react";
+import { Plus, Search, ArchiveX, Pencil, Antenna } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom"
 import { employeeService } from "../services/employeeService";
 import UserSummaryCard from "../components/card/User Management/UserSummaryCard";
 import CreateEmployee from "../components/modals/CreateEmployee";
+import EditUserInfo from "../components/ui/User Management/EditUserInfo";
 
   function formatDate(dateString) {
     if (!dateString) return "—";
@@ -32,6 +34,7 @@ export default function UserManagement() {
     const [summary, setSummary] = useState(null);
 
     const [createEmployee, setCreateEmployee] = useState(false);
+    const [editEmployee, setEditEmployee] = useState(false);
 
       const summaryBreakdown = [
     { label: "TOTAL EMPLOYEES", count: summary?.totalEmployee, bgColor: "bg-black text-white", dotColor: "bg-violet-500", description: "Non-Archived accounts" },
@@ -77,7 +80,12 @@ export default function UserManagement() {
     return(
         <>
             <div className="p-5">
+                {editEmployee && <EditUserInfo 
+                onClose={() => setEditEmployee(false)}
+                employee={editEmployee}
+                />}
 
+                {!editEmployee && (
                 <div className="flex flex-col gap-4">
 
                     <div className="flex flex justify-between items-center">
@@ -100,7 +108,6 @@ export default function UserManagement() {
                             bgColor={item.bgColor}
                             dotColor={item.dotColor}
                             description={item.description}/>
-
                         ))}
                     </div>
 
@@ -165,6 +172,7 @@ export default function UserManagement() {
                                     <th className="p-2">WORK EMAIL</th>
                                     <th className="p-2">CONTACT</th>
                                     <th className="p-2">CREATION DATE</th>
+                                    <th className="p-2">ACTION</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-300">
@@ -186,6 +194,9 @@ export default function UserManagement() {
                                         <td className="p-2">{employee.email}</td> 
                                         <td className="p-2">{employee.contactNumber}</td>
                                         <td>{formatDate(employee.creationDate)}</td>
+                                        <td className="p-2">
+                                            <Pencil className="border border-gray-400 rounded p-1 cursor-pointer" onClick={() => setEditEmployee(employee)}/>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -214,6 +225,7 @@ export default function UserManagement() {
 
                     </div>
                 </div>
+                )}
             </div>
 
             {createEmployee && <CreateEmployee onClose={() => setCreateEmployee(false)} onLoadEmployees={loadEmployees}/>}

@@ -61,7 +61,7 @@ export default function CreateEmployee({onClose, onLoadEmployees}) {
             if(onLoadEmployees) onLoadEmployees();
             onClose();
         } catch(error) {
-            setError(error || "Failed to Create Employee")
+            setError(error.message || "Failed to Create Employee")
         }
     
    }
@@ -182,7 +182,11 @@ export default function CreateEmployee({onClose, onLoadEmployees}) {
                             <hr className="border-gray-300"/>
                             
                             <div className="p-4 flex flex-col-reverse sm:flex-row justify-between items-center gap-3">
-                                <p className="text-slate-400 text-xs">Access is granted after account creation</p>
+                                {error ? (
+                                    <p className="text-red-500 text-xs font-medium">{error}</p>
+                                ) : (
+                                    <p className="text-slate-400 text-xs">Access is granted after account creation</p>
+                                )}
                                 
                                 <div className="flex gap-2">
                                     <button className="border border-gray-300 p-2 rounded-lg" type="submit" onClick={onClose}>Cancel</button>
