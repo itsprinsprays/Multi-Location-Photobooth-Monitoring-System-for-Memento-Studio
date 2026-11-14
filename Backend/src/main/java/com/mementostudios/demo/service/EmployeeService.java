@@ -79,15 +79,21 @@ public class EmployeeService {
 		}
 		
 		if(dto.getEmail() != null) {
-			if(employeeRepository.existsByEmail(dto.getEmail())) 
-				throw new DuplicateResponseException("Work Email " + dto.getEmail() + " is existing");
-			employee.setEmail(dto.getEmail());
+		    if(!dto.getEmail().equalsIgnoreCase(employee.getEmail())) {
+		        if(employeeRepository.existsByEmail(dto.getEmail())) {
+		            throw new DuplicateResponseException("Work Email " + dto.getEmail() + " is existing");
+		        }
+		    }
+		    employee.setEmail(dto.getEmail());
 		}
 		
 		if(dto.getContactNumber() != null) {
-			if(employeeRepository.existsByContactNumber(dto.getContactNumber()))
-				throw new DuplicateResponseException("Contact Number " + dto.getContactNumber() + " is existing");
-			employee.setContactNumber(dto.getContactNumber());
+		    if(!dto.getContactNumber().equals(employee.getContactNumber())) {
+		        if(employeeRepository.existsByContactNumber(dto.getContactNumber())) {
+		            throw new DuplicateResponseException("Contact Number " + dto.getContactNumber() + " is existing");
+		        }
+		    }
+		    employee.setContactNumber(dto.getContactNumber());
 		}
 		
 		if(dto.getEmployeeRole() != null) {
