@@ -30,7 +30,7 @@ export const employeeService = {
 
   // PATCH /api/employee/updateInfo/{employeeId}
   updateEmployeeInfo: (employeeId, employeeData) => {
-    return api.patch(`/employee/updateInfo/${employeeId}`, employeeData);
+    return api.patch(`/employee/updateEmployee/${employeeId}`, employeeData);
   },
 
   // DELETE /api/employee/{employeeId} (Soft-deletes/archives an employee)

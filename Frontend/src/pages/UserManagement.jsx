@@ -83,6 +83,7 @@ export default function UserManagement() {
                 {editEmployee && <EditUserInfo 
                 onClose={() => setEditEmployee(false)}
                 employee={editEmployee}
+                loadEmployees={loadEmployees}
                 />}
 
                 {!editEmployee && (
