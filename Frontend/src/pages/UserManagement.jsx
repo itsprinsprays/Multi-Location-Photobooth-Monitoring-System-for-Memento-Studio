@@ -29,13 +29,14 @@ export default function UserManagement() {
     const [selectedStatus, setSelectedStatus] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(1);
+    const [totalPages, setTotalPages] = useState(1); 
 
     const [summary, setSummary] = useState(null);
 
     const [createEmployee, setCreateEmployee] = useState(false);
     const [editEmployee, setEditEmployee] = useState(false);
     const [deleteEmployee, setDeleteEmployee] = useState(false);
+    const [deleteNotification, setDeleteNotification] = useState(null);
 
       const summaryBreakdown = [
     { label: "TOTAL EMPLOYEES", count: summary?.totalEmployee, bgColor: "bg-black text-white", dotColor: "bg-violet-500", description: "Non-Archived accounts" },
@@ -46,10 +47,19 @@ export default function UserManagement() {
 
     async function deleteEmployeeFunction() {
         try {
+            const idToDelete = deleteEmployee.employeeId;
+
             await employeeService.deleteEmployee(deleteEmployee.employeeId);
             getSummary();
             loadEmployee();
             setDeleteEmployee(false);
+
+            setDeleteNotification(idToDelete);
+
+            setTimeout(() => {
+                setDeleteNotification(null);
+            }, 3000); 
+
         } catch(error) {
             setError(error.message || "Failed to archive")
         }
@@ -238,6 +248,12 @@ export default function UserManagement() {
                         </div>
 
                     </div>
+
+                    {deleteNotification && (
+                        <div>
+                            <p className="text-red-500">Employee ID {deleteNotification} Deleted Succesfully</p>
+                        </div>
+                    )}
                 </div>
                 )}
             </div>
