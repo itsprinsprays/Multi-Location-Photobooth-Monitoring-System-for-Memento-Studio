@@ -17,6 +17,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	boolean existsByContactNumber(String number);
 	boolean existsByEmail(String email);
 	long countByIsActiveTrue();
+	long countByIsActiveFalse();
 	long countByWorkStatusAndIsActiveTrue(WorkStatus workStatus);
 	
 	@Query("""

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mementostudios.demo.dto.PageResponseDTO;
+import com.mementostudios.demo.dto.employee.ArchiveEmployeeSummaryDTO;
 import com.mementostudios.demo.dto.employee.CreateEmployeeRequestDTO;
 import com.mementostudios.demo.dto.employee.EmployeeResponseDTO;
 import com.mementostudios.demo.dto.employee.EmployeeSummaryDTO;
@@ -141,6 +142,12 @@ public class EmployeeService {
 		long offline = employeeRepository.countByWorkStatusAndIsActiveTrue(WorkStatus.OFF_DUTY);
 		
 		return new EmployeeSummaryDTO(total, online, offline);
+	}
+	
+	public ArchiveEmployeeSummaryDTO archiveEmployeeSummary() {
+		long total = employeeRepository.countByIsActiveFalse();
+		
+		return new ArchiveEmployeeSummaryDTO(total);
 	}
 	
 

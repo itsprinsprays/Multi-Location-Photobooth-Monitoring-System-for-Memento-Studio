@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mementostudios.demo.dto.PageResponseDTO;
+import com.mementostudios.demo.dto.employee.ArchiveEmployeeSummaryDTO;
 import com.mementostudios.demo.dto.employee.CreateEmployeeRequestDTO;
 import com.mementostudios.demo.dto.employee.EmployeeResponseDTO;
 import com.mementostudios.demo.dto.employee.EmployeeSummaryDTO;
@@ -83,6 +84,11 @@ public class EmployeeController {
 	@GetMapping("/summary")
 	public ResponseEntity<EmployeeSummaryDTO> getEmployeeSummary() {
 		return ResponseEntity.ok().body(employeeService.employeeSummary());
+	}
+	
+	@GetMapping("/archiveSummary")
+	public ResponseEntity<ArchiveEmployeeSummaryDTO> getArchiveEmployeeSummary() {
+		return ResponseEntity.ok().body(employeeService.archiveEmployeeSummary());
 	}
 	
 	
