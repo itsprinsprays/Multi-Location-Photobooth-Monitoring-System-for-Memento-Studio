@@ -1,7 +1,24 @@
 import { ArrowLeft, Search } from "lucide-react";
-
+import { useState, useEffect } from "react";
+import { employeeService } from "../../../services/employeeService";
 
 export default function EmployeeArchived() {
+
+    const [error, setError] = useState(null);
+    const [summary, setSummary] = useState("");
+
+    async function archivedSummary() {
+        try {
+           setSummary(await employeeService.getArchiveSummary());
+        } catch(error) {
+            setError(error.message || "Summary failed to fetch")
+        }
+    }
+
+    useEffect(() => {
+        archivedSummary();
+    }, [])
+
     return(
         <>
             <div className="p-4 flex flex-col gap-6">
@@ -21,7 +38,7 @@ export default function EmployeeArchived() {
                 <div className="flex gap-16 p-6 border rounded-lg border-gray-400">
                     <div className="">
                         <p className="text-sm text-slate-500 tracking-wide font-semibold text-xs">ARCHIVED EMPLOYEES</p>
-                        <p className="font-bold text-xl">2</p>
+                        <p className="font-bold text-xl">{summary?.total}</p>
                     </div>
 
                     <div>
@@ -44,7 +61,7 @@ export default function EmployeeArchived() {
 
                     <div className="flex justify-between p-4">
                         <p className="font-semibold">Former employee records</p>
-                        <p>employees</p>
+                        <p className="bg-gray-200 p-1 rounded-full">{summary?.total} employees</p>
                     </div>
 
                     <table className="w-full text-left border border-gray-400 ">

@@ -7,6 +7,10 @@ export const employeeService = {
     return api.get("/employee/summary");
   },
 
+  getArchiveSummary: () => {
+    return api.get("/employee/archiveSummary");
+  },
+
   // GET /api/employee/allEmployee?page=0&size=10&role=...&search=...
   getAllEmployees: (page = 0, size = 10, employeeRole = null, workStatus = null, search = "") => {
     let query = `/employee/allEmployee?page=${page}&size=${size}`;
