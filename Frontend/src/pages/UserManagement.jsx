@@ -172,10 +172,10 @@ export default function UserManagement() {
                             </select>
                         </div>
 
-                        <div className="flex items-center bg-red-500 text-white p-2 rounded-lg gap-2">
+                        <Link to="/archived-employee" className="flex items-center bg-red-500 text-white p-2 rounded-lg gap-2">
                             <ArchiveX className="w-5 h-5"/>
                             <span>Archived Employees</span>
-                        </div>
+                        </Link>
                     </div>
 
                     <div className="border rounded-xl border-gray-400">

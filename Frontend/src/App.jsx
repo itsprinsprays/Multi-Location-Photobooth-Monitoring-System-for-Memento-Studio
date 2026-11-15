@@ -4,6 +4,7 @@ import BoothManagement from './pages/BoothManagement'
 import Layout from './components/layout/Layout'
 import BoothArchived from './components/ui/Booth Management/BoothArchived'
 import UserManagement from './pages/UserManagement'
+import EmployeeArchived from './components/ui/User Management/EmployeeArchived'
 
 export default function App() {
   return (
@@ -15,6 +16,8 @@ export default function App() {
         <Route path="/archived-booths" element={<BoothArchived />}/>
 
         <Route path="/user-management" element={<UserManagement />}/>
+        <Route path="/archived-employee" element={<EmployeeArchived />}/>
+
       </Route>
     </Routes>
   )
