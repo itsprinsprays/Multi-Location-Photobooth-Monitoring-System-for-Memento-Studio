@@ -150,6 +150,15 @@ public class EmployeeService {
 		return new ArchiveEmployeeSummaryDTO(total);
 	}
 	
+	@Transactional
+	public PageResponseDTO<EmployeeResponseDTO> getAllArchiveEmployee(Pageable pageable, String search) {
+		String query = (search != null && !search.trim().isEmpty()) ? search.trim() : null;
+		
+		Page<Employee> page = employeeRepository.searchArchivedEmployee(query, pageable);
+		
+		return employeeMapper.toPageResponse(page);	
+	}
+	
 
 	
 	

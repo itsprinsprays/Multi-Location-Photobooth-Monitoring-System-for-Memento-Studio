@@ -37,4 +37,21 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 		    @Param("workStatus") WorkStatus status,
 		    Pageable pageable
 		);
+	
+	@Query("""
+	        SELECT e FROM Employee e
+	        WHERE e.isActive = false
+	          AND (:keyword IS NULL OR :keyword = '' OR
+	               LOWER(e.employeeName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR
+	               CAST(e.employeeId AS string) LIKE CONCAT('%', :keyword, '%'))
+	        """)
+	Page<Employee> searchArchivedEmployee(
+	        @Param("keyword") String keyword,
+	        Pageable pageable
+	);
+	
+	
+	
+	
+	
 }

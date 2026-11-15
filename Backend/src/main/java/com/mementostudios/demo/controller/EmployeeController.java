@@ -65,6 +65,17 @@ public class EmployeeController {
 		return ResponseEntity.ok().body(employeeService.getAllEmployee(pageable, employeeRole, workStatus,  search));
 	}
 	
+	@GetMapping("/archiveEmployee")
+	public ResponseEntity<PageResponseDTO<EmployeeResponseDTO>> getArchiveEmployee(
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size,
+			@RequestParam(required = false) String search) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		
+		return ResponseEntity.ok().body(employeeService.getAllArchiveEmployee(pageable, search));
+	}
+	
 	@PatchMapping("/updateEmployee/{employeeId}")
 	public ResponseEntity<EmployeeResponseDTO> updateEmployeeInformation(@Valid @RequestBody UpdateEmployeeInfoRequestDTO dto, @PathVariable Integer employeeId){
 		return ResponseEntity.ok().body(employeeService.updateEmployeeInfo(dto, employeeId));	
