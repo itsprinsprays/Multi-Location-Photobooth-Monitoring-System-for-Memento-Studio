@@ -1,6 +1,7 @@
-import { ArrowLeft, Search } from "lucide-react";
+import { ArrowLeft, Search, RotateCcw } from "lucide-react";
 import { useState, useEffect } from "react";
 import { employeeService } from "../../../services/employeeService";
+import { Link } from "react-router-dom"
 
 export default function EmployeeArchived() {
 
@@ -8,7 +9,7 @@ export default function EmployeeArchived() {
     const [summary, setSummary] = useState("");
     const [archiveEmployee, setArchiveEmployee] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-        const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1); 
 
     async function archivedSummary() {
@@ -25,7 +26,7 @@ export default function EmployeeArchived() {
 
     async function archiveEmployeeFunction() {
         try {
-            const data = await employeeService.getAllArchiveEmployees(currentPage, 1, searchTerm);
+            const data = await employeeService.getAllArchiveEmployees(currentPage, 5, searchTerm);
             setArchiveEmployee(data.content || [])
             setTotalPages(data.totalPages || 1);
         } catch(error) {
@@ -35,7 +36,7 @@ export default function EmployeeArchived() {
 
     useEffect(() => {
         archiveEmployeeFunction();
-    }, [currentPage])
+    }, [currentPage, searchTerm])
 
     return(
         <>
@@ -47,10 +48,10 @@ export default function EmployeeArchived() {
                         <p className="text-slate-500 text-xs sm:text-sm">View archived records of employees who have left the company.</p>
                     </div>
 
-                    <button className="flex items-center p-4 border border-gray-400 rounded-lg gap-1">
+                    <Link to="/user-management" className="flex items-center p-4 border border-gray-400 rounded-lg gap-1">
                         <ArrowLeft className="h-5 w-5"/>
                          <span className="font-semibold">User Management</span>
-                    </button>
+                    </Link>
                 </div>
 
                 <div className="flex gap-16 p-6 border rounded-lg border-gray-400">
@@ -71,6 +72,11 @@ export default function EmployeeArchived() {
                     <input 
                     type="text" 
                     placeholder="Search Employee ID or Name"
+                    value={searchTerm}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setCurrentPage(0);
+                    }}
                     className="w-full"
                     />
                 </div>
@@ -100,7 +106,10 @@ export default function EmployeeArchived() {
                                 <td className="p-4">{employee.email}</td>
                                 <td className="p-4">{employee.contactNumber}</td>
                                 <td className="p-4">
-                                    <button>Restore</button>
+                                    <button className="flex items-center gap-1 p-2 rounded-lg bg-black text-white">
+                                        <RotateCcw className="w-4 h-4"/>
+                                        <span>Restore</span>
+                                    </button>
                                 </td>
                             </tr>
                         ))}
