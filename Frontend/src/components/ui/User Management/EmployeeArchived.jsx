@@ -8,6 +8,8 @@ export default function EmployeeArchived() {
     const [summary, setSummary] = useState("");
     const [archiveEmployee, setArchiveEmployee] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+        const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(1); 
 
     async function archivedSummary() {
         try {
@@ -23,8 +25,9 @@ export default function EmployeeArchived() {
 
     async function archiveEmployeeFunction() {
         try {
-            const data = await employeeService.getAllArchiveEmployees(0, 5, searchTerm);
+            const data = await employeeService.getAllArchiveEmployees(currentPage, 1, searchTerm);
             setArchiveEmployee(data.content || [])
+            setTotalPages(data.totalPages || 1);
         } catch(error) {
             setError(error.message || "Failed to Fetch")
         }
@@ -32,7 +35,7 @@ export default function EmployeeArchived() {
 
     useEffect(() => {
         archiveEmployeeFunction();
-    }, [])
+    }, [currentPage])
 
     return(
         <>
@@ -105,10 +108,27 @@ export default function EmployeeArchived() {
                         </tbody>
 
                     </table>
-                    <div className="flex justify-between p-4 bg-gray-200">
-                        <p>Showing archived employees</p>
-                        <p>Employee history retained</p>
-                    </div>
+                        <div className="flex items-center justify-between mt-2 text-sm text-slate-500 mb-4 px-2">
+                            <p>
+                                Page <span className="font-semibold text-slate-800">{currentPage + 1}</span> of{" "}
+                                <span className="font-semibold text-slate-800">{totalPages}</span>
+                            </p>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
+                                    disabled={currentPage === 0}
+                                    className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700">
+                                    Previous
+                                </button>
+                                <button
+                                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                                    disabled={currentPage >= totalPages - 1}
+                                    className="px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition font-medium text-slate-700">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+
 
                 </div>
 
