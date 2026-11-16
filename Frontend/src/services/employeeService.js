@@ -52,7 +52,7 @@ export const employeeService = {
 
   // PATCH /api/employee/restore/{employeeId} (Restores an archived employee)
   restoreEmployee: (employeeId) => {
-    return api.patch(`/employee/restore/${employeeId}`);
+    return api.patch(`/employee/restoreEmployee/${employeeId}`);
   },
 
   // GET /api/employee/allDeletedEmployee?page=0&size=5

@@ -12,6 +12,17 @@ export default function EmployeeArchived() {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1); 
 
+    async function restoreEmployee(employeeId) {
+        try {
+            setError(null);
+            await employeeService.restoreEmployee(employeeId);
+            await archiveEmployeeFunction();
+            await archivedSummary();
+        } catch(error) {
+            setError(error.message || "Restore Failed");
+        }
+    }
+
     async function archivedSummary() {
         try {
            setSummary(await employeeService.getArchiveSummary());
@@ -99,21 +110,28 @@ export default function EmployeeArchived() {
                             </tr>
                         </thead>
                         <tbody className="divide-y  divide-gray-400">
-                        {archiveEmployee.map((employee) => (
-                            <tr key={employee.employeeId} className="hover:bg-gray-200">
-                                <td className="p-4">{employee.employeeId}</td>
-                                <td className="p-4">{employee.employeeName}</td>
-                                <td className="p-4">{employee.email}</td>
-                                <td className="p-4">{employee.contactNumber}</td>
-                                <td className="p-4">
-                                    <button className="flex items-center gap-1 p-2 rounded-lg bg-black text-white">
-                                        <RotateCcw className="w-4 h-4"/>
-                                        <span>Restore</span>
-                                    </button>
+                        {archiveEmployee.length === 0 ? (
+                            <tr>
+                                <td colSpan="5" className="p-8 text-center text-slate-500">
+                                    No archived employees found.
                                 </td>
                             </tr>
-                        ))}
-
+                        ) : (
+                            archiveEmployee.map((employee) => (
+                                <tr key={employee.employeeId} className="hover:bg-gray-200">
+                                    <td className="p-4">{employee.employeeId}</td>
+                                    <td className="p-4">{employee.employeeName}</td>
+                                    <td className="p-4">{employee.email}</td>
+                                    <td className="p-4">{employee.contactNumber}</td>
+                                    <td className="p-4">
+                                        <button className="flex items-center gap-1 p-2 rounded-lg bg-black text-white" onClick={() => restoreEmployee(employee.employeeId)}>
+                                            <RotateCcw className="w-4 h-4"/>
+                                            <span>Restore</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                         </tbody>
 
                     </table>
@@ -140,6 +158,12 @@ export default function EmployeeArchived() {
 
 
                 </div>
+
+                {error && (
+                    <div className="p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg text-sm">
+                        {error}
+                    </div>
+                )}
 
             </div>
         </>

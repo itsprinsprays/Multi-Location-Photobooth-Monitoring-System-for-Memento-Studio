@@ -23,7 +23,6 @@ export default function BoothArchived() {
     const [totalPages, setTotalPages] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
 
-    // Modal & feedback state
     const [boothToRestore, setBoothToRestore] = useState(null);
     const [restoring, setRestoring] = useState(false);
     const [restoreError, setRestoreError] = useState("");
