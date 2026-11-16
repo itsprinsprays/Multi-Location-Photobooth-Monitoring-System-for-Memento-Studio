@@ -22,6 +22,14 @@ export const employeeService = {
     return api.get(query);
   },
 
+  getAllArchiveEmployees: (page = 0, size = 5, search = "") => {
+    let query = `/employee/archiveEmployee?page=${page}&size=${size}`;
+    if (search && search.trim() !== "") {
+      query += `&search=${encodeURIComponent(search.trim())}`;
+    }
+    return api.get(query);
+  },
+
   // GET /api/employee/{employeeId}
   getEmployeeById: (employeeId) => {
     return api.get(`/employee/${employeeId}`);

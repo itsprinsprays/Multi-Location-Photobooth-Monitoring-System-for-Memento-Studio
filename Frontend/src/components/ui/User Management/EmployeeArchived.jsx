@@ -6,6 +6,8 @@ export default function EmployeeArchived() {
 
     const [error, setError] = useState(null);
     const [summary, setSummary] = useState("");
+    const [archiveEmployee, setArchiveEmployee] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
     async function archivedSummary() {
         try {
@@ -17,6 +19,19 @@ export default function EmployeeArchived() {
 
     useEffect(() => {
         archivedSummary();
+    }, [])
+
+    async function archiveEmployeeFunction() {
+        try {
+            const data = await employeeService.getAllArchiveEmployees(0, 5, searchTerm);
+            setArchiveEmployee(data.content || [])
+        } catch(error) {
+            setError(error.message || "Failed to Fetch")
+        }
+    }
+
+    useEffect(() => {
+        archiveEmployeeFunction();
     }, [])
 
     return(
@@ -57,7 +72,7 @@ export default function EmployeeArchived() {
                     />
                 </div>
 
-                <div className="border rounded-lg border-gray-400 py-2">
+                <div className="border rounded-lg border-gray-400 overflow-hidden">
 
                     <div className="flex justify-between p-4">
                         <p className="font-semibold">Former employee records</p>
@@ -66,7 +81,7 @@ export default function EmployeeArchived() {
 
                     <table className="w-full text-left border border-gray-400 ">
                         <thead>
-                            <tr className="text-xs border-y-1 border-gray-400 bg-gray-200">
+                            <tr className="text-xs border-y-1 border-gray-400 bg-gray-200 text-slate-500">
                                 <th className="p-2">EMPLOYEE ID</th>
                                 <th className="p-2">EMPLOYEE NAME</th>
                                 <th className="p-2">WORK EMAIL</th>
@@ -74,8 +89,26 @@ export default function EmployeeArchived() {
                                 <th className="p-2">ACTION</th>
                             </tr>
                         </thead>
-                    </table>
+                        <tbody className="divide-y  divide-gray-400">
+                        {archiveEmployee.map((employee) => (
+                            <tr key={employee.employeeId} className="hover:bg-gray-200">
+                                <td className="p-4">{employee.employeeId}</td>
+                                <td className="p-4">{employee.employeeName}</td>
+                                <td className="p-4">{employee.email}</td>
+                                <td className="p-4">{employee.contactNumber}</td>
+                                <td className="p-4">
+                                    <button>Restore</button>
+                                </td>
+                            </tr>
+                        ))}
 
+                        </tbody>
+
+                    </table>
+                    <div className="flex justify-between p-4 bg-gray-200">
+                        <p>Showing archived employees</p>
+                        <p>Employee history retained</p>
+                    </div>
 
                 </div>
 
