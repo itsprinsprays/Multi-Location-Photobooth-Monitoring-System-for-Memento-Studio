@@ -5,11 +5,13 @@ import Layout from './components/layout/Layout'
 import BoothArchived from './components/ui/Booth Management/BoothArchived'
 import UserManagement from './pages/UserManagement'
 import EmployeeArchived from './components/ui/User Management/EmployeeArchived'
+import Login from './pages/Login'
+
 
 export default function App() {
   return (
       <Routes>
-      {/* <Route path="/" element={<Login />} /> */}
+      <Route path="/" element={<Login />} />
 
       <Route element={<Layout />}>
         <Route path="/booth-fleet-management" element={<BoothManagement />} />
