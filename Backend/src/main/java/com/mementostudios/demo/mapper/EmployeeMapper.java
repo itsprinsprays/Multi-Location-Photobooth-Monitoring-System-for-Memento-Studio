@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.mementostudios.demo.dto.PageResponseDTO;
@@ -13,6 +14,12 @@ import com.mementostudios.demo.entity.Employee.Employee;
 
 @Component
 public class EmployeeMapper {
+	
+	private final PasswordEncoder passwordEncoder;
+	
+	public EmployeeMapper(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
 	
 	public Employee toEntity(CreateEmployeeRequestDTO dto) {
 		if (dto == null) {
@@ -25,6 +32,7 @@ public class EmployeeMapper {
 		employee.setEmail(dto.getEmail());
 		employee.setContactNumber(dto.getContactNumber());
 		employee.setEmployeeRole(dto.getEmployeeRole());
+		employee.setPassword(passwordEncoder.encode(dto.getPassword()));
 		
 		return employee;
 	}
