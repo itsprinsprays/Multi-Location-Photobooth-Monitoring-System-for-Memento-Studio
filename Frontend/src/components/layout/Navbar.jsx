@@ -1,12 +1,16 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { MapPin, LayoutDashboard, ChartNoAxesCombined, Clock4, TrendingUp, UsersRound, Settings, LogOut } from "lucide-react";
 import  logo  from "../../assets/logo.svg"
-
+import { authService } from "../../services/authService";
 import Logo from "../ui/Logo"
 
 export default function Navbar() {
 
+    const user = authService.getCurrentUser();
     const location = useLocation();
+    const isAdmin = user?.role === "ADMIN";
+
+
 
     const isBoothSection = 
         location.pathname.startsWith("/booth-fleet-management") || 
@@ -52,18 +56,22 @@ export default function Navbar() {
                             <Clock4 />
                             <span className="hidden sm:inline"> Sessions</span>
                         </NavLink>
-
+                        
+                        {isAdmin && (
                         <NavLink to=""
                         className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
                             <TrendingUp />
                             <span className="hidden sm:inline">Revenue</span>
                         </NavLink>
+                        )}
 
+                        {isAdmin && (
                         <NavLink to="/user-management"
                         className="w-full flex flex-row items-center justify-center sm:justify-start gap-2 transitions-color duration-100 hover:bg-black hover:text-white p-2 rounded-xl">
                             <UsersRound />
                             <span className="hidden sm:inline">Users</span>
                         </NavLink>
+                        )}
                     </nav>
 
                     <div>
@@ -83,21 +91,26 @@ export default function Navbar() {
                                 </div> 
 
                                 <div className="hidden sm:block">
-                                    <p className="font-semibold truncate">Prince Benitez</p>
-                                    <p className="text-gray-400 text-xs truncate">Administrator</p>
+                                    <p className="font-semibold truncate">{user?.employeeName}</p>
+                                    <p className="text-gray-500 text-xs truncate font-semibold">{user?.role}</p>
                                 </div>
 
                             </div>
 
                             <button className="hidden sm:block cursor-pointer">
-                                    <LogOut className="p-1 text-red-500 hover:text-red-700 w-7 h-7" />
+                                    <LogOut
+                                     onClick={authService.logout}
+                                     className="p-1 text-red-500 hover:text-red-700 w-7 h-7" />
                                 </button>
                             
-
                         </div>
+
+                        {/*Mobile Logout Button */}
                         <div className="flex sm:hidden justify-center pb-4">
                             <button className="cursor-pointer p-2 hover:bg-red-50 rounded-lg">
-                                <LogOut className="text-red-500 w-5 h-5" />
+                                <LogOut 
+                                onClick={authService.logout}
+                                className="text-red-500 w-5 h-5" />
                             </button>
                         </div>
                     </div>
