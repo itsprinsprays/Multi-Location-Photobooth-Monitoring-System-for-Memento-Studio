@@ -1,20 +1,43 @@
 // src/services/api.js
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
+
 async function request(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`;
+  
+  // 1. Get the accessToken from localStorage if it exists
+  const token = localStorage.getItem("accessToken");
+
+  const headers = {
+    "Content-Type": "application/json",
+    ...options.headers,
+  };
+
+  // 2. Automatically attach Bearer token to all requests
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
   const config = {
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
+    headers,
     ...options,
   };
+
   try {
     const response = await fetch(url, config);
-    // If response is 204 No Content (e.g. DELETE)
+
+    // If 401 Unauthorized (token expired or invalid), auto-logout
+    if (response.status === 401) {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
+      window.location.href = "/";
+      return null;
+    }
+
     if (response.status === 204) {
       return null;
     }
+
     const data = await response.json();
     if (!response.ok) {
       throw new Error(data.message || `Request failed with status ${response.status}`);
