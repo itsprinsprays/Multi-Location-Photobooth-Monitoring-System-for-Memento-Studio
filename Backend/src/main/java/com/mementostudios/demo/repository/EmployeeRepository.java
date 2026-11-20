@@ -50,6 +50,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	        Pageable pageable
 	);
 	
+	Optional<Employee> findByUsername(String username);
+	
 	
 	
 	

@@ -35,11 +35,11 @@ public class Employee {
 	@Column(name = "username", nullable = false, unique = true)
 	private String username;
 	
+	@Column(name = "password_hash")
+	private String password;
+	
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
-	
-	@Column(name = "password_hash")
-	private String passwordHash;
 	
 	@Column(name = "contact_number")
 	private String contactNumber;
@@ -70,6 +70,7 @@ public class Employee {
 	public Integer getEmployeeId() { return employeeId; }
 	public String getEmployeeName() { return employeeName; }
 	public String getUsername() { return username; }
+	public String getPassword() { return password; }
 	public String getEmail() { return email; }
 	public String getContactNumber() { return contactNumber; }
 	public boolean isActive() { return isActive; }
@@ -83,6 +84,7 @@ public class Employee {
 	public void setEmployeeId(Integer employeeId) { this.employeeId = employeeId; }
 	public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
 	public void setUsername(String username) { this.username = username; }
+	public void setPassword(String password) { this.password = password; }
 	public void setEmail(String email) { this.email = email; }
 	public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
 	public void setActive(boolean active) { this.isActive = active; }
