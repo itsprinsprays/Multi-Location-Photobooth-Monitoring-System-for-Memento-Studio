@@ -31,7 +31,7 @@ public class AuthService {
 		Employee employee = employeeRepository.findByUsername(dto.getUsername())
 				.orElseThrow(() -> new ResourceNotFoundException("User not Found: " + dto.getUsername()));
 		
-		String accessToken = jwtUtil.generateToken(employee.getUsername(), employee.getPassword(), employee.getEmployeeId());
+		String accessToken = jwtUtil.generateToken(employee.getUsername(), employee.getEmployeeRole().name(), employee.getEmployeeId());
 		
 		String refreshToken = jwtUtil.refreshGenerateToken(employee.getUsername());
 		

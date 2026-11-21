@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 
 @RestControllerAdvice
 public class GlobalException {
@@ -21,6 +23,9 @@ public class GlobalException {
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 	}
 	
+	
+	
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException e) {
 		// Extracts the first validation error message you defined in CreateBoothRequestDTO
@@ -30,6 +35,12 @@ public class GlobalException {
 				.orElse("Validation error occurred");
 		ErrorResponse error = new ErrorResponse(errorMessage, HttpStatus.BAD_REQUEST.value());
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler({BadCredentialsException.class, InternalAuthenticationServiceException.class})
+	public ResponseEntity<ErrorResponse> handleBadCredentials(Exception e) {
+	    ErrorResponse error = new ErrorResponse("Invalid username or password", HttpStatus.UNAUTHORIZED.value());
+	    return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
 	}
 
 }

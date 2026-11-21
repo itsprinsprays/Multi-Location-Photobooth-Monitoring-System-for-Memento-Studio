@@ -19,6 +19,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	long countByIsActiveTrue();
 	long countByIsActiveFalse();
 	long countByWorkStatusAndIsActiveTrue(WorkStatus workStatus);
+	Optional<Employee> findByEmployeeIdAndIsActiveTrue(Integer employeeId);
 	
 	@Query("""
 		    SELECT e FROM Employee e

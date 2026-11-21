@@ -1,5 +1,9 @@
 package com.mementostudios.demo.entity;
 
+import java.time.LocalDate;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.mementostudios.demo.entity.Booth.Booth;
 import com.mementostudios.demo.entity.Employee.Employee;
 
@@ -22,6 +26,10 @@ public class BoothAssignment {
 	@Column(name = "assignment_id")
 	private Integer assignmentId;
 	
+	@CreationTimestamp
+	@Column(name = "creation_date")
+	private LocalDate creationDate;
+	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "booth_id", nullable = false)
 	private Booth booth;
@@ -33,6 +41,7 @@ public class BoothAssignment {
 	public BoothAssignment() {}
 	
 	public Integer getAssignmentId() { return assignmentId; }
+	public LocalDate getCreationDate() { return creationDate; }
 	public Booth getBooth() { return booth; }
 	public Employee getEmployee() { return employee; }
 	
