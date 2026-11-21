@@ -23,26 +23,31 @@ async function request(endpoint, options = {}) {
   };
 
   try {
-    const response = await fetch(url, config);
-
-    // If 401 Unauthorized (token expired or invalid), auto-logout
-    if (response.status === 401) {
+const response = await fetch(url, config);
+    // 1. If 401 on protected routes (expired token), auto-logout (skip if it's the login endpoint)
+    if (response.status === 401 && !endpoint.includes("/auth/login")) {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("user");
       window.location.href = "/";
       return null;
     }
-
     if (response.status === 204) {
       return null;
     }
-
-    const data = await response.json();
+    // 2. Safely read text first so empty responses never crash .json()
+    const text = await response.text();
+    let data;
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch {
+      data = { message: text || `Request failed with status ${response.status}` };
+    }
     if (!response.ok) {
-      throw new Error(data.message || `Request failed with status ${response.status}`);
+      throw new Error(data.message || "Invalid username or password");
     }
     return data;
+    
   } catch (error) {
     console.error(`API Error on [${options.method || 'GET'}] ${endpoint}:`, error);
     throw error;
