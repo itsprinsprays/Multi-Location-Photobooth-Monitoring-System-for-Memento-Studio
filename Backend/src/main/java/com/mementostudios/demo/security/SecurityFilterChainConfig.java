@@ -31,8 +31,13 @@ public class SecurityFilterChainConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth 
 						
-						.requestMatchers(HttpMethod.GET, "/api").hasAnyRole("ADMIN", "HR")
-						.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+//						.requestMatchers(HttpMethod.GET, "/api").hasAnyRole("ADMIN", "HR")
+//						.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+//						.requestMatchers(HttpMethod.GET, "/api/")
+			            .requestMatchers("/api/auth/**").permitAll()
+			            .requestMatchers("/api/booth/**").permitAll()            // 🔓 Allowed without token
+			            .requestMatchers("/api/boothAssignment/**").permitAll()  // 🔓 Allowed without token
+			            .requestMatchers("/api/employee/**").permitAll() 
 						.anyRequest().authenticated()
 						
 						)

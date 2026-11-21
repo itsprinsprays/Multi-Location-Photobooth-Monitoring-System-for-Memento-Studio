@@ -35,23 +35,26 @@ public class BoothAssignmentService {
     
     @Transactional
     public BoothAssignmentResponseDTO assignBooth(CreateBoothAssignmentRequestDTO dto, String boothId) {
-        // 1. Verify booth exists and is active
         Booth booth = boothRepository.findByBoothIdAndIsActiveTrue(boothId)
                 .orElseThrow(() -> new ResourceNotFoundException("Booth with ID " + boothId + " not found"));
         
-        // 2. Verify employee exists and is active
         Employee employee = employeeRepository.findByEmployeeIdAndIsActiveTrue(dto.getEmployeeId())
                 .orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + dto.getEmployeeId() + " not found"));
         
-        // 3. Prevent duplicate assignment
-        if (boothAssignmentRepository.existsByBoothAndEmployee(booth, employee)) {
-            throw new DuplicateResponseException("Employee " + employee.getEmployeeName() + " is already assigned to this booth");
+        // Rule 1: Booth is already occupied for this date
+        if (boothAssignmentRepository.existsByBoothAndAssignmentDate(booth, dto.getAssignmentDate())) {
+            throw new DuplicateResponseException("This booth is already assigned to someone for " + dto.getAssignmentDate());
+        }
+
+        // Rule 2: Employee is already scheduled at another booth on this date!
+        if (boothAssignmentRepository.existsByEmployeeAndAssignmentDate(employee, dto.getAssignmentDate())) {
+            throw new DuplicateResponseException(employee.getEmployeeName() + " is already assigned to a booth on " + dto.getAssignmentDate());
         }
         
-        // 4. Create and save new assignment
         BoothAssignment assignment = new BoothAssignment();
         assignment.setBooth(booth);
         assignment.setEmployee(employee);
+        assignment.setAssignmentDate(dto.getAssignmentDate()); 
         
         boothAssignmentRepository.save(assignment);
         

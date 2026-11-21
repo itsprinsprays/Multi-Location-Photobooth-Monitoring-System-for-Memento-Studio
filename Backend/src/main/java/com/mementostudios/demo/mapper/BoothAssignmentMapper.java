@@ -17,8 +17,9 @@ public class BoothAssignmentMapper {
             assignment.getBooth().getBoothId(),
             assignment.getBooth().getBoothName(),
             assignment.getEmployee().getEmployeeId(),
-            assignment.getEmployee().getEmployeeName(),
-            assignment.getCreationDate()
+            assignment.getEmployee().getEmployeeName(),  
+            assignment.getCreationDate(), 
+            assignment.getAssignmentDate()
         );
     }
 }

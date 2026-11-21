@@ -14,6 +14,8 @@ import com.mementostudios.demo.dto.boothAssignment.BoothAssignmentResponseDTO;
 import com.mementostudios.demo.dto.boothAssignment.CreateBoothAssignmentRequestDTO;
 import com.mementostudios.demo.service.BoothAssignmentService;
 
+import jakarta.validation.Valid;
+
 @RequestMapping("/api/boothAssignment")
 @RestController
 @Validated
@@ -27,7 +29,7 @@ public class BoothAssignmentController {
 	}
 	
 	@PostMapping("/assignBooth/{boothId}")
-	public ResponseEntity<BoothAssignmentResponseDTO> boothAssignment(@RequestBody CreateBoothAssignmentRequestDTO dto, @PathVariable String boothId) {
+	public ResponseEntity<BoothAssignmentResponseDTO> boothAssignment(@Valid @RequestBody CreateBoothAssignmentRequestDTO dto, @PathVariable String boothId) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(boothAssignmentService.assignBooth(dto, boothId));
 	}
 

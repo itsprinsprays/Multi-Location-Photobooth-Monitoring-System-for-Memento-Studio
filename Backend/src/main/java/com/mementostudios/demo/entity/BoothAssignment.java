@@ -30,6 +30,9 @@ public class BoothAssignment {
 	@Column(name = "creation_date")
 	private LocalDate creationDate;
 	
+	@Column(name = "assignment_date", nullable = false)
+	private LocalDate assignmentDate;
+	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "booth_id", nullable = false)
 	private Booth booth;
@@ -44,9 +47,10 @@ public class BoothAssignment {
 	public LocalDate getCreationDate() { return creationDate; }
 	public Booth getBooth() { return booth; }
 	public Employee getEmployee() { return employee; }
+	public LocalDate getAssignmentDate() { return assignmentDate; }
 	
 	public void setBooth(Booth booth) { this.booth = booth; }
 	public void setEmployee(Employee employee) { this.employee = employee; }
-	
+	public void setAssignmentDate(LocalDate assignmentDate) { this.assignmentDate = assignmentDate; }
 
 }
